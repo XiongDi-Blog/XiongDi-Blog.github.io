@@ -123,15 +123,11 @@
     
         
             
-            <li><div data-rel="Java"><i class="fold iconfont icon-right"></i>Java<small>(3)</small></div>
+            <li><div data-rel="工具"><i class="fold iconfont icon-right"></i>工具<small>(1)</small></div>
                 
                     <ul class="sub hide">
                         
-                        <li><div data-rel="SpringCloud">SpringCloud<small>(1)</small></div>
-                            
-                        </li>
-                            
-                        <li><div data-rel="MultiThread">MultiThread<small>(2)</small></div>
+                        <li><div data-rel="markdown">markdown<small>(1)</small></div>
                             
                         </li>
                             
@@ -143,11 +139,15 @@
     
         
             
-            <li><div data-rel="工具"><i class="fold iconfont icon-right"></i>工具<small>(1)</small></div>
+            <li><div data-rel="Java"><i class="fold iconfont icon-right"></i>Java<small>(3)</small></div>
                 
                     <ul class="sub hide">
                         
-                        <li><div data-rel="markdown">markdown<small>(1)</small></div>
+                        <li><div data-rel="SpringCloud">SpringCloud<small>(1)</small></div>
+                            
+                        </li>
+                            
+                        <li><div data-rel="MultiThread">MultiThread<small>(2)</small></div>
                             
                         </li>
                             
@@ -215,6 +215,10 @@
     <div class="tags-list">
     
     <li class="article-tag-list-item">
+        <a class="color4">markdown</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color5">Java</a>
     </li>
     
@@ -224,10 +228,6 @@
     
     <li class="article-tag-list-item">
         <a class="color3">并发</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">markdown</a>
     </li>
     
     <div class="clearfix"></div>
@@ -240,12 +240,12 @@
     
     <nav id="title-list-nav">
         
-        <a  class="Java MultiThread "
-           href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%80%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发"
+        <a  class=""
+           href="/2019/12/18/hello-world/"
+           data-tag=""
            data-author="" >
-            <span class="post-title" title="java多线程基础（一）--认识线程">java多线程基础（一）--认识线程</span>
-            <span class="post-date" title="2019-12-23 22:40:51">2019/12/23</span>
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2019-12-18 21:39:40">2019/12/18</span>
         </a>
         
         <a  class="工具 markdown "
@@ -256,20 +256,20 @@
             <span class="post-date" title="2019-12-20 00:36:24">2019/12/20</span>
         </a>
         
-        <a  class=""
-           href="/2019/12/18/hello-world/"
-           data-tag=""
-           data-author="" >
-            <span class="post-title" title="Hello World">Hello World</span>
-            <span class="post-date" title="2019-12-18 21:39:40">2019/12/18</span>
-        </a>
-        
         <a  class="Java SpringCloud "
            href="/2019/12/20/%E5%88%9D%E9%81%87SpringBoot/"
            data-tag="Java"
            data-author="" >
             <span class="post-title" title="初遇SpringBoot">初遇SpringBoot</span>
             <span class="post-date" title="2019-12-20 17:23:27">2019/12/20</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%80%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（一）--认识线程">java多线程基础（一）--认识线程</span>
+            <span class="post-date" title="2019-12-23 22:40:51">2019/12/23</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -322,12 +322,12 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-24 21:51:19'>2019-12-23 22:40</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-01 23:37:34'>2019-12-23 22:40</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:695</span>
+        <span>字数:693</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -363,7 +363,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>&ensp;&ensp;&ensp;&ensp;想必大家都有过这样的体验，在聊天的时候听听音乐，在创作的时候查查资料，这就是我们常说的并行。在计算机的世界里，并行实际上是指，一系列任务在计算机中同时运行。在单核CPU中并没有真正的并行，它只不过是CPU时间钟带给你的错觉。但在多核CPU计算机中，真正的并行还是存在的。</p>
-<h1 id="一、什么是线程"><a href="#一、什么是线程" class="headerlink" title="一、什么是线程"></a>一、什么是线程</h1><p>&ensp;&ensp;&ensp;&ensp;如今的操作系统大多都支持多任务的执行，对于计算机而言，一个任务就是一个进程(Process),在每一个进程内部至少要有一个线程(Thread)是在运行中，有时线程也称为轻量级进程。<br>&ensp;&ensp;&ensp;&ensp;线程是程序执行的最小单元，每个线程都有自己的局部变量表，程序计数器（指向正在执行的指令指针）以及各自的生命周期。<br>&ensp;&ensp;&ensp;&ensp;那么在java中如何创建线程呢，如果你还不太清楚可以看我另外一篇文章<a href="">如何在java进程中创建线程并使用jconsole观察线程</a></p>
+<h1 id="一、什么是线程"><a href="#一、什么是线程" class="headerlink" title="一、什么是线程"></a>一、什么是线程</h1><p>&ensp;&ensp;&ensp;&ensp;如今的操作系统大多都支持多任务的执行，对于计算机而言，一个任务就是一个进程(Process),在每一个进程内部至少要有一个线程(Thread)是在运行中，有时线程也称为轻量级进程。<br>&ensp;&ensp;&ensp;&ensp;线程是程序执行的最小单元，每个线程都有自己的局部变量表，程序计数器（指向正在执行的指令指针）以及各自的生命周期。<br>&ensp;&ensp;&ensp;&ensp;那么在java中如何创建线程呢，如果你还不太清楚可以看我另外一篇文章<a href="https://xiongdi-blog.github.io/2020/01/01/%E5%9C%A8java%E8%BF%9B%E7%A8%8B%E4%B8%AD%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E5%B9%B6%E4%BD%BF%E7%94%A8jconsole%E8%A7%82%E5%AF%9F%E7%BA%BF%E7%A8%8B/">在java进程中创建线程并使用jconsole观察线程</a></p>
 <h1 id="二、线程的生命周期"><a href="#二、线程的生命周期" class="headerlink" title="二、线程的生命周期"></a>二、线程的生命周期</h1><p>&ensp;&ensp;&ensp;&ensp;前面提到过，每个线程都有自己的局部变量表，程序计数器和生命周期。线程的生命周期描述了线程从创建到死亡的过程。<br>&ensp;&ensp;&ensp;&ensp;请大家思考，执行了线程的start方法就代表该线程开始执行了吗？<br><img src="/img/thread/thread_life.png" alt=""><br>&ensp;&ensp;&ensp;&ensp;由上图可知：线程的生命周期大体分为五个阶段</p>
 <ul>
 <li>NEW：创建</li>
@@ -394,10 +394,10 @@
 
 <div class="article_copyright">
     <p><span class="copy-title">文章标题:</span>java多线程基础（一）--认识线程</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">695</span></p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">693</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
     <p><span class="copy-title">发布时间:</span>2019-12-23, 22:40:51</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-24, 21:51:19</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-01, 23:37:34</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%80%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/" title="java多线程基础（一）--认识线程">https://xiongdi-blog.github.io/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%80%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -460,7 +460,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#Java','#多线程','#并发','#markdown',],
+            'data': ['#markdown','#Java','#多线程','#并发',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
