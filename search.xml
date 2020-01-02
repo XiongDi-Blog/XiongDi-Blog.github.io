@@ -4,6 +4,45 @@
   
     
     <entry>
+      <title>java多线程基础（三）-线程的父子关系与线程的分组</title>
+      <link href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/"/>
+      <url>/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/</url>
+      
+        <content type="html"><![CDATA[<h2 id="1、线程的父子关系"><a href="#1、线程的父子关系" class="headerlink" title="1、线程的父子关系"></a>1、线程的父子关系</h2><p>java中，一个线程的父线程是指创建它的线程，实际上，在jvm中的线程都是平级的，父线程仅仅是创建子线程的线程，父线程的生命周期与子线程是无关的——即父线程死后子线程任然可以运行。<br>jvm仅仅是在父子线程之间轮换，以保证每个线程能享有cpu资源。我们可以通过如下代码发现，父线程死后，子线程仍在运行:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadParent extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        new Child().start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        ThreadParent threadParent &#x3D; new ThreadParent();</span><br><span class="line">        threadParent.start();</span><br><span class="line">        TimeUnit.SECONDS.sleep(3);</span><br><span class="line">        threadParent.interrupt();</span><br><span class="line">        TimeUnit.SECONDS.sleep(2);</span><br><span class="line">        System.out.println(&quot;Parent thread is alive? &quot; + threadParent.isAlive());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            System.out.println(&quot;我还活着&quot;);</span><br><span class="line">            try &#123;</span><br><span class="line">                TimeUnit.SECONDS.sleep(1);</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上诉代码输出结果如下:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">Parent thread is alive? false</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br></pre></td></tr></table></figure><h2 id="2、线程的分组"><a href="#2、线程的分组" class="headerlink" title="2、线程的分组"></a>2、线程的分组</h2><p>Thread的构造函数中，可以显示的指定线程的分组，也就是ThreadGroup。如果在创建线程的时候没有显示的指定线程的分组，那么该线程会被加入到父线程所在的分组。</p><p>可以通过如下方式指定线程的分组:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThreadGroup myGroup &#x3D; new ThreadGroup(&quot;MyGroup&quot;);</span><br><span class="line">Thread myGroupThread &#x3D; new Thread(myGroup, &quot;myGroupThread&quot;);</span><br></pre></td></tr></table></figure><p>如果要获取一个线程的分组可以使用如下方式:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Thread.currentThread().getThreadGroup();</span><br><span class="line">&#x2F;&#x2F; 或者</span><br><span class="line">myGroupThread.getThreadGroup();</span><br></pre></td></tr></table></figure><p>下面是一个完整的例子:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    ThreadGroup myGroup &#x3D; new ThreadGroup(&quot;MyGroup&quot;);</span><br><span class="line">    Thread myGroupThread &#x3D; new Thread(myGroup, &quot;myGroupThread&quot;);</span><br><span class="line"></span><br><span class="line">    Thread notSpecifiedGroupThread &#x3D; new Thread(&quot;notSpecifiedGroupThread&quot;);</span><br><span class="line">    ThreadGroup mainGroup &#x3D; Thread.currentThread().getThreadGroup();</span><br><span class="line"></span><br><span class="line">    System.out.println(&quot;Main thread belong group: &quot; + mainGroup.getName());</span><br><span class="line">    System.out.println(&quot;Group not specified Thread belong group: &quot; + notSpecifiedGroupThread.getThreadGroup().getName());</span><br><span class="line">    System.out.println(&quot;My Group thread belong group: &quot; + myGroupThread.getThreadGroup().getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>输出结果如下:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Main thread belong group: main</span><br><span class="line">Group not specified Thread belong group: main</span><br><span class="line">My Group thread belong group: MyGroup</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 父子关系 </tag>
+            
+            <tag> 分组 </tag>
+            
+            <tag> 线程 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程基础（二）-线程的命名</title>
       <link href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%8C%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%91%BD%E5%90%8D/"/>
       <url>/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%8C%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%91%BD%E5%90%8D/</url>

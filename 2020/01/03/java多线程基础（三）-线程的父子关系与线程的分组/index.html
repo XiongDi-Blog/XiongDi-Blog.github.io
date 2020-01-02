@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>初遇SpringBoot | Hexo</title>
-  <meta name="keywords" content=" Java ">
-  <meta name="description" content="初遇SpringBoot | Hexo">
+  <title>java多线程基础（三）-线程的父子关系与线程的分组 | Hexo</title>
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 父子关系 , 分组 , 线程 ">
+  <meta name="description" content="java多线程基础（三）-线程的父子关系与线程的分组 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -336,9 +336,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-初遇SpringBoot" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java多线程基础（三）-线程的父子关系与线程的分组" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">初遇SpringBoot</h1>
+        <h1 class="article-title">java多线程基础（三）-线程的父子关系与线程的分组</h1>
     
     <div class="article-meta">
         
@@ -348,7 +348,7 @@
             
                 <a  data-rel="Java">Java</a>/
             
-                <a  data-rel="SpringCloud">SpringCloud</a>
+                <a  data-rel="MultiThread">MultiThread</a>
             
         </span>
         
@@ -357,17 +357,29 @@
             
             <a class="color5">Java</a>
             
+            <a class="color4">多线程</a>
+            
+            <a class="color3">并发</a>
+            
+            <a class="color2">Thread</a>
+            
+            <a class="color5">父子关系</a>
+            
+            <a class="color3">分组</a>
+            
+            <a class="color3">线程</a>
+            
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-23 20:51:21'>2019-12-20 17:23</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-03 01:53:36'>2020-01-03 01:09</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:215</span>
+        <span>字数:510</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -386,7 +398,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#初遇SpringBoot"><span class="toc-text">初遇SpringBoot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-text">优点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#快速创建"><span class="toc-text">快速创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#独立运行"><span class="toc-text">独立运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主流框架集成"><span class="toc-text">主流框架集成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内嵌Servlet-可直接JAR运行"><span class="toc-text">内嵌Servlet,可直接JAR运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动配置"><span class="toc-text">自动配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开箱即用，不需要配置繁琐的XML"><span class="toc-text">开箱即用，不需要配置繁琐的XML</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境区分"><span class="toc-text">环境区分</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、线程的父子关系"><span class="toc-text">1、线程的父子关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、线程的分组"><span class="toc-text">2、线程的分组</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -402,31 +414,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="初遇SpringBoot"><a href="#初遇SpringBoot" class="headerlink" title="初遇SpringBoot"></a>初遇SpringBoot</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Spring Boot是一个简化Spring开发的框架。用来监护spring应用开发，约定大于配置，去繁就简，just run 就能创建一个独立的，产品级的应用。</p>
-<p>我们在使用Spring Boot时只需要配置相应的Spring Boot就可以用所有的Spring组件，简单的说，spring boot就是整合了很多优秀的框架，不用我们自己手动的去写一堆xml配置然后进行配置。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。</p>
-<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ol>
-<li><h3 id="快速创建"><a href="#快速创建" class="headerlink" title="快速创建"></a>快速创建</h3></li>
-</ol>
-<ol start="2">
-<li><h3 id="独立运行"><a href="#独立运行" class="headerlink" title="独立运行"></a>独立运行</h3><ul>
-<li>使用启动类快速启动，创建SpringBoot项目时会自动生成启动类。</li>
-</ul>
-</li>
-<li><h3 id="主流框架集成"><a href="#主流框架集成" class="headerlink" title="主流框架集成"></a>主流框架集成</h3></li>
-</ol>
-<ol start="4">
-<li><h3 id="内嵌Servlet-可直接JAR运行"><a href="#内嵌Servlet-可直接JAR运行" class="headerlink" title="内嵌Servlet,可直接JAR运行"></a>内嵌Servlet,可直接JAR运行</h3></li>
-</ol>
-<ol start="5">
-<li><h3 id="自动配置"><a href="#自动配置" class="headerlink" title="自动配置"></a>自动配置</h3></li>
-</ol>
-<ol start="6">
-<li><h3 id="开箱即用，不需要配置繁琐的XML"><a href="#开箱即用，不需要配置繁琐的XML" class="headerlink" title="开箱即用，不需要配置繁琐的XML"></a>开箱即用，不需要配置繁琐的XML</h3></li>
-</ol>
-<ol start="7">
-<li><h3 id="环境区分"><a href="#环境区分" class="headerlink" title="环境区分"></a>环境区分</h3></li>
-</ol>
-
+        <h2 id="1、线程的父子关系"><a href="#1、线程的父子关系" class="headerlink" title="1、线程的父子关系"></a>1、线程的父子关系</h2><p>java中，一个线程的父线程是指创建它的线程，实际上，在jvm中的线程都是平级的，父线程仅仅是创建子线程的线程，父线程的生命周期与子线程是无关的——即父线程死后子线程任然可以运行。<br>jvm仅仅是在父子线程之间轮换，以保证每个线程能享有cpu资源。我们可以通过如下代码发现，父线程死后，子线程仍在运行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadParent extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        new Child().start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        ThreadParent threadParent &#x3D; new ThreadParent();</span><br><span class="line">        threadParent.start();</span><br><span class="line">        TimeUnit.SECONDS.sleep(3);</span><br><span class="line">        threadParent.interrupt();</span><br><span class="line">        TimeUnit.SECONDS.sleep(2);</span><br><span class="line">        System.out.println(&quot;Parent thread is alive? &quot; + threadParent.isAlive());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            System.out.println(&quot;我还活着&quot;);</span><br><span class="line">            try &#123;</span><br><span class="line">                TimeUnit.SECONDS.sleep(1);</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上诉代码输出结果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">Parent thread is alive? false</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br></pre></td></tr></table></figure>
+<h2 id="2、线程的分组"><a href="#2、线程的分组" class="headerlink" title="2、线程的分组"></a>2、线程的分组</h2><p>Thread的构造函数中，可以显示的指定线程的分组，也就是ThreadGroup。如果在创建线程的时候没有显示的指定线程的分组，那么该线程会被加入到父线程所在的分组。</p>
+<p>可以通过如下方式指定线程的分组:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThreadGroup myGroup &#x3D; new ThreadGroup(&quot;MyGroup&quot;);</span><br><span class="line">Thread myGroupThread &#x3D; new Thread(myGroup, &quot;myGroupThread&quot;);</span><br></pre></td></tr></table></figure>
+<p>如果要获取一个线程的分组可以使用如下方式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Thread.currentThread().getThreadGroup();</span><br><span class="line">&#x2F;&#x2F; 或者</span><br><span class="line">myGroupThread.getThreadGroup();</span><br></pre></td></tr></table></figure>
+<p>下面是一个完整的例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    ThreadGroup myGroup &#x3D; new ThreadGroup(&quot;MyGroup&quot;);</span><br><span class="line">    Thread myGroupThread &#x3D; new Thread(myGroup, &quot;myGroupThread&quot;);</span><br><span class="line"></span><br><span class="line">    Thread notSpecifiedGroupThread &#x3D; new Thread(&quot;notSpecifiedGroupThread&quot;);</span><br><span class="line">    ThreadGroup mainGroup &#x3D; Thread.currentThread().getThreadGroup();</span><br><span class="line"></span><br><span class="line">    System.out.println(&quot;Main thread belong group: &quot; + mainGroup.getName());</span><br><span class="line">    System.out.println(&quot;Group not specified Thread belong group: &quot; + notSpecifiedGroupThread.getThreadGroup().getName());</span><br><span class="line">    System.out.println(&quot;My Group thread belong group: &quot; + myGroupThread.getThreadGroup().getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Main thread belong group: main</span><br><span class="line">Group not specified Thread belong group: main</span><br><span class="line">My Group thread belong group: MyGroup</span><br></pre></td></tr></table></figure>
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
     </div>
@@ -439,12 +439,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>初遇SpringBoot</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">215</span></p>
+    <p><span class="copy-title">文章标题:</span>java多线程基础（三）-线程的父子关系与线程的分组</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">510</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-20, 17:23:27</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-23, 20:51:21</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/20/%E5%88%9D%E9%81%87SpringBoot/" title="初遇SpringBoot">https://xiongdi-blog.github.io/2019/12/20/%E5%88%9D%E9%81%87SpringBoot/</a>
+    <p><span class="copy-title">发布时间:</span>2020-01-03, 01:09:08</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-03, 01:53:36</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/" title="java多线程基础（三）-线程的父子关系与线程的分组">https://xiongdi-blog.github.io/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
