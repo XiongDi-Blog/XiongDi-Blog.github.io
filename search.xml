@@ -4,6 +4,51 @@
   
     
     <entry>
+      <title>java多线程基础（四）-jvm内存结构</title>
+      <link href="/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/"/>
+      <url>/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/</url>
+      
+        <content type="html"><![CDATA[<p>线程和栈内存关系密切，为了更好的理解线程，有必要了解一下JVM的内存分布机制。但是在本节不会过度深入的讲解JVM的原理和内存，只会向大家介绍一下JVM的内存分布及各个内存区域的作用，在了解各个内存区域的作用时，请不要从该区域的名称推测该区域的作用，容易被名称弄混淆。</p><h2 id="一、java内存结构"><a href="#一、java内存结构" class="headerlink" title="一、java内存结构"></a>一、java内存结构</h2><p>JVM在执行程序的过程中会将物理内存划分为不同内存区域，以存放不同的数据。有些在JVM启动时创建，有些在程序运行时才创建，比如虚拟机栈，JVM内存区域如下图所示:<br><img src="/img/thread/jvm_memory_structure.png" alt=""><br>从上图我们可以得知，JVM将内存分为五个区域，分别是堆内存、方法区、虚拟机栈、本地方法栈和程序计数器。其中堆内存和方法区是所有线程所共享的区域，虚拟机栈、本地方法栈和程序计数器为线程私有，下面我们来了解每个区域的作用：</p><h3 id="1、程序计数器"><a href="#1、程序计数器" class="headerlink" title="1、程序计数器"></a>1、程序计数器</h3><p>所有的程序，都需要操作系统通过控制总线向CPU发送机器指令，程序计数器在jvm中的作用就是用来存放当前线程接下来要执行的字节码指令、分支、循环、跳转、异常处理等信息。由于一个处理器在某一时刻只执行一个线程中的机器指令，为了在CPU时间片轮转切换上下文后顺利回到正确执行位置，每个线程都需要具有一个独立的程序计数器，因此程序计数器被设计为了每个线程私有。</p><h3 id="2、Java虚拟机栈"><a href="#2、Java虚拟机栈" class="headerlink" title="2、Java虚拟机栈"></a>2、Java虚拟机栈</h3><p>java虚拟机栈与线程密切相关，它是线程私有的，在程序运行时被创建。在线程中，每一个方法的执行都会创建一个名为栈帧（stack frame）的数据结构，主要存放局部变量表、操作栈、动态链接、方法返回地址等，如下图所示:<br><img src="/img/thread/jvm_vm_stack.png" alt=""><br>每一个线程在创建时，JVM都会为其创建一个虚拟机栈，虚拟机栈的大小可以由-xss来配置，方法的调用其实就是栈帧压入和弹出的过程。同等大小的虚拟机栈，如果局部变量表的大小越小，可压入的栈帧就越多，意味着可递归调用方法就越多，反之亦然。一般将栈帧的内存大小叫做宽度，虚拟机栈的大小称为深度。</p><h3 id="3、本地方法栈"><a href="#3、本地方法栈" class="headerlink" title="3、本地方法栈"></a>3、本地方法栈</h3><p>Java提供了调用本地方法的接口（Java Native Interface）,也就是调用C/C++程序的接口，比如网络通信、文件操作的底层等都是JNI方法，JVM提供的本地方法栈就是用来存放本地方法的内存区域。本地方法栈同样时线程私有的内存区域。</p><h3 id="4、堆内存"><a href="#4、堆内存" class="headerlink" title="4、堆内存"></a>4、堆内存</h3><p>堆内存是JVM中最大的一块内存区域，被所有线程共享，几乎java运行时创建的所有对象实例都存放在该区域。由于内存最大，也是java垃圾回收的主要区域，因此也被称为“GC堆”。<br><img src="/img/thread/jvm_heap.png" alt=""><br>如上图所示，堆内存被细分为新生代、老年代(Tenured)。更细致的被分为:Eden区、From Survivor区(s0)、To Survivor区(s1)。每个区域的作用可以在java的垃圾回收机制即GC机制中详细的了解，这里不进行展开。</p><h3 id="5、方法区"><a href="#5、方法区" class="headerlink" title="5、方法区"></a>5、方法区</h3><p>方法区也是线程所共享的区域，该区域主要用于存放被JVM加载的类信息、常量、静态变量、即时编译器编译的代码等数据。由于方法区与堆内存有很多共性:线程共享、内存不连续、可扩展、可垃圾回收，同样当无法再扩展时会抛出OutOfMemoryError异常。该区域被java虚拟机规范划分为堆内存的一个逻辑分区，但它实际是与堆内存分开的，经常被称为“非堆”。<br><img src="/img/thread/jvm_method_area.png" alt=""></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> java内存结构 </tag>
+            
+            <tag> 程序计数器 </tag>
+            
+            <tag> 虚拟机栈 </tag>
+            
+            <tag> 本地方法栈 </tag>
+            
+            <tag> 堆 </tag>
+            
+            <tag> 方法区 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程基础（三）-线程的父子关系与线程的分组</title>
       <link href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/"/>
       <url>/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/</url>
@@ -150,7 +195,7 @@
       <link href="/2019/12/20/%E5%88%9D%E9%81%87SpringBoot/"/>
       <url>/2019/12/20/%E5%88%9D%E9%81%87SpringBoot/</url>
       
-        <content type="html"><![CDATA[<h1 id="初遇SpringBoot"><a href="#初遇SpringBoot" class="headerlink" title="初遇SpringBoot"></a>初遇SpringBoot</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Spring Boot是一个简化Spring开发的框架。用来监护spring应用开发，约定大于配置，去繁就简，just run 就能创建一个独立的，产品级的应用。</p><p>我们在使用Spring Boot时只需要配置相应的Spring Boot就可以用所有的Spring组件，简单的说，spring boot就是整合了很多优秀的框架，不用我们自己手动的去写一堆xml配置然后进行配置。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。</p><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ol><li><h3 id="快速创建"><a href="#快速创建" class="headerlink" title="快速创建"></a>快速创建</h3></li></ol><ol start="2"><li><h3 id="独立运行"><a href="#独立运行" class="headerlink" title="独立运行"></a>独立运行</h3><ul><li>使用启动类快速启动，创建SpringBoot项目时会自动生成启动类。</li></ul></li><li><h3 id="主流框架集成"><a href="#主流框架集成" class="headerlink" title="主流框架集成"></a>主流框架集成</h3></li></ol><ol start="4"><li><h3 id="内嵌Servlet-可直接JAR运行"><a href="#内嵌Servlet-可直接JAR运行" class="headerlink" title="内嵌Servlet,可直接JAR运行"></a>内嵌Servlet,可直接JAR运行</h3></li></ol><ol start="5"><li><h3 id="自动配置"><a href="#自动配置" class="headerlink" title="自动配置"></a>自动配置</h3></li></ol><ol start="6"><li><h3 id="开箱即用，不需要配置繁琐的XML"><a href="#开箱即用，不需要配置繁琐的XML" class="headerlink" title="开箱即用，不需要配置繁琐的XML"></a>开箱即用，不需要配置繁琐的XML</h3></li></ol><ol start="7"><li><h3 id="环境区分"><a href="#环境区分" class="headerlink" title="环境区分"></a>环境区分</h3></li></ol>]]></content>
+        <content type="html"><![CDATA[<h1 id="初遇SpringBoot"><a href="#初遇SpringBoot" class="headerlink" title="初遇SpringBoot"></a>初遇SpringBoot</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Spring Boot是一个简化Spring开发的框架。用来监护spring应用开发，约定大于配置，去繁就简，just run 就能创建一个独立的，产品级的应用。</p><p>我们在使用Spring Boot时只需要配置相应的Spring Boot就可以用所有的Spring组件，简单的说，spring boot就是整合了很多优秀的框架，不用我们自己手动的去写一堆xml配置然后进行配置。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。</p><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><h3 id="1-快速创建"><a href="#1-快速创建" class="headerlink" title="1. 快速创建"></a>1. 快速创建</h3><p>打开浏览器，访问<a href="https://start.spring.io/，进入如下页面" target="_blank" rel="noopener">https://start.spring.io/，进入如下页面</a></p><p><img src="C:%5CUsers%5Chz19084341%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200103154738139.png" alt="image-20200103154738139"></p><p>选择<strong>Project</strong>（项目类型）<strong>Language</strong>（语言）<strong>SpringBoot</strong>(SpringBoot版本)、<strong>Group</strong>（组/包名），<strong>Artifact</strong>（项目名）、<strong>Description</strong>（描述）、<strong>Package name</strong>（包名）<strong>Packaging</strong>（打包方式）、<strong>Java</strong>(Java版本)等信息点击下方“Generate”即可下载程序包。同时点击Explore可导出pom文件。也可以使用Idea快速创建。</p><p><img src="C:%5CUsers%5Chz19084341%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200103155033879.png" alt="image-20200103155033879"></p><h3 id="2-独立运行"><a href="#2-独立运行" class="headerlink" title="2. 独立运行"></a>2. 独立运行</h3><ul><li>spring-boot的启动方式主要有三种:<h5 id="1-运行带有main方法类"><a href="#1-运行带有main方法类" class="headerlink" title="1. 运行带有main方法类"></a>1. 运行带有main方法类</h5>这种方式很简单，我主要是通过idea的方式，进行执行。这种方式在启动的时候，会去自动加载classpath下的配置文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplicati@SpringBootApplicati public class DemoApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">      SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h5 id="2-通过命令行-java-jar-的方式"><a href="#2-通过命令行-java-jar-的方式" class="headerlink" title="2. 通过命令行 java -jar 的方式"></a>2. 通过命令行 java -jar 的方式</h5>执行：<br>java -jar jar_path –param<br>  jar_path: 指代将项目打包为jar打包之后的存储路径<br>  –param: 为需要在命令行指定的参数。例如:<br>java -jar jar_path –server.port=8081<br>可指定项目启动的端口号，该命令行参数，将会覆盖application.properties中的端口配置</li></ul><h5 id="3-通过spring-boot-plugin的方式"><a href="#3-通过spring-boot-plugin的方式" class="headerlink" title="3. 通过spring-boot-plugin的方式"></a>3. 通过spring-boot-plugin的方式</h5><p>如果需要正常使用该maven查件，需要我们在maven项目中增加以下插件配置:</p><pre><code>&lt;plugin&gt;  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;  &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;&lt;/plugin&gt;</code></pre><p>进入项目的根目录，执行:<br>mvn spring-boot:run -Drun.arguments=”–server.port=8888”<br>arguments：指定的参数，多个参数以”,”进行分割。</p><h3 id="3-主流框架集成"><a href="#3-主流框架集成" class="headerlink" title="3.主流框架集成"></a>3.主流框架集成</h3><h3 id="4-内嵌Servlet-可直接JAR运行"><a href="#4-内嵌Servlet-可直接JAR运行" class="headerlink" title="4. 内嵌Servlet,可直接JAR运行"></a>4. 内嵌Servlet,可直接JAR运行</h3><h3 id="5-自动配置"><a href="#5-自动配置" class="headerlink" title="5. 自动配置"></a>5. 自动配置</h3><h3 id="6-开箱即用，不需要配置繁琐的XML"><a href="#6-开箱即用，不需要配置繁琐的XML" class="headerlink" title="6. 开箱即用，不需要配置繁琐的XML"></a>6. 开箱即用，不需要配置繁琐的XML</h3><h3 id="7-环境区分"><a href="#7-环境区分" class="headerlink" title="7. 环境区分"></a>7. 环境区分</h3>]]></content>
       
       
       <categories>
