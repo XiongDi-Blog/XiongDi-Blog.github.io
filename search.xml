@@ -4,11 +4,46 @@
   
     
     <entry>
+      <title>java多线程基础（五）-守护线程</title>
+      <link href="/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%94%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/"/>
+      <url>/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%94%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<p>守护线程是一类比较特殊的线程，一般用于处理一些后台工作，比如java垃圾回收线程。</p><h3 id="在什么时候需要用到守护线程"><a href="#在什么时候需要用到守护线程" class="headerlink" title="在什么时候需要用到守护线程"></a>在什么时候需要用到守护线程</h3><p>要回答上诉问题，首先要知道，一个JVM程序在什么时候退出？正常情况下，JVM没有一个非守护线程，JVM的进程会退出。</p><p>也就是说，守护线程具有自动结束生命周期的特性，当你希望在程序退出时或退出后做一些工作可以用到守护线程，试想java垃圾回收进程是一个非守护进程，当main方法执行完成后，程序仍无法退出。</p><h3 id="将java线程指定为守护线程"><a href="#将java线程指定为守护线程" class="headerlink" title="将java线程指定为守护线程"></a>将java线程指定为守护线程</h3><p>设置守护线程的方法非常简单，使用setDaemon(true)设置即可,注意setDaemon在线程启动前才生效，如果一个线程已经死亡，再设置setDaemon会报IllegalThreadStateException:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; true为守护线程，false为非守护线程</span><br><span class="line">thread.setDaemon(true);</span><br><span class="line">thread.start();</span><br></pre></td></tr></table></figure><h3 id="判断一个线程是否为守护线程"><a href="#判断一个线程是否为守护线程" class="headerlink" title="判断一个线程是否为守护线程"></a>判断一个线程是否为守护线程</h3><p>判断一个线程是否为守护线程，可以使用isDaemon()方法:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thread.isDaemon()</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 守护线程 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程基础（四）-jvm内存结构</title>
       <link href="/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/"/>
       <url>/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/</url>
       
-        <content type="html"><![CDATA[<p>线程和栈内存关系密切，为了更好的理解线程，有必要了解一下JVM的内存分布机制。但是在本节不会过度深入的讲解JVM的原理和内存，只会向大家介绍一下JVM的内存分布及各个内存区域的作用，在了解各个内存区域的作用时，请不要从该区域的名称推测该区域的作用，容易被名称弄混淆。</p><h2 id="一、JVM内存结构"><a href="#一、JVM内存结构" class="headerlink" title="一、JVM内存结构"></a>一、JVM内存结构</h2><p>JVM在执行程序的过程中会将物理内存划分为不同内存区域，以存放不同的数据。有些在JVM启动时创建，有些在程序运行时才创建，比如虚拟机栈，JVM内存区域如下图所示:<br><img src="/img/thread/jvm_memory_structure.png" alt=""><br>从上图我们可以得知，JVM将内存分为五个区域，分别是堆内存、方法区、虚拟机栈、本地方法栈和程序计数器。其中堆内存和方法区是所有线程所共享的区域，虚拟机栈、本地方法栈和程序计数器为线程私有，下面我们来了解每个区域的作用：</p><h3 id="1、程序计数器"><a href="#1、程序计数器" class="headerlink" title="1、程序计数器"></a>1、程序计数器</h3><p>所有的程序，都需要操作系统通过控制总线向CPU发送机器指令，程序计数器在jvm中的作用就是用来存放当前线程接下来要执行的字节码指令、分支、循环、跳转、异常处理等信息。由于一个处理器在某一时刻只执行一个线程中的机器指令，为了在CPU时间片轮转切换上下文后顺利回到正确执行位置，每个线程都需要具有一个独立的程序计数器，因此程序计数器被设计为了每个线程私有。</p><h3 id="2、Java虚拟机栈"><a href="#2、Java虚拟机栈" class="headerlink" title="2、Java虚拟机栈"></a>2、Java虚拟机栈</h3><p>java虚拟机栈与线程密切相关，它是线程私有的，在程序运行时被创建。在线程中，每一个方法的执行都会创建一个名为栈帧（stack frame）的数据结构，主要存放局部变量表、操作栈、动态链接、方法返回地址等，如下图所示:<br><img src="/img/thread/jvm_vm_stack.png" alt=""><br>每一个线程在创建时，JVM都会为其创建一个虚拟机栈，虚拟机栈的大小可以由-xss来配置，方法的调用其实就是栈帧压入和弹出的过程。同等大小的虚拟机栈，如果局部变量表的大小越小，可压入的栈帧就越多，意味着可递归调用方法就越多，反之亦然。一般将栈帧的内存大小叫做宽度，虚拟机栈的大小称为深度。</p><h3 id="3、本地方法栈"><a href="#3、本地方法栈" class="headerlink" title="3、本地方法栈"></a>3、本地方法栈</h3><p>Java提供了调用本地方法的接口（Java Native Interface）,也就是调用C/C++程序的接口，比如网络通信、文件操作的底层等都是JNI方法，JVM提供的本地方法栈就是用来存放本地方法的内存区域。本地方法栈同样时线程私有的内存区域。</p><h3 id="4、堆内存"><a href="#4、堆内存" class="headerlink" title="4、堆内存"></a>4、堆内存</h3><p>堆内存是JVM中最大的一块内存区域，被所有线程共享，几乎java运行时创建的所有对象实例都存放在该区域。由于内存最大，也是java垃圾回收的主要区域，因此也被称为“GC堆”。<br><img src="/img/thread/jvm_heap.png" alt=""><br>如上图所示，堆内存被细分为新生代、老年代(Tenured)。更细致的被分为:Eden区、From Survivor区(s0)、To Survivor区(s1)。每个区域的作用可以在java的垃圾回收机制即GC机制中详细的了解，这里不进行展开。</p><h3 id="5、方法区"><a href="#5、方法区" class="headerlink" title="5、方法区"></a>5、方法区</h3><p>方法区也是线程所共享的区域，该区域主要用于存放被JVM加载的类信息、常量、静态变量、即时编译器编译的代码等数据。由于方法区与堆内存有很多共性:线程共享、内存不连续、可扩展、可垃圾回收，同样当无法再扩展时会抛出OutOfMemoryError异常。该区域被java虚拟机规范划分为堆内存的一个逻辑分区，但它实际是与堆内存分开的，经常被称为“非堆”。<br><img src="/img/thread/jvm_method_area.png" alt=""></p>]]></content>
+        <content type="html"><![CDATA[<p>线程和栈内存关系密切，为了更好的理解线程，有必要了解一下JVM的内存分布机制。但是在本节不会过度深入的讲解JVM的原理和内存，只会向大家介绍一下JVM的内存分布及各个内存区域的作用，在了解各个内存区域的作用时，请不要从该区域的名称推测该区域的作用，容易被名称弄混淆。</p><h2 id="一、JVM内存结构"><a href="#一、JVM内存结构" class="headerlink" title="一、JVM内存结构"></a>一、JVM内存结构</h2><p>JVM在执行程序的过程中会将物理内存划分为不同内存区域，以存放不同的数据。有些在JVM启动时创建，有些在程序运行时才创建，比如虚拟机栈，JVM内存区域如下图所示:<br><img src="/img/thread/jvm_memory_structure.png" alt=""><br>从上图我们可以得知，JVM将内存分为五个区域，分别是堆内存、方法区、虚拟机栈、本地方法栈和程序计数器。其中堆内存和方法区是所有线程所共享的区域，虚拟机栈、本地方法栈和程序计数器为线程私有，下面我们来了解每个区域的作用：</p><h3 id="1、程序计数器"><a href="#1、程序计数器" class="headerlink" title="1、程序计数器"></a>1、程序计数器</h3><p>所有的程序，都需要操作系统通过控制总线向CPU发送机器指令，程序计数器在jvm中的作用就是用来存放当前线程接下来要执行的字节码指令、分支、循环、跳转、异常处理等信息。由于一个处理器在某一时刻只执行一个线程中的机器指令，为了在CPU时间片轮转切换上下文后顺利回到正确执行位置，每个线程都需要具有一个独立的程序计数器，因此程序计数器被设计为了每个线程私有。</p><h3 id="2、Java虚拟机栈"><a href="#2、Java虚拟机栈" class="headerlink" title="2、Java虚拟机栈"></a>2、Java虚拟机栈</h3><p>java虚拟机栈与线程密切相关，它是线程私有的，在程序运行时被创建。在线程中，每一个方法的执行都会创建一个名为栈帧（stack frame）的数据结构，主要存放局部变量表、操作栈、动态链接、方法返回地址等，如下图所示:<br><img src="/img/thread/jvm_vm_stack.png" alt=""><br>每一个线程在创建时，JVM都会为其创建一个虚拟机栈，虚拟机栈的大小可以由-xss来配置，方法的调用其实就是栈帧压入和弹出的过程。同等大小的虚拟机栈，如果局部变量表的大小越小，可压入的栈帧就越多，意味着可递归调用方法就越多，反之亦然。一般将栈帧的内存大小叫做宽度，虚拟机栈的大小称为深度。</p><h3 id="3、本地方法栈"><a href="#3、本地方法栈" class="headerlink" title="3、本地方法栈"></a>3、本地方法栈</h3><p>Java提供了调用本地方法的接口（Java Native Interface）,也就是调用C/C++程序的接口，比如网络通信、文件操作的底层等都是JNI方法，JVM提供的本地方法栈就是用来存放本地方法的内存区域。本地方法栈同样时线程私有的内存区域。</p><h3 id="4、堆内存"><a href="#4、堆内存" class="headerlink" title="4、堆内存"></a>4、堆内存</h3><p>堆内存是JVM中最大的一块内存区域，被所有线程共享，几乎java运行时创建的所有对象实例都存放在该区域。由于内存最大，也是java垃圾回收的主要区域，因此也被称为“GC堆”。<br><img src="/img/thread/jvm_heap.png" alt=""><br>如上图所示，堆内存被细分为新生代、老年代(Tenured)。更细致的被分为:Eden区、From Survivor区(s0)、To Survivor区(s1)。每个区域的作用可以在java的垃圾回收机制即GC机制中详细的了解，这里不进行展开。</p><h3 id="5、方法区"><a href="#5、方法区" class="headerlink" title="5、方法区"></a>5、方法区</h3><p>方法区也是线程所共享的区域，该区域主要用于存放被JVM加载的类信息、常量、静态变量、即时编译器编译的代码等数据。由于方法区与堆内存有很多共性:线程共享、内存不连续、可扩展、可垃圾回收，同样当无法再扩展时会抛出OutOfMemoryError异常。该区域被java虚拟机规范划分为堆内存的一个逻辑分区，但它实际是与堆内存分开的，经常被称为“非堆”。<br><img src="/img/thread/jvm_method_area.png" alt=""></p><h2 id="二、确定可创建线程的数量"><a href="#二、确定可创建线程的数量" class="headerlink" title="二、确定可创建线程的数量"></a>二、确定可创建线程的数量</h2><p>我们简单了解了JVM的内存结构，其中程序计数器是比较小的一块内存，该部分不会出现任何溢出异常。与线程创建关系比较大的是虚拟机栈内存，而且栈内存的划分直接决定在一个jvm进程中能创建的线程数量。</p><p>指定栈内存大小</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xss128k</span><br></pre></td></tr></table></figure><p>指定初始堆大小</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xms64m</span><br></pre></td></tr></table></figure><p>指定最大堆大小</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx216m</span><br></pre></td></tr></table></figure><p>查看JVM默认栈内存大小</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; linux 使用如下命令</span><br><span class="line">java -XX:+PrintFlagsFinal -version | grep ThreadStackSize</span><br><span class="line">&#x2F;&#x2F; windows 使用如下命令</span><br><span class="line">java -XX:+PrintFlagsFinal -version | findstr &quot;ThreadStackSize&quot;</span><br></pre></td></tr></table></figure><p>线程的数量精确计算公式:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">线程数量&#x3D;(最大寻址空间(MaxProcessMemory) - JVM堆内存 - ReservedOsMemory)&#x2F;ThreadStackSize(Xss)</span><br></pre></td></tr></table></figure><p>其中:</p><ul><li>最大寻址空间:由操作系统决定，win32的系统约为2G多一点</li><li>ReservedOsMemory：为系统保留内存，大多为136M</li></ul>]]></content>
       
       
       <categories>
