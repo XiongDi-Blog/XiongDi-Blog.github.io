@@ -4,6 +4,45 @@
   
     
     <entry>
+      <title>Java多线程基础（六）-线程sleep和yield</title>
+      <link href="/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AD%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/"/>
+      <url>/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AD%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、sleep方法"><a href="#一、sleep方法" class="headerlink" title="一、sleep方法"></a>一、sleep方法</h2><h3 id="1-1-sleep方法介绍"><a href="#1-1-sleep方法介绍" class="headerlink" title="1.1 sleep方法介绍"></a>1.1 sleep方法介绍</h3><p>线程的sleep方法，会让线程进入指定时间的休眠，期间不会放弃monitor锁的所有权（在以后关于线程同步和锁的文章中会重点介绍monitor锁）。线程调用sleep方法后，会由RUNNING状态转变为BLOCK状态，休眠了指定时间后再进入RUNNABLE状态。</p><p>调用sleep方法:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 当前线程休眠2毫秒</span><br><span class="line">Thread.sleep(2)</span><br></pre></td></tr></table></figure><p>sleep的两个重载方法如下：</p><ul><li>public static void sleep(long millis) throws InterruptedException</li><li>public static void sleep(long millis,int nanos) throws InterruptedException</li></ul><p>第一个方法执行指定毫秒数的休眠，第二个方法执行指定毫秒数和纳秒数的休眠。</p><h3 id="1-2-使用TimeUnit代替Thread-sleep"><a href="#1-2-使用TimeUnit代替Thread-sleep" class="headerlink" title="1.2 使用TimeUnit代替Thread.sleep"></a>1.2 使用TimeUnit代替Thread.sleep</h3><p>在JDK1.5版本后，java引入了一个枚举类TimeUnit，对sleep方法进行了很好的封装。使用它可以省去时间单位的换算。使代码更加清晰，使用如下:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Thread.sleep(2 * 1000);</span><br><span class="line">TimeUnit.SECONDS.sleep(2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 其他还有</span><br><span class="line">TimeUnit.HOURS.sleep(2);</span><br><span class="line">TimeUnit.MINUTES.sleep(2);</span><br><span class="line">TimeUnit.MILLISECONDS.sleep(2);</span><br></pre></td></tr></table></figure><h2 id="二、yield方法"><a href="#二、yield方法" class="headerlink" title="二、yield方法"></a>二、yield方法</h2><p>yield方法属于启发式方法，它会提醒调度器我愿意放弃当前的CPU资源，如果CPU资源不紧张，这种提醒可能被忽略。<br>当这种提醒没被忽略时，线程会从RUNNING状态转变为RUNNABLE状态，它同样不会释放锁。但yield不是一个常用的方法，因为它主动告诉调度器愿意放弃属于自己的资源，但这仅仅是一个提示（hint），CPU调度器不能担保每次都能满足yield提示。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadYield &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        IntStream.range(0, 2)</span><br><span class="line">                .mapToObj(ThreadYield::create)</span><br><span class="line">                .forEach(Thread::start);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Thread create(int index) &#123;</span><br><span class="line">        return new Thread(() -&gt; &#123;</span><br><span class="line">            if (index &#x3D;&#x3D; 0) &#123;</span><br><span class="line">                Thread.yield();</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(index);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>运行上诉程序，会发现有时出现0，1有时出现1，0，有时只会出现1。</p><h2 id="三、sleep方法和yield方法的异同"><a href="#三、sleep方法和yield方法的异同" class="headerlink" title="三、sleep方法和yield方法的异同"></a>三、sleep方法和yield方法的异同</h2><p>在JDK1.5之前，yield方法实际上是调用了sleep(0)，但实际上存在本质的区别:</p><ul><li>sleep会使线程block，会在block指定时间后释放CPU资源</li><li>yield会使线程直接进入RUNNABLE状态，立即释放资源(如果CPU调度器没有忽略这个提示的话)</li><li>sleep几乎百分之百的完成给定时间的休眠，yield的提示不一定被响应</li><li>sleep中的线程被其他线程调用interrupt会捕获中断信号，yield不会。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> sleep </tag>
+            
+            <tag> yield </tag>
+            
+            <tag> 线程 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程基础（五）-守护线程</title>
       <link href="/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%94%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/"/>
       <url>/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%94%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/</url>
@@ -110,11 +149,11 @@
             
             <tag> Thread </tag>
             
+            <tag> 线程 </tag>
+            
             <tag> 父子关系 </tag>
             
             <tag> 分组 </tag>
-            
-            <tag> 线程 </tag>
             
         </tags>
       

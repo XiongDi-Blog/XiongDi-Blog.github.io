@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>java多线程基础（三）-线程的父子关系与线程的分组 | Hexo</title>
-  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 线程 , 父子关系 , 分组 ">
-  <meta name="description" content="java多线程基础（三）-线程的父子关系与线程的分组 | Hexo">
+  <title>Java多线程基础（六）-线程sleep和yield | Hexo</title>
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , sleep , yield , 线程 ">
+  <meta name="description" content="Java多线程基础（六）-线程sleep和yield | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -396,9 +396,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-java多线程基础（三）-线程的父子关系与线程的分组" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Java多线程基础（六）-线程sleep和yield" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">java多线程基础（三）-线程的父子关系与线程的分组</h1>
+        <h1 class="article-title">Java多线程基础（六）-线程sleep和yield</h1>
     
     <div class="article-meta">
         
@@ -423,23 +423,23 @@
             
             <a class="color2">Thread</a>
             
+            <a class="color1">sleep</a>
+            
+            <a class="color1">yield</a>
+            
             <a class="color3">线程</a>
-            
-            <a class="color5">父子关系</a>
-            
-            <a class="color3">分组</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-03 01:53:36'>2020-01-03 01:09</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-07 11:14:16'>2020-01-07 10:17</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:510</span>
+        <span>字数:608</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -458,7 +458,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、线程的父子关系"><span class="toc-text">1、线程的父子关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、线程的分组"><span class="toc-text">2、线程的分组</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、sleep方法"><span class="toc-text">一、sleep方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-sleep方法介绍"><span class="toc-text">1.1 sleep方法介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-使用TimeUnit代替Thread-sleep"><span class="toc-text">1.2 使用TimeUnit代替Thread.sleep</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、yield方法"><span class="toc-text">二、yield方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、sleep方法和yield方法的异同"><span class="toc-text">三、sleep方法和yield方法的异同</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -474,19 +474,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1、线程的父子关系"><a href="#1、线程的父子关系" class="headerlink" title="1、线程的父子关系"></a>1、线程的父子关系</h2><p>java中，一个线程的父线程是指创建它的线程，实际上，在jvm中的线程都是平级的，父线程仅仅是创建子线程的线程，父线程的生命周期与子线程是无关的——即父线程死后子线程任然可以运行。<br>jvm仅仅是在父子线程之间轮换，以保证每个线程能享有cpu资源。我们可以通过如下代码发现，父线程死后，子线程仍在运行:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadParent extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        new Child().start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        ThreadParent threadParent &#x3D; new ThreadParent();</span><br><span class="line">        threadParent.start();</span><br><span class="line">        TimeUnit.SECONDS.sleep(3);</span><br><span class="line">        threadParent.interrupt();</span><br><span class="line">        TimeUnit.SECONDS.sleep(2);</span><br><span class="line">        System.out.println(&quot;Parent thread is alive? &quot; + threadParent.isAlive());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            System.out.println(&quot;我还活着&quot;);</span><br><span class="line">            try &#123;</span><br><span class="line">                TimeUnit.SECONDS.sleep(1);</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上诉代码输出结果如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br><span class="line">Parent thread is alive? false</span><br><span class="line">我还活着</span><br><span class="line">我还活着</span><br></pre></td></tr></table></figure>
-<h2 id="2、线程的分组"><a href="#2、线程的分组" class="headerlink" title="2、线程的分组"></a>2、线程的分组</h2><p>Thread的构造函数中，可以显示的指定线程的分组，也就是ThreadGroup。如果在创建线程的时候没有显示的指定线程的分组，那么该线程会被加入到父线程所在的分组。</p>
-<p>可以通过如下方式指定线程的分组:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThreadGroup myGroup &#x3D; new ThreadGroup(&quot;MyGroup&quot;);</span><br><span class="line">Thread myGroupThread &#x3D; new Thread(myGroup, &quot;myGroupThread&quot;);</span><br></pre></td></tr></table></figure>
-<p>如果要获取一个线程的分组可以使用如下方式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Thread.currentThread().getThreadGroup();</span><br><span class="line">&#x2F;&#x2F; 或者</span><br><span class="line">myGroupThread.getThreadGroup();</span><br></pre></td></tr></table></figure>
-<p>下面是一个完整的例子:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    ThreadGroup myGroup &#x3D; new ThreadGroup(&quot;MyGroup&quot;);</span><br><span class="line">    Thread myGroupThread &#x3D; new Thread(myGroup, &quot;myGroupThread&quot;);</span><br><span class="line"></span><br><span class="line">    Thread notSpecifiedGroupThread &#x3D; new Thread(&quot;notSpecifiedGroupThread&quot;);</span><br><span class="line">    ThreadGroup mainGroup &#x3D; Thread.currentThread().getThreadGroup();</span><br><span class="line"></span><br><span class="line">    System.out.println(&quot;Main thread belong group: &quot; + mainGroup.getName());</span><br><span class="line">    System.out.println(&quot;Group not specified Thread belong group: &quot; + notSpecifiedGroupThread.getThreadGroup().getName());</span><br><span class="line">    System.out.println(&quot;My Group thread belong group: &quot; + myGroupThread.getThreadGroup().getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出结果如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Main thread belong group: main</span><br><span class="line">Group not specified Thread belong group: main</span><br><span class="line">My Group thread belong group: MyGroup</span><br></pre></td></tr></table></figure>
+        <h2 id="一、sleep方法"><a href="#一、sleep方法" class="headerlink" title="一、sleep方法"></a>一、sleep方法</h2><h3 id="1-1-sleep方法介绍"><a href="#1-1-sleep方法介绍" class="headerlink" title="1.1 sleep方法介绍"></a>1.1 sleep方法介绍</h3><p>线程的sleep方法，会让线程进入指定时间的休眠，期间不会放弃monitor锁的所有权（在以后关于线程同步和锁的文章中会重点介绍monitor锁）。线程调用sleep方法后，会由RUNNING状态转变为BLOCK状态，休眠了指定时间后再进入RUNNABLE状态。</p>
+<p>调用sleep方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 当前线程休眠2毫秒</span><br><span class="line">Thread.sleep(2)</span><br></pre></td></tr></table></figure>
+<p>sleep的两个重载方法如下：</p>
+<ul>
+<li>public static void sleep(long millis) throws InterruptedException</li>
+<li>public static void sleep(long millis,int nanos) throws InterruptedException</li>
+</ul>
+<p>第一个方法执行指定毫秒数的休眠，第二个方法执行指定毫秒数和纳秒数的休眠。</p>
+<h3 id="1-2-使用TimeUnit代替Thread-sleep"><a href="#1-2-使用TimeUnit代替Thread-sleep" class="headerlink" title="1.2 使用TimeUnit代替Thread.sleep"></a>1.2 使用TimeUnit代替Thread.sleep</h3><p>在JDK1.5版本后，java引入了一个枚举类TimeUnit，对sleep方法进行了很好的封装。使用它可以省去时间单位的换算。使代码更加清晰，使用如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Thread.sleep(2 * 1000);</span><br><span class="line">TimeUnit.SECONDS.sleep(2);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 其他还有</span><br><span class="line">TimeUnit.HOURS.sleep(2);</span><br><span class="line">TimeUnit.MINUTES.sleep(2);</span><br><span class="line">TimeUnit.MILLISECONDS.sleep(2);</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、yield方法"><a href="#二、yield方法" class="headerlink" title="二、yield方法"></a>二、yield方法</h2><p>yield方法属于启发式方法，它会提醒调度器我愿意放弃当前的CPU资源，如果CPU资源不紧张，这种提醒可能被忽略。<br>当这种提醒没被忽略时，线程会从RUNNING状态转变为RUNNABLE状态，它同样不会释放锁。但yield不是一个常用的方法，因为它主动告诉调度器愿意放弃属于自己的资源，但这仅仅是一个提示（hint），CPU调度器不能担保每次都能满足yield提示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadYield &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        IntStream.range(0, 2)</span><br><span class="line">                .mapToObj(ThreadYield::create)</span><br><span class="line">                .forEach(Thread::start);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Thread create(int index) &#123;</span><br><span class="line">        return new Thread(() -&gt; &#123;</span><br><span class="line">            if (index &#x3D;&#x3D; 0) &#123;</span><br><span class="line">                Thread.yield();</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(index);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行上诉程序，会发现有时出现0，1有时出现1，0，有时只会出现1。</p>
+<h2 id="三、sleep方法和yield方法的异同"><a href="#三、sleep方法和yield方法的异同" class="headerlink" title="三、sleep方法和yield方法的异同"></a>三、sleep方法和yield方法的异同</h2><p>在JDK1.5之前，yield方法实际上是调用了sleep(0)，但实际上存在本质的区别:</p>
+<ul>
+<li>sleep会使线程block，会在block指定时间后释放CPU资源</li>
+<li>yield会使线程直接进入RUNNABLE状态，立即释放资源(如果CPU调度器没有忽略这个提示的话)</li>
+<li>sleep几乎百分之百的完成给定时间的休眠，yield的提示不一定被响应</li>
+<li>sleep中的线程被其他线程调用interrupt会捕获中断信号，yield不会。</li>
+</ul>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
     </div>
@@ -499,12 +509,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>java多线程基础（三）-线程的父子关系与线程的分组</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">510</span></p>
+    <p><span class="copy-title">文章标题:</span>Java多线程基础（六）-线程sleep和yield</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">608</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-01-03, 01:09:08</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-03, 01:53:36</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/" title="java多线程基础（三）-线程的父子关系与线程的分组">https://xiongdi-blog.github.io/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/</a>
+    <p><span class="copy-title">发布时间:</span>2020-01-07, 10:17:15</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-07, 11:14:16</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AD%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/" title="Java多线程基础（六）-线程sleep和yield">https://xiongdi-blog.github.io/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AD%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
