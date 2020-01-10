@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>java多线程基础（二）-线程的命名 | Hexo</title>
-  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 线程命名 ">
-  <meta name="description" content="java多线程基础（二）-线程的命名 | Hexo">
+  <title>java多线程基础（八）-线程join | Hexo</title>
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , join , 子任务 , 串行任务 , 并行化 ">
+  <meta name="description" content="java多线程基础（八）-线程join | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -448,9 +448,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-java多线程基础（二）-线程的命名" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java多线程基础（八）-线程join" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">java多线程基础（二）-线程的命名</h1>
+        <h1 class="article-title">java多线程基础（八）-线程join</h1>
     
     <div class="article-meta">
         
@@ -475,19 +475,25 @@
             
             <a class="color2">Thread</a>
             
-            <a class="color5">线程命名</a>
+            <a class="color5">join</a>
+            
+            <a class="color4">子任务</a>
+            
+            <a class="color5">串行任务</a>
+            
+            <a class="color4">并行化</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-03 00:46:34'>2020-01-03 00:05</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-10 09:35:21'>2020-01-10 09:32</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:503</span>
+        <span>字数:1.4k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -506,7 +512,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、线程的默认命名"><span class="toc-text">1、线程的默认命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、使用构造方法命名线程"><span class="toc-text">2、使用构造方法命名线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、修改线程的名字"><span class="toc-text">3、修改线程的名字</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、Thread的三个不同的join方法"><span class="toc-text">1、Thread的三个不同的join方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、join方法的基本用法"><span class="toc-text">2、join方法的基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、join方法实践"><span class="toc-text">3、join方法实践</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -522,27 +528,118 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在java中，每个线程都有自己的名字，在构建线程时为其取一个有意义的名字是一种比较好的做法，特别是在线程特别多的程序中，这样方便问题的排查和跟踪。</p>
-<h2 id="1、线程的默认命名"><a href="#1、线程的默认命名" class="headerlink" title="1、线程的默认命名"></a>1、线程的默认命名</h2><p>如果没有显示的为线程指定一个名字，线程会有一个以”Thread-“为前缀，以一个自增的数字为后缀的名字。这个自增的数字在整个jvm中不断自增,如果我们执行以下代码将会看到线程默认命名:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    IntStream.range(0, 5).boxed().map(i -&gt; new Thread(</span><br><span class="line">        () -&gt; System.out.println(Thread.currentThread().getName())</span><br><span class="line">    )).forEach(Thread::start);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到结果如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Thread-0</span><br><span class="line">Thread-1</span><br><span class="line">Thread-4</span><br><span class="line">Thread-2</span><br><span class="line">Thread-3</span><br></pre></td></tr></table></figure>
-<h2 id="2、使用构造方法命名线程"><a href="#2、使用构造方法命名线程" class="headerlink" title="2、使用构造方法命名线程"></a>2、使用构造方法命名线程</h2><p>java提供了很多Thread的构造方法，其中大部分可以对线程进行命名，具体如下:</p>
-<ul>
-<li>Thread(String name)</li>
-<li>Thread(Runnable target, String name)</li>
-<li>Thread(ThreadGroup group, String name)</li>
-<li>Thread(ThreadGroup group, Runnable target, String name)</li>
-<li>Thread(ThreadGroup group, Runnable target, String name, long stackSize)</li>
+        <p>有很多时候，我们要执行的任务由多个子任务构成，需要等到每个子任务执行完成后才执行后续业务逻辑。也就是主任务等待子任务执行完成后再继续执行。</p>
+<p>当然我们可以在单线程中一个一个的执行子任务，但效率会远远比不上多线程，为此java为这个需求提供了线程join方法。</p>
+<p>在主线程A中join某个线程B，会使线程A进入等待，直到线程A的生命周期结束，或者达到给的的时间，在此期间A线程是处于BLOCKED状态的。</p>
+<h3 id="1、Thread的三个不同的join方法"><a href="#1、Thread的三个不同的join方法" class="headerlink" title="1、Thread的三个不同的join方法"></a>1、Thread的三个不同的join方法</h3><ul>
+<li>public final void join() throws InterruptedException</li>
+<li>public final synchronized void join() throws InterruptedException</li>
+<li>public final synchronized void join() throws InterruptedException</li>
 </ul>
-<p>我们尝试用第二个构造方法对线程进行命名，并输出命名后线程的名字:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadName &#123;</span><br><span class="line">    public final static String PREFIX &#x3D; &quot;FINE-&quot;;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        IntStream.range(0, 5).boxed().map(ThreadName::createThread)</span><br><span class="line">                .forEach(Thread::start);</span><br><span class="line">    &#125;</span><br><span class="line">    public static Thread createThread(final int intName) &#123;</span><br><span class="line">        return new Thread(</span><br><span class="line">                () -&gt; System.out.println(Thread.currentThread().getName()),</span><br><span class="line">                PREFIX + intName</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到，我们对线程使用了新名字，以”FINE-“开头:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FINE-0</span><br><span class="line">FINE-2</span><br><span class="line">FINE-1</span><br><span class="line">FINE-3</span><br><span class="line">FINE-4</span><br></pre></td></tr></table></figure>
-<h2 id="3、修改线程的名字"><a href="#3、修改线程的名字" class="headerlink" title="3、修改线程的名字"></a>3、修改线程的名字</h2><p>不论你使用线程默认的名字，还是使用构造函数自定义了线程的名字，在启动线程之前，还有一次修改线程名字的机会，线程一旦启动，名字将不再被修改，可以使用线程的setName方法修改线程的名字:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    Thread namedThread &#x3D; new Thread(</span><br><span class="line">        () -&gt; System.out.println(Thread.currentThread().getName()),</span><br><span class="line">        &quot;ConstructorName&quot;</span><br><span class="line">    );</span><br><span class="line">    namedThread.setName(&quot;SetName&quot;);</span><br><span class="line">    namedThread.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们可以看到，最终线程的名字为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SetName</span><br></pre></td></tr></table></figure>
+<p>与sleep一样，join方法也是一个可中断的方法，也就是说，如果有其他线程执行了对当前线程的interrupt操作，它也会捕获到中断信号。</p>
+<h3 id="2、join方法的基本用法"><a href="#2、join方法的基本用法" class="headerlink" title="2、join方法的基本用法"></a>2、join方法的基本用法</h3><pre><code>public class ThreadJoin {
+    public static void main(String[] args) throws InterruptedException {
+        // 1、定义两个线程，并保存在threads中
+        List&lt;Thread&gt; threads = IntStream.range(1, 3)
+                .mapToObj(ThreadJoin::create)
+                .collect(Collectors.toList());
+        // 2、启动这两个线程
+        threads.forEach(Thread::start);
+        // 3、执行这两个线程的join方法
+        for (Thread thread: threads) {
+            thread.join();
+        }
+
+        System.out.println(&quot;子任务已执行完毕,我是主任务&quot;);
+    }
+
+    public static Thread create(int seq) {
+        return new Thread(() -&gt; {
+            System.out.println(Thread.currentThread().getName() + &quot;#执行子任务&quot;);
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, String.valueOf(seq));
+    }
+}</code></pre><p>上述程序创建了两个线程、分别启动，并调用了这两个线程的join方法。（注意:join方法是主线程调用的，因此第一个线程还没有结束生命周期时，第二个线程的join方法不会得到执行，但是此时第二个线程已经启动了），运行上诉代码，你会发现两个子线程执行结束后，主线程才会执行输出语句。</p>
+<h3 id="3、join方法实践"><a href="#3、join方法实践" class="headerlink" title="3、join方法实践"></a>3、join方法实践</h3><p>试想，你需要开发一款查询航班信息的APP，你的APP是没有这些实时数据的，当用户发起查询请求时，你需要到各大航空公司的接口获取信息，最后统计整理加工返回到客户端。当然JDK自带了很多高级工具，如CountDownLatch和CyclicBarrier等都可以完成类似功能，但仅我们目前所学的知识，join方法就可以完成该功能。</p>
+<p>这个例子是典型的串行任务并行化处理，当用户在客户端输入出发地”上海”和目的地”广州”，服务器先验证用户信息，然后到各大航空公司的接口查询航班信息，然后统一加工返回给客户端。再细化到各大航空公司的接口，每个接口都不一样，返回的数据格式也不一样，查询速度也存在差异。如果串行的处理各个接口(逐个查询)，显然客户端将等待较长的时间，用户体验将会很差。如果我们将每个航空公司的接口查询都交给一个线程处理，然后在他们结束工作后统一对数据进行加工，将节省很多时间。下面我们就来设计这个程序。<br>首先我们定义一个获取数据的接口:</p>
+<pre><code>public interface FightQuery {
+    List&lt;String&gt; get();
+}</code></pre><p>FightQuery提供了一个get方法，大家应该注意到了，不管是Thread的run方法，还是Runnable的run方法，都没有返回值，如果你想通过运行某个线程获取结果，那么你需要自己定义一个返回的接口。</p>
+<p>FightQueryTask类是到各大航空公司获取数据的类:</p>
+<pre><code>public class FightQueryTask extends Thread implements FightQuery {
+    private final List&lt;String&gt; fightlist = new ArrayList&lt;&gt;();
+    private final String from;
+    private final String to;
+
+    public FightQueryTask(String name, String from, String to) {
+        super(name);
+        this.from = from;
+        this.to = to;
+    }
+
+    @Override
+    public void run() {
+        try {
+            TimeUnit.SECONDS.sleep(2);
+            fightlist.add(Thread.currentThread().getName() + &quot;:航班&quot; + ThreadLocalRandom.current().nextInt(10) + &quot;#起点:&quot; + from + &quot;#终点:&quot; + to);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List&lt;String&gt; get() {
+        return this.fightlist;
+    }
+}</code></pre><p>OK，一切准备就绪，下面就来实现一下从”上海”到”广州”的查询吧！代码如下:</p>
+<pre><code>public class FightQueryExample {
+    private static List&lt;String&gt; fightCompany = Arrays.asList(&quot;四川航空&quot;, &quot;上海航空&quot;, &quot;广州航空&quot;, &quot;南京航空&quot;, &quot;海南航空&quot;);
+
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        List&lt;String&gt; result = search(&quot;上海&quot;, &quot;广州&quot;);
+        System.out.println(&quot;================Result================&quot;);
+        System.out.println(&quot;查询耗时:&quot;+ (System.currentTimeMillis() - start) / 1000 + &quot;秒&quot;);
+        result.forEach(System.out::println);
+    }
+
+    private static List&lt;String&gt; search(String from, String to) {
+        final List&lt;String&gt; result = new ArrayList&lt;&gt;();
+
+        // 创建查询航班信息的线程列表
+        List&lt;FightQueryTask&gt; tasks = fightCompany.stream()
+                .map(name -&gt; new FightQueryTask(name, from, to))
+                .collect(Collectors.toList());
+
+        // 分别启动这三个线程
+        tasks.forEach(Thread::start);
+
+        for (FightQueryTask task: tasks) {
+            try {
+                task.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 获取每个线程的查询结果，加入到result中
+        tasks.stream().map(FightQuery::get).forEach(result::addAll);
+
+        return result;
+    }
+}</code></pre><p>上诉程序输出结果如下:</p>
+<pre><code>================Result================
+查询耗时:2秒
+四川航空:航班2#起点:上海#终点:广州
+上海航空:航班3#起点:上海#终点:广州
+广州航空:航班0#起点:上海#终点:广州
+南京航空:航班7#起点:上海#终点:广州
+海南航空:航班6#起点:上海#终点:广州</code></pre><p>我们查询每个航空公司接口的线程均用sleep休眠了2秒以假定每个接口查询耗时，如果使用串行方式逐个查询每个接口，查询上诉五个航空公司总耗时将为10秒，而使用join方法并行处理的总耗时为2秒。</p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
     </div>
@@ -555,12 +652,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>java多线程基础（二）-线程的命名</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">503</span></p>
+    <p><span class="copy-title">文章标题:</span>java多线程基础（八）-线程join</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">1.4k</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-01-03, 00:05:17</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-03, 00:46:34</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%8C%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%91%BD%E5%90%8D/" title="java多线程基础（二）-线程的命名">https://xiongdi-blog.github.io/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%8C%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%91%BD%E5%90%8D/</a>
+    <p><span class="copy-title">发布时间:</span>2020-01-10, 09:32:30</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-10, 09:35:21</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AB%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/" title="java多线程基础（八）-线程join">https://xiongdi-blog.github.io/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AB%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
