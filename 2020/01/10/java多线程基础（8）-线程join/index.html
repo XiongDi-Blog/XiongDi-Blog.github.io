@@ -2,17 +2,19 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>初遇SpringBoot | Hexo</title>
-  <meta name="keywords" content=" Java ">
-  <meta name="description" content="初遇SpringBoot | Hexo">
+  <title>java多线程基础（八）-线程join | Hexo</title>
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , join , 子任务 , 串行任务 , 并行化 ">
+  <meta name="description" content="java多线程基础（八）-线程join | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
 <meta property="og:url" content="https:&#x2F;&#x2F;xiongdi-blog.github.io&#x2F;about&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
 <meta property="og:locale" content="zh">
 <meta property="article:published_time" content="2019-12-20T13:33:17.000Z">
-<meta property="article:modified_time" content="2019-12-20T13:33:17.877Z">
+<meta property="article:modified_time" content="2020-01-15T03:43:13.671Z">
 <meta property="article:author" content="小童&amp;axin">
 <meta name="twitter:card" content="summary">
 
@@ -179,7 +181,7 @@
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
 <input type="hidden" id="yelog_site_posts_number" value="14">
-<input type="hidden" id="yelog_site_word_count" value="11k">
+<input type="hidden" id="yelog_site_word_count" value="11.5k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -231,18 +233,6 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color1">sleep</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color1">yield</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">线程</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color5">父子关系</a>
     </li>
     
@@ -251,47 +241,19 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">interrupt</a>
+        <a class="color3">线程</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">interrupted</a>
+        <a class="color1">sleep</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">关闭线程</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">volatile</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">中断</a>
+        <a class="color1">yield</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color5">守护线程</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">线程命名</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">join</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">子任务</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">串行任务</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">并行化</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -319,6 +281,30 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color5">线程命名</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">interrupt</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">interrupted</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">关闭线程</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">volatile</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">中断</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color5">数据同步</a>
     </li>
     
@@ -332,6 +318,22 @@
     
     <li class="article-tag-list-item">
         <a class="color4">markdown</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">join</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">子任务</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">串行任务</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">并行化</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -352,6 +354,14 @@
     
     <nav id="title-list-nav">
         
+        <a  class="Java MultiThread "
+           href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（一）--认识线程">java多线程基础（一）--认识线程</span>
+            <span class="post-date" title="2019-12-23 22:40:51">2019/12/23</span>
+        </a>
+        
         <a  class=""
            href="/2019/12/18/hello-world/"
            data-tag=""
@@ -361,39 +371,23 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AD%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/"
-           data-tag="Java,多线程,并发,Thread,sleep,yield,线程"
-           data-author="" >
-            <span class="post-title" title="Java多线程基础（六）-线程sleep和yield">Java多线程基础（六）-线程sleep和yield</span>
-            <span class="post-date" title="2020-01-07 10:17:15">2020/01/07</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/"
-           data-tag="Java,多线程,并发,Thread,线程,父子关系,分组"
+           href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%883%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/"
+           data-tag="Java,多线程,并发,Thread,父子关系,分组,线程"
            data-author="" >
             <span class="post-title" title="java多线程基础（三）-线程的父子关系与线程的分组">java多线程基础（三）-线程的父子关系与线程的分组</span>
             <span class="post-date" title="2020-01-03 01:09:08">2020/01/03</span>
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/08/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%83%EF%BC%89-%E7%BA%BF%E7%A8%8Binterrupt%E5%8F%8A%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发,Thread,interrupt,interrupted,关闭线程,volatile,中断"
+           href="/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%886%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/"
+           data-tag="Java,多线程,并发,Thread,线程,sleep,yield"
            data-author="" >
-            <span class="post-title" title="java多线程基础（七）-线程interrupt及如何正确关闭线程">java多线程基础（七）-线程interrupt及如何正确关闭线程</span>
-            <span class="post-date" title="2020-01-08 21:58:58">2020/01/08</span>
+            <span class="post-title" title="Java多线程基础（六）-线程sleep和yield">Java多线程基础（六）-线程sleep和yield</span>
+            <span class="post-date" title="2020-01-07 10:17:15">2020/01/07</span>
         </a>
         
         <a  class="Java MultiThread "
-           href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%80%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发"
-           data-author="" >
-            <span class="post-title" title="java多线程基础（一）--认识线程">java多线程基础（一）--认识线程</span>
-            <span class="post-date" title="2019-12-23 22:40:51">2019/12/23</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%94%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/"
+           href="/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%885%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/"
            data-tag="Java,多线程,并发,Thread,守护线程"
            data-author="" >
             <span class="post-title" title="java多线程基础（五）-守护线程">java多线程基础（五）-守护线程</span>
@@ -401,23 +395,7 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%8C%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%91%BD%E5%90%8D/"
-           data-tag="Java,多线程,并发,Thread,线程命名"
-           data-author="" >
-            <span class="post-title" title="java多线程基础（二）-线程的命名">java多线程基础（二）-线程的命名</span>
-            <span class="post-date" title="2020-01-03 00:05:17">2020/01/03</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AB%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/"
-           data-tag="Java,多线程,并发,Thread,join,子任务,串行任务,并行化"
-           data-author="" >
-            <span class="post-title" title="java多线程基础（八）-线程join">java多线程基础（八）-线程join</span>
-            <span class="post-date" title="2020-01-10 09:32:30">2020/01/10</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/"
+           href="/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%884%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/"
            data-tag="Java,多线程,并发,Thread,java内存结构,程序计数器,虚拟机栈,本地方法栈,堆,方法区"
            data-author="" >
             <span class="post-title" title="java多线程基础（四）-jvm内存结构">java多线程基础（四）-jvm内存结构</span>
@@ -425,7 +403,23 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%88%E4%B8%80%EF%BC%89-%E8%AE%A4%E8%AF%86%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/"
+           href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%882%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%91%BD%E5%90%8D/"
+           data-tag="Java,多线程,并发,Thread,线程命名"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（二）-线程的命名">java多线程基础（二）-线程的命名</span>
+            <span class="post-date" title="2020-01-03 00:05:17">2020/01/03</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/01/08/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%887%EF%BC%89-%E7%BA%BF%E7%A8%8Binterrupt%E5%8F%8A%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发,Thread,interrupt,interrupted,关闭线程,volatile,中断"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（七）-线程interrupt及如何正确关闭线程">java多线程基础（七）-线程interrupt及如何正确关闭线程</span>
+            <span class="post-date" title="2020-01-08 21:58:58">2020/01/08</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/01/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/"
            data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全"
            data-author="" >
             <span class="post-title" title="java多线程进阶（一）-认识数据同步问题">java多线程进阶（一）-认识数据同步问题</span>
@@ -449,11 +443,19 @@
         </a>
         
         <a  class="Java SpringCloud "
-           href="/2019/12/20/%E5%88%9D%E9%81%87SpringBoot/"
+           href="/2019/12/20/%E5%88%9D%E9%81%87SpringBoot%EF%BC%881%EF%BC%89/"
            data-tag="Java"
            data-author="" >
             <span class="post-title" title="初遇SpringBoot">初遇SpringBoot</span>
             <span class="post-date" title="2019-12-20 17:23:27">2019/12/20</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%888%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/"
+           data-tag="Java,多线程,并发,Thread,join,子任务,串行任务,并行化"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（八）-线程join">java多线程基础（八）-线程join</span>
+            <span class="post-date" title="2020-01-10 09:32:30">2020/01/10</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -476,9 +478,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-初遇SpringBoot" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java多线程基础（8）-线程join" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">初遇SpringBoot</h1>
+        <h1 class="article-title">java多线程基础（八）-线程join</h1>
     
     <div class="article-meta">
         
@@ -488,7 +490,7 @@
             
                 <a  data-rel="Java">Java</a>/
             
-                <a  data-rel="SpringCloud">SpringCloud</a>
+                <a  data-rel="MultiThread">MultiThread</a>
             
         </span>
         
@@ -497,17 +499,31 @@
             
             <a class="color5">Java</a>
             
+            <a class="color4">多线程</a>
+            
+            <a class="color3">并发</a>
+            
+            <a class="color2">Thread</a>
+            
+            <a class="color5">join</a>
+            
+            <a class="color4">子任务</a>
+            
+            <a class="color5">串行任务</a>
+            
+            <a class="color4">并行化</a>
+            
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-05 15:37:07'>2019-12-20 17:23</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-15 11:43:13'>2020-01-10 09:32</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:563</span>
+        <span>字数:1.4k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -526,7 +542,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#初遇SpringBoot"><span class="toc-text">初遇SpringBoot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-text">优点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-快速创建"><span class="toc-text">1. 快速创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-独立运行"><span class="toc-text">2. 独立运行</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-运行带有main方法类"><span class="toc-text">1. 运行带有main方法类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-通过命令行-java-jar-的方式"><span class="toc-text">2. 通过命令行 java -jar 的方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-通过spring-boot-plugin的方式"><span class="toc-text">3. 通过spring-boot-plugin的方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-主流框架集成"><span class="toc-text">3.主流框架集成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-内嵌Servlet-可直接JAR运行"><span class="toc-text">4. 内嵌Servlet,可直接JAR运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-自动配置"><span class="toc-text">5. 自动配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-开箱即用，不需要配置繁琐的XML"><span class="toc-text">6. 开箱即用，不需要配置繁琐的XML</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-环境区分"><span class="toc-text">7. 环境区分</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、Thread的三个不同的join方法"><span class="toc-text">1、Thread的三个不同的join方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、join方法的基本用法"><span class="toc-text">2、join方法的基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、join方法实践"><span class="toc-text">3、join方法实践</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -542,22 +558,118 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="初遇SpringBoot"><a href="#初遇SpringBoot" class="headerlink" title="初遇SpringBoot"></a>初遇SpringBoot</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Spring Boot是一个简化Spring开发的框架。用来监护spring应用开发，约定大于配置，去繁就简，just run 就能创建一个独立的，产品级的应用。</p>
-<p>我们在使用Spring Boot时只需要配置相应的Spring Boot就可以用所有的Spring组件，简单的说，spring boot就是整合了很多优秀的框架，不用我们自己手动的去写一堆xml配置然后进行配置。从本质上来说，Spring Boot就是Spring,它做了那些没有它你也会去做的Spring Bean配置。</p>
-<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><h3 id="1-快速创建"><a href="#1-快速创建" class="headerlink" title="1. 快速创建"></a>1. 快速创建</h3><p>打开浏览器，访问<a href="https://start.spring.io/，进入如下页面" target="_blank" rel="noopener">https://start.spring.io/，进入如下页面</a></p>
-<p><img src="C:%5CUsers%5Chz19084341%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200103154738139.png" alt="image-20200103154738139"></p>
-<p>选择<strong>Project</strong>（项目类型）<strong>Language</strong>（语言）<strong>SpringBoot</strong>(SpringBoot版本)、<strong>Group</strong>（组/包名），<strong>Artifact</strong>（项目名）、<strong>Description</strong>（描述）、<strong>Package name</strong>（包名）<strong>Packaging</strong>（打包方式）、<strong>Java</strong>(Java版本)等信息点击下方“Generate”即可下载程序包。同时点击Explore可导出pom文件。也可以使用Idea快速创建。</p>
-<p><img src="C:%5CUsers%5Chz19084341%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200103155033879.png" alt="image-20200103155033879"></p>
-<h3 id="2-独立运行"><a href="#2-独立运行" class="headerlink" title="2. 独立运行"></a>2. 独立运行</h3><ul>
-<li>spring-boot的启动方式主要有三种:<h5 id="1-运行带有main方法类"><a href="#1-运行带有main方法类" class="headerlink" title="1. 运行带有main方法类"></a>1. 运行带有main方法类</h5>这种方式很简单，我主要是通过idea的方式，进行执行。这种方式在启动的时候，会去自动加载classpath下的配置文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplicati	@SpringBootApplicati public class DemoApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">      SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="2-通过命令行-java-jar-的方式"><a href="#2-通过命令行-java-jar-的方式" class="headerlink" title="2. 通过命令行 java -jar 的方式"></a>2. 通过命令行 java -jar 的方式</h5>执行：<br>java -jar jar_path –param<br>  jar_path: 指代将项目打包为jar打包之后的存储路径<br>  –param: 为需要在命令行指定的参数。例如:<br>java -jar jar_path –server.port=8081<br>可指定项目启动的端口号，该命令行参数，将会覆盖application.properties中的端口配置</li>
+        <p>有很多时候，我们要执行的任务由多个子任务构成，需要等到每个子任务执行完成后才执行后续业务逻辑。也就是主任务等待子任务执行完成后再继续执行。</p>
+<p>当然我们可以在单线程中一个一个的执行子任务，但效率会远远比不上多线程，为此java为这个需求提供了线程join方法。</p>
+<p>在主线程A中join某个线程B，会使线程A进入等待，直到线程B的生命周期结束，或者达到给的的时间，在此期间A线程是处于BLOCKED状态的。</p>
+<h3 id="1、Thread的三个不同的join方法"><a href="#1、Thread的三个不同的join方法" class="headerlink" title="1、Thread的三个不同的join方法"></a>1、Thread的三个不同的join方法</h3><ul>
+<li>public final void join() throws InterruptedException</li>
+<li>public final synchronized void join() throws InterruptedException</li>
+<li>public final synchronized void join() throws InterruptedException</li>
 </ul>
-<h5 id="3-通过spring-boot-plugin的方式"><a href="#3-通过spring-boot-plugin的方式" class="headerlink" title="3. 通过spring-boot-plugin的方式"></a>3. 通过spring-boot-plugin的方式</h5><p>如果需要正常使用该maven查件，需要我们在maven项目中增加以下插件配置:</p>
-<pre><code>&lt;plugin&gt;
-  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-  &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-&lt;/plugin&gt;</code></pre><p>进入项目的根目录，执行:<br>mvn spring-boot:run -Drun.arguments=”–server.port=8888”<br>arguments：指定的参数，多个参数以”,”进行分割。</p>
-<h3 id="3-主流框架集成"><a href="#3-主流框架集成" class="headerlink" title="3.主流框架集成"></a>3.主流框架集成</h3><h3 id="4-内嵌Servlet-可直接JAR运行"><a href="#4-内嵌Servlet-可直接JAR运行" class="headerlink" title="4. 内嵌Servlet,可直接JAR运行"></a>4. 内嵌Servlet,可直接JAR运行</h3><h3 id="5-自动配置"><a href="#5-自动配置" class="headerlink" title="5. 自动配置"></a>5. 自动配置</h3><h3 id="6-开箱即用，不需要配置繁琐的XML"><a href="#6-开箱即用，不需要配置繁琐的XML" class="headerlink" title="6. 开箱即用，不需要配置繁琐的XML"></a>6. 开箱即用，不需要配置繁琐的XML</h3><h3 id="7-环境区分"><a href="#7-环境区分" class="headerlink" title="7. 环境区分"></a>7. 环境区分</h3>
+<p>与sleep一样，join方法也是一个可中断的方法，也就是说，如果有其他线程执行了对当前线程的interrupt操作，它也会捕获到中断信号。</p>
+<h3 id="2、join方法的基本用法"><a href="#2、join方法的基本用法" class="headerlink" title="2、join方法的基本用法"></a>2、join方法的基本用法</h3><pre><code>public class ThreadJoin {
+    public static void main(String[] args) throws InterruptedException {
+        // 1、定义两个线程，并保存在threads中
+        List&lt;Thread&gt; threads = IntStream.range(1, 3)
+                .mapToObj(ThreadJoin::create)
+                .collect(Collectors.toList());
+        // 2、启动这两个线程
+        threads.forEach(Thread::start);
+        // 3、执行这两个线程的join方法
+        for (Thread thread: threads) {
+            thread.join();
+        }
+
+        System.out.println(&quot;子任务已执行完毕,我是主任务&quot;);
+    }
+
+    public static Thread create(int seq) {
+        return new Thread(() -&gt; {
+            System.out.println(Thread.currentThread().getName() + &quot;#执行子任务&quot;);
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, String.valueOf(seq));
+    }
+}</code></pre><p>上述程序创建了两个线程、分别启动，并调用了这两个线程的join方法。（注意:join方法是主线程调用的，因此第一个线程还没有结束生命周期时，第二个线程的join方法不会得到执行，但是此时第二个线程已经启动了），运行上诉代码，你会发现两个子线程执行结束后，主线程才会执行输出语句。</p>
+<h3 id="3、join方法实践"><a href="#3、join方法实践" class="headerlink" title="3、join方法实践"></a>3、join方法实践</h3><p>试想，你需要开发一款查询航班信息的APP，你的APP是没有这些实时数据的，当用户发起查询请求时，你需要到各大航空公司的接口获取信息，最后统计整理加工返回到客户端。当然JDK自带了很多高级工具，如CountDownLatch和CyclicBarrier等都可以完成类似功能，但仅我们目前所学的知识，join方法就可以完成该功能。</p>
+<p>这个例子是典型的串行任务并行化处理，当用户在客户端输入出发地”上海”和目的地”广州”，服务器先验证用户信息，然后到各大航空公司的接口查询航班信息，然后统一加工返回给客户端。再细化到各大航空公司的接口，每个接口都不一样，返回的数据格式也不一样，查询速度也存在差异。如果串行的处理各个接口(逐个查询)，显然客户端将等待较长的时间，用户体验将会很差。如果我们将每个航空公司的接口查询都交给一个线程处理，然后在他们结束工作后统一对数据进行加工，将节省很多时间。下面我们就来设计这个程序。<br>首先我们定义一个获取数据的接口:</p>
+<pre><code>public interface FightQuery {
+    List&lt;String&gt; get();
+}</code></pre><p>FightQuery提供了一个get方法，大家应该注意到了，不管是Thread的run方法，还是Runnable的run方法，都没有返回值，如果你想通过运行某个线程获取结果，那么你需要自己定义一个返回的接口。</p>
+<p>FightQueryTask类是到各大航空公司获取数据的类:</p>
+<pre><code>public class FightQueryTask extends Thread implements FightQuery {
+    private final List&lt;String&gt; fightlist = new ArrayList&lt;&gt;();
+    private final String from;
+    private final String to;
+
+    public FightQueryTask(String name, String from, String to) {
+        super(name);
+        this.from = from;
+        this.to = to;
+    }
+
+    @Override
+    public void run() {
+        try {
+            TimeUnit.SECONDS.sleep(2);
+            fightlist.add(Thread.currentThread().getName() + &quot;:航班&quot; + ThreadLocalRandom.current().nextInt(10) + &quot;#起点:&quot; + from + &quot;#终点:&quot; + to);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List&lt;String&gt; get() {
+        return this.fightlist;
+    }
+}</code></pre><p>OK，一切准备就绪，下面就来实现一下从”上海”到”广州”的查询吧！代码如下:</p>
+<pre><code>public class FightQueryExample {
+    private static List&lt;String&gt; fightCompany = Arrays.asList(&quot;四川航空&quot;, &quot;上海航空&quot;, &quot;广州航空&quot;, &quot;南京航空&quot;, &quot;海南航空&quot;);
+
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        List&lt;String&gt; result = search(&quot;上海&quot;, &quot;广州&quot;);
+        System.out.println(&quot;================Result================&quot;);
+        System.out.println(&quot;查询耗时:&quot;+ (System.currentTimeMillis() - start) / 1000 + &quot;秒&quot;);
+        result.forEach(System.out::println);
+    }
+
+    private static List&lt;String&gt; search(String from, String to) {
+        final List&lt;String&gt; result = new ArrayList&lt;&gt;();
+
+        // 创建查询航班信息的线程列表
+        List&lt;FightQueryTask&gt; tasks = fightCompany.stream()
+                .map(name -&gt; new FightQueryTask(name, from, to))
+                .collect(Collectors.toList());
+
+        // 分别启动这三个线程
+        tasks.forEach(Thread::start);
+
+        for (FightQueryTask task: tasks) {
+            try {
+                task.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 获取每个线程的查询结果，加入到result中
+        tasks.stream().map(FightQuery::get).forEach(result::addAll);
+
+        return result;
+    }
+}</code></pre><p>上诉程序输出结果如下:</p>
+<pre><code>================Result================
+查询耗时:2秒
+四川航空:航班2#起点:上海#终点:广州
+上海航空:航班3#起点:上海#终点:广州
+广州航空:航班0#起点:上海#终点:广州
+南京航空:航班7#起点:上海#终点:广州
+海南航空:航班6#起点:上海#终点:广州</code></pre><p>我们查询每个航空公司接口的线程均用sleep休眠了2秒以假定每个接口查询耗时，如果使用串行方式逐个查询每个接口，查询上诉五个航空公司总耗时将为10秒，而使用join方法并行处理的总耗时为2秒。</p>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
     </div>
@@ -570,12 +682,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>初遇SpringBoot</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">563</span></p>
+    <p><span class="copy-title">文章标题:</span>java多线程基础（八）-线程join</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">1.4k</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-20, 17:23:27</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-05, 15:37:07</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/20/%E5%88%9D%E9%81%87SpringBoot/" title="初遇SpringBoot">https://xiongdi-blog.github.io/2019/12/20/%E5%88%9D%E9%81%87SpringBoot/</a>
+    <p><span class="copy-title">发布时间:</span>2020-01-10, 09:32:30</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-15, 11:43:13</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%888%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/" title="java多线程基础（八）-线程join">https://xiongdi-blog.github.io/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%888%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
@@ -637,7 +749,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#Java','#多线程','#并发','#Thread','#sleep','#yield','#线程','#父子关系','#分组','#interrupt','#interrupted','#关闭线程','#volatile','#中断','#守护线程','#线程命名','#join','#子任务','#串行任务','#并行化','#java内存结构','#程序计数器','#虚拟机栈','#本地方法栈','#堆','#方法区','#数据同步','#同步，线程安全','#synchronized','#markdown','#Runnable','#Jconsole',],
+            'data': ['#Java','#多线程','#并发','#Thread','#父子关系','#分组','#线程','#sleep','#yield','#守护线程','#java内存结构','#程序计数器','#虚拟机栈','#本地方法栈','#堆','#方法区','#线程命名','#interrupt','#interrupted','#关闭线程','#volatile','#中断','#数据同步','#同步，线程安全','#synchronized','#markdown','#join','#子任务','#串行任务','#并行化','#Runnable','#Jconsole',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');

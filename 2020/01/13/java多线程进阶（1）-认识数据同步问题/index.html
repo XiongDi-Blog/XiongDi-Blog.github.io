@@ -2,17 +2,19 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>java多线程基础（四）-jvm内存结构 | Hexo</title>
-  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , java内存结构 , 程序计数器 , 虚拟机栈 , 本地方法栈 , 堆 , 方法区 ">
-  <meta name="description" content="java多线程基础（四）-jvm内存结构 | Hexo">
+  <title>java多线程进阶（一）-认识数据同步问题 | Hexo</title>
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 数据同步 , 同步，线程安全 ">
+  <meta name="description" content="java多线程进阶（一）-认识数据同步问题 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
 <meta property="og:url" content="https:&#x2F;&#x2F;xiongdi-blog.github.io&#x2F;about&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
 <meta property="og:locale" content="zh">
 <meta property="article:published_time" content="2019-12-20T13:33:17.000Z">
-<meta property="article:modified_time" content="2019-12-20T13:33:17.877Z">
+<meta property="article:modified_time" content="2020-01-15T03:43:13.671Z">
 <meta property="article:author" content="小童&amp;axin">
 <meta name="twitter:card" content="summary">
 
@@ -179,7 +181,7 @@
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
 <input type="hidden" id="yelog_site_posts_number" value="14">
-<input type="hidden" id="yelog_site_word_count" value="11k">
+<input type="hidden" id="yelog_site_word_count" value="11.5k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -231,18 +233,6 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color1">sleep</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color1">yield</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">线程</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color5">父子关系</a>
     </li>
     
@@ -251,47 +241,19 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">interrupt</a>
+        <a class="color3">线程</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">interrupted</a>
+        <a class="color1">sleep</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">关闭线程</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">volatile</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">中断</a>
+        <a class="color1">yield</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color5">守护线程</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">线程命名</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">join</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">子任务</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">串行任务</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">并行化</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -319,6 +281,30 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color5">线程命名</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">interrupt</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">interrupted</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">关闭线程</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">volatile</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">中断</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color5">数据同步</a>
     </li>
     
@@ -332,6 +318,22 @@
     
     <li class="article-tag-list-item">
         <a class="color4">markdown</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">join</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">子任务</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">串行任务</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">并行化</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -352,6 +354,14 @@
     
     <nav id="title-list-nav">
         
+        <a  class="Java MultiThread "
+           href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（一）--认识线程">java多线程基础（一）--认识线程</span>
+            <span class="post-date" title="2019-12-23 22:40:51">2019/12/23</span>
+        </a>
+        
         <a  class=""
            href="/2019/12/18/hello-world/"
            data-tag=""
@@ -361,39 +371,23 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AD%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/"
-           data-tag="Java,多线程,并发,Thread,sleep,yield,线程"
-           data-author="" >
-            <span class="post-title" title="Java多线程基础（六）-线程sleep和yield">Java多线程基础（六）-线程sleep和yield</span>
-            <span class="post-date" title="2020-01-07 10:17:15">2020/01/07</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%89%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/"
-           data-tag="Java,多线程,并发,Thread,线程,父子关系,分组"
+           href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%883%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%86%E7%BB%84/"
+           data-tag="Java,多线程,并发,Thread,父子关系,分组,线程"
            data-author="" >
             <span class="post-title" title="java多线程基础（三）-线程的父子关系与线程的分组">java多线程基础（三）-线程的父子关系与线程的分组</span>
             <span class="post-date" title="2020-01-03 01:09:08">2020/01/03</span>
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/08/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%83%EF%BC%89-%E7%BA%BF%E7%A8%8Binterrupt%E5%8F%8A%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发,Thread,interrupt,interrupted,关闭线程,volatile,中断"
+           href="/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%886%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/"
+           data-tag="Java,多线程,并发,Thread,线程,sleep,yield"
            data-author="" >
-            <span class="post-title" title="java多线程基础（七）-线程interrupt及如何正确关闭线程">java多线程基础（七）-线程interrupt及如何正确关闭线程</span>
-            <span class="post-date" title="2020-01-08 21:58:58">2020/01/08</span>
+            <span class="post-title" title="Java多线程基础（六）-线程sleep和yield">Java多线程基础（六）-线程sleep和yield</span>
+            <span class="post-date" title="2020-01-07 10:17:15">2020/01/07</span>
         </a>
         
         <a  class="Java MultiThread "
-           href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%B8%80%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发"
-           data-author="" >
-            <span class="post-title" title="java多线程基础（一）--认识线程">java多线程基础（一）--认识线程</span>
-            <span class="post-date" title="2019-12-23 22:40:51">2019/12/23</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%94%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/"
+           href="/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%885%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/"
            data-tag="Java,多线程,并发,Thread,守护线程"
            data-author="" >
             <span class="post-title" title="java多线程基础（五）-守护线程">java多线程基础（五）-守护线程</span>
@@ -401,23 +395,7 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E4%BA%8C%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%91%BD%E5%90%8D/"
-           data-tag="Java,多线程,并发,Thread,线程命名"
-           data-author="" >
-            <span class="post-title" title="java多线程基础（二）-线程的命名">java多线程基础（二）-线程的命名</span>
-            <span class="post-date" title="2020-01-03 00:05:17">2020/01/03</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%85%AB%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/"
-           data-tag="Java,多线程,并发,Thread,join,子任务,串行任务,并行化"
-           data-author="" >
-            <span class="post-title" title="java多线程基础（八）-线程join">java多线程基础（八）-线程join</span>
-            <span class="post-date" title="2020-01-10 09:32:30">2020/01/10</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/"
+           href="/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%884%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/"
            data-tag="Java,多线程,并发,Thread,java内存结构,程序计数器,虚拟机栈,本地方法栈,堆,方法区"
            data-author="" >
             <span class="post-title" title="java多线程基础（四）-jvm内存结构">java多线程基础（四）-jvm内存结构</span>
@@ -425,7 +403,23 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%88%E4%B8%80%EF%BC%89-%E8%AE%A4%E8%AF%86%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/"
+           href="/2020/01/03/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%882%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%91%BD%E5%90%8D/"
+           data-tag="Java,多线程,并发,Thread,线程命名"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（二）-线程的命名">java多线程基础（二）-线程的命名</span>
+            <span class="post-date" title="2020-01-03 00:05:17">2020/01/03</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/01/08/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%887%EF%BC%89-%E7%BA%BF%E7%A8%8Binterrupt%E5%8F%8A%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发,Thread,interrupt,interrupted,关闭线程,volatile,中断"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（七）-线程interrupt及如何正确关闭线程">java多线程基础（七）-线程interrupt及如何正确关闭线程</span>
+            <span class="post-date" title="2020-01-08 21:58:58">2020/01/08</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/01/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/"
            data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全"
            data-author="" >
             <span class="post-title" title="java多线程进阶（一）-认识数据同步问题">java多线程进阶（一）-认识数据同步问题</span>
@@ -449,11 +443,19 @@
         </a>
         
         <a  class="Java SpringCloud "
-           href="/2019/12/20/%E5%88%9D%E9%81%87SpringBoot/"
+           href="/2019/12/20/%E5%88%9D%E9%81%87SpringBoot%EF%BC%881%EF%BC%89/"
            data-tag="Java"
            data-author="" >
             <span class="post-title" title="初遇SpringBoot">初遇SpringBoot</span>
             <span class="post-date" title="2019-12-20 17:23:27">2019/12/20</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%888%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/"
+           data-tag="Java,多线程,并发,Thread,join,子任务,串行任务,并行化"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（八）-线程join">java多线程基础（八）-线程join</span>
+            <span class="post-date" title="2020-01-10 09:32:30">2020/01/10</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -476,9 +478,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-java多线程基础（四）-jvm内存结构" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java多线程进阶（1）-认识数据同步问题" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">java多线程基础（四）-jvm内存结构</h1>
+        <h1 class="article-title">java多线程进阶（一）-认识数据同步问题</h1>
     
     <div class="article-meta">
         
@@ -503,29 +505,21 @@
             
             <a class="color2">Thread</a>
             
-            <a class="color4">java内存结构</a>
+            <a class="color5">数据同步</a>
             
-            <a class="color1">程序计数器</a>
-            
-            <a class="color5">虚拟机栈</a>
-            
-            <a class="color1">本地方法栈</a>
-            
-            <a class="color2">堆</a>
-            
-            <a class="color4">方法区</a>
+            <a class="color3">同步，线程安全</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-08 21:51:21'>2020-01-05 15:40</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-15 11:43:13'>2020-01-13 11:16</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1.3k</span>
+        <span>字数:621</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -544,7 +538,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、JVM内存结构"><span class="toc-text">一、JVM内存结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、程序计数器"><span class="toc-text">1、程序计数器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、Java虚拟机栈"><span class="toc-text">2、Java虚拟机栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、本地方法栈"><span class="toc-text">3、本地方法栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、堆内存"><span class="toc-text">4、堆内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、方法区"><span class="toc-text">5、方法区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#思考？"><span class="toc-text">思考？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、确定可创建线程的数量"><span class="toc-text">二、确定可创建线程的数量</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、什么是共享资源？什么是数据同步？"><span class="toc-text">1、什么是共享资源？什么是数据同步？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、数据不一致问题"><span class="toc-text">2、数据不一致问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、数据不一致问题分析"><span class="toc-text">3、数据不一致问题分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-某个值重复出现"><span class="toc-text">3.1 某个值重复出现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-某个值被跳过，没有出现"><span class="toc-text">3.2 某个值被跳过，没有出现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-出现大于最大值500的数"><span class="toc-text">3.3 出现大于最大值500的数</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -560,34 +554,37 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>线程和栈内存关系密切，为了更好的理解线程，有必要了解一下JVM的内存分布机制。但是在本节不会过度深入的讲解JVM的原理和内存，只会向大家介绍一下JVM的内存分布及各个内存区域的作用，在了解各个内存区域的作用时，请不要从该区域的名称推测该区域的作用，容易被名称弄混淆。</p>
-<h2 id="一、JVM内存结构"><a href="#一、JVM内存结构" class="headerlink" title="一、JVM内存结构"></a>一、JVM内存结构</h2><p>JVM在执行程序的过程中会将物理内存划分为不同内存区域，以存放不同的数据。有些在JVM启动时创建，有些在程序运行时才创建，比如虚拟机栈，JVM内存区域如下图所示:<br><img src="/img/thread/jvm_memory_structure.png" alt=""><br>从上图我们可以得知，JVM将内存分为五个区域，分别是堆内存、方法区、虚拟机栈、本地方法栈和程序计数器。其中堆内存和方法区是所有线程所共享的区域，虚拟机栈、本地方法栈和程序计数器为线程私有，下面我们来了解每个区域的作用：</p>
-<h3 id="1、程序计数器"><a href="#1、程序计数器" class="headerlink" title="1、程序计数器"></a>1、程序计数器</h3><p>所有的程序，都需要操作系统通过控制总线向CPU发送机器指令，程序计数器在jvm中的作用就是用来存放当前线程接下来要执行的字节码指令、分支、循环、跳转、异常处理等信息。由于一个处理器在某一时刻只执行一个线程中的机器指令，为了在CPU时间片轮转切换上下文后顺利回到正确执行位置，每个线程都需要具有一个独立的程序计数器，因此程序计数器被设计为了每个线程私有。</p>
-<h3 id="2、Java虚拟机栈"><a href="#2、Java虚拟机栈" class="headerlink" title="2、Java虚拟机栈"></a>2、Java虚拟机栈</h3><p>java虚拟机栈与线程密切相关，它是线程私有的，在程序运行时被创建。在线程中，每一个方法的执行都会创建一个名为栈帧（stack frame）的数据结构，主要存放局部变量表、操作栈、动态链接、方法返回地址等，如下图所示:<br><img src="/img/thread/jvm_vm_stack.png" alt=""><br>每一个线程在创建时，JVM都会为其创建一个虚拟机栈，虚拟机栈的大小可以由-xss来配置，方法的调用其实就是栈帧压入和弹出的过程。同等大小的虚拟机栈，如果局部变量表的大小越小，可压入的栈帧就越多，意味着可递归调用方法就越多，反之亦然。一般将栈帧的内存大小叫做宽度，虚拟机栈的大小称为深度。</p>
-<h3 id="3、本地方法栈"><a href="#3、本地方法栈" class="headerlink" title="3、本地方法栈"></a>3、本地方法栈</h3><p>Java提供了调用本地方法的接口（Java Native Interface）,也就是调用C/C++程序的接口，比如网络通信、文件操作的底层等都是JNI方法，JVM提供的本地方法栈就是用来存放本地方法的内存区域。本地方法栈同样时线程私有的内存区域。</p>
-<h3 id="4、堆内存"><a href="#4、堆内存" class="headerlink" title="4、堆内存"></a>4、堆内存</h3><p>堆内存是JVM中最大的一块内存区域，被所有线程共享，几乎java运行时创建的所有对象实例都存放在该区域。由于内存最大，也是java垃圾回收的主要区域，因此也被称为“GC堆”。<br><img src="/img/thread/jvm_heap.png" alt=""><br>如上图所示，堆内存被细分为新生代、老年代(Tenured)。更细致的被分为:Eden区、From Survivor区(s0)、To Survivor区(s1)。每个区域的作用可以在java的垃圾回收机制即GC机制中详细的了解，这里不进行展开。</p>
-<h3 id="5、方法区"><a href="#5、方法区" class="headerlink" title="5、方法区"></a>5、方法区</h3><p>方法区也是线程所共享的区域，该区域主要用于存放被JVM加载的类信息、常量、静态变量、即时编译器编译的代码等数据。由于方法区与堆内存有很多共性:线程共享、内存不连续、可扩展、可垃圾回收，同样当无法再扩展时会抛出OutOfMemoryError异常。该区域被java虚拟机规范划分为堆内存的一个逻辑分区，但它实际是与堆内存分开的，经常被称为“非堆”。<br><img src="/img/thread/jvm_method_area.png" alt=""></p>
-<h4 id="思考？"><a href="#思考？" class="headerlink" title="思考？"></a>思考？</h4><p>当一个没有使用静态变量的工具类，在调用它的静态方法时需要考虑线程安全问题吗？</p>
-<h2 id="二、确定可创建线程的数量"><a href="#二、确定可创建线程的数量" class="headerlink" title="二、确定可创建线程的数量"></a>二、确定可创建线程的数量</h2><p>我们简单了解了JVM的内存结构，其中程序计数器是比较小的一块内存，该部分不会出现任何溢出异常。与线程创建关系比较大的是虚拟机栈内存，而且栈内存的划分直接决定在一个jvm进程中能创建的线程数量。</p>
-<p>指定栈内存大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xss128k</span><br></pre></td></tr></table></figure>
+        <p>我们在追求多线程为程序带来更佳的效率的同时，也引入了共享资源安全的隐患。后续系列我们将探讨如何在安全的前提下高效地共享数据。</p>
+<h3 id="1、什么是共享资源？什么是数据同步？"><a href="#1、什么是共享资源？什么是数据同步？" class="headerlink" title="1、什么是共享资源？什么是数据同步？"></a>1、什么是共享资源？什么是数据同步？</h3><p>共享资源是指能够被多个线程访问和操作（读写操作）的资源，而安全问题大多出现在多个线程同时对同一共享资源进行操作时，如何保证多个线程访问到的数据是一致的，则被称为数据同步或资源同步。</p>
+<h3 id="2、数据不一致问题"><a href="#2、数据不一致问题" class="headerlink" title="2、数据不一致问题"></a>2、数据不一致问题</h3><p>当多个线程同时对共享资源进行读写操作，如我们要实现一个计数器，多个线程对其累加，代码如下:</p>
+<pre><code>public class Task implements Runnable {
+    private Integer index = 1;
 
-<p>指定初始堆大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xms64m</span><br></pre></td></tr></table></figure>
+    private final static Integer MAX = 500;
 
-<p>指定最大堆大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx216m</span><br></pre></td></tr></table></figure>
+    @Override
+    public void run() {
+        while (index &lt;= MAX) {
+            System.out.println(index++)
+        }
+    }
 
-<p>查看JVM默认栈内存大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; linux 使用如下命令</span><br><span class="line">java -XX:+PrintFlagsFinal -version | grep ThreadStackSize</span><br><span class="line">&#x2F;&#x2F; windows 使用如下命令</span><br><span class="line">java -XX:+PrintFlagsFinal -version | findstr &quot;ThreadStackSize&quot;</span><br></pre></td></tr></table></figure>
+    public static void main(String args[]) {
+        final Task task = new Task();
 
-<p>线程的数量精确计算公式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">线程数量&#x3D;(最大寻址空间(MaxProcessMemory) - JVM堆内存 - ReservedOsMemory)&#x2F;ThreadStackSize(Xss)</span><br></pre></td></tr></table></figure>
-<p>其中:</p>
+        Thread thread1 = new Thread(task, &quot;thread1&quot;);
+        Thread thread2 = new Thread(task, &quot;thread2&quot;);
+    }
+}</code></pre><p>多次运行上诉代码会发现可能出现如下几种数据不一致的情况:</p>
 <ul>
-<li>最大寻址空间:由操作系统决定，win32的系统约为2G多一点</li>
-<li>ReservedOsMemory：为系统保留内存，大多为136M</li>
+<li>某个值重复出现</li>
+<li>某个值被跳过，没有出现</li>
+<li>出现大于最大值500的数</li>
 </ul>
+<h3 id="3、数据不一致问题分析"><a href="#3、数据不一致问题分析" class="headerlink" title="3、数据不一致问题分析"></a>3、数据不一致问题分析</h3><h4 id="3-1-某个值重复出现"><a href="#3-1-某个值重复出现" class="headerlink" title="3.1 某个值重复出现"></a>3.1 某个值重复出现</h4><p>出现某个值重复的问题，是因为index++实际上包含了对index变量的读取和写入操作，假设线程1读取index为2，且没有将index+1的值写入时，线程2同时也读取了index为2，此时出现了两个相同值3。</p>
+<h4 id="3-2-某个值被跳过，没有出现"><a href="#3-2-某个值被跳过，没有出现" class="headerlink" title="3.2 某个值被跳过，没有出现"></a>3.2 某个值被跳过，没有出现</h4><p>由于线程是由CPU按时间片调度执行的，假设线程1读取到了index=65，并将index+1写入，在线程1还未再次读取index打印到控制台时，CPU将执行权交给了线程2，此时线程2读取到index=66并输出67，这时CPU再将执行权交回线程1，线程1读取index=67并打印。</p>
+<h4 id="3-3-出现大于最大值500的数"><a href="#3-3-出现大于最大值500的数" class="headerlink" title="3.3 出现大于最大值500的数"></a>3.3 出现大于最大值500的数</h4><p>在while判断时，当两个线程都读取到index=499，通过了判断，此时线程2短暂停顿，线程1将index累加到500，此时线程2恢复执行，导致输出结果为501。</p>
+<p>上诉几个问题，均是多个线程同时操作共享资源引起的，那么我们应该怎么解决呢？将在后续文章中为大家解答。</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
@@ -601,12 +598,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>java多线程基础（四）-jvm内存结构</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">1.3k</span></p>
+    <p><span class="copy-title">文章标题:</span>java多线程进阶（一）-认识数据同步问题</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">621</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-01-05, 15:40:19</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-08, 21:51:21</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/" title="java多线程基础（四）-jvm内存结构">https://xiongdi-blog.github.io/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/</a>
+    <p><span class="copy-title">发布时间:</span>2020-01-13, 11:16:50</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-15, 11:43:13</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/" title="java多线程进阶（一）-认识数据同步问题">https://xiongdi-blog.github.io/2020/01/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
@@ -668,7 +665,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#Java','#多线程','#并发','#Thread','#sleep','#yield','#线程','#父子关系','#分组','#interrupt','#interrupted','#关闭线程','#volatile','#中断','#守护线程','#线程命名','#join','#子任务','#串行任务','#并行化','#java内存结构','#程序计数器','#虚拟机栈','#本地方法栈','#堆','#方法区','#数据同步','#同步，线程安全','#synchronized','#markdown','#Runnable','#Jconsole',],
+            'data': ['#Java','#多线程','#并发','#Thread','#父子关系','#分组','#线程','#sleep','#yield','#守护线程','#java内存结构','#程序计数器','#虚拟机栈','#本地方法栈','#堆','#方法区','#线程命名','#interrupt','#interrupted','#关闭线程','#volatile','#中断','#数据同步','#同步，线程安全','#synchronized','#markdown','#join','#子任务','#串行任务','#并行化','#Runnable','#Jconsole',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
