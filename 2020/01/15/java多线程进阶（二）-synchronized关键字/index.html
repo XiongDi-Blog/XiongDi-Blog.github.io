@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>java多线程基础（四）-jvm内存结构 | Hexo</title>
-  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , java内存结构 , 程序计数器 , 虚拟机栈 , 本地方法栈 , 堆 , 方法区 ">
-  <meta name="description" content="java多线程基础（四）-jvm内存结构 | Hexo">
+  <title>java多线程进阶（二）-synchronized关键字 | Hexo</title>
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 数据同步 , 同步，线程安全 , synchronized ">
+  <meta name="description" content="java多线程进阶（二）-synchronized关键字 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
@@ -476,9 +476,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-java多线程基础（四）-jvm内存结构" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java多线程进阶（二）-synchronized关键字" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">java多线程基础（四）-jvm内存结构</h1>
+        <h1 class="article-title">java多线程进阶（二）-synchronized关键字</h1>
     
     <div class="article-meta">
         
@@ -503,29 +503,23 @@
             
             <a class="color2">Thread</a>
             
-            <a class="color4">java内存结构</a>
+            <a class="color5">数据同步</a>
             
-            <a class="color1">程序计数器</a>
+            <a class="color3">同步，线程安全</a>
             
-            <a class="color5">虚拟机栈</a>
-            
-            <a class="color1">本地方法栈</a>
-            
-            <a class="color2">堆</a>
-            
-            <a class="color4">方法区</a>
+            <a class="color3">synchronized</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-08 21:51:21'>2020-01-05 15:40</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-15 11:26:43'>2020-01-15 09:39</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1.3k</span>
+        <span>字数:1.1k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -544,7 +538,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、JVM内存结构"><span class="toc-text">一、JVM内存结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、程序计数器"><span class="toc-text">1、程序计数器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、Java虚拟机栈"><span class="toc-text">2、Java虚拟机栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、本地方法栈"><span class="toc-text">3、本地方法栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、堆内存"><span class="toc-text">4、堆内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、方法区"><span class="toc-text">5、方法区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#思考？"><span class="toc-text">思考？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、确定可创建线程的数量"><span class="toc-text">二、确定可创建线程的数量</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、什么是synchronized关键字"><span class="toc-text">一、什么是synchronized关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、synchronized关键字的用法"><span class="toc-text">二、synchronized关键字的用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-synchronized修饰方法"><span class="toc-text">2.1 synchronized修饰方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-synchronized修饰代码块"><span class="toc-text">2.1 synchronized修饰代码块</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、monitor-enter和monitor-exit指令"><span class="toc-text">三、monitor enter和monitor exit指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-monitor-enter"><span class="toc-text">3.1 monitor enter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-monitor-exit"><span class="toc-text">3.2 monitor exit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、使用synchronized关键字应注意的问题"><span class="toc-text">四、使用synchronized关键字应注意的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-与monitor关联的对象不能为空"><span class="toc-text">4.1 与monitor关联的对象不能为空</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-synchronized作用域太大"><span class="toc-text">4.2 synchronized作用域太大</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-不同的monitor企图锁相同的方法"><span class="toc-text">4.3 不同的monitor企图锁相同的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-多个锁的交叉导致死锁"><span class="toc-text">4.4 多个锁的交叉导致死锁</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -560,35 +554,90 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>线程和栈内存关系密切，为了更好的理解线程，有必要了解一下JVM的内存分布机制。但是在本节不会过度深入的讲解JVM的原理和内存，只会向大家介绍一下JVM的内存分布及各个内存区域的作用，在了解各个内存区域的作用时，请不要从该区域的名称推测该区域的作用，容易被名称弄混淆。</p>
-<h2 id="一、JVM内存结构"><a href="#一、JVM内存结构" class="headerlink" title="一、JVM内存结构"></a>一、JVM内存结构</h2><p>JVM在执行程序的过程中会将物理内存划分为不同内存区域，以存放不同的数据。有些在JVM启动时创建，有些在程序运行时才创建，比如虚拟机栈，JVM内存区域如下图所示:<br><img src="/img/thread/jvm_memory_structure.png" alt=""><br>从上图我们可以得知，JVM将内存分为五个区域，分别是堆内存、方法区、虚拟机栈、本地方法栈和程序计数器。其中堆内存和方法区是所有线程所共享的区域，虚拟机栈、本地方法栈和程序计数器为线程私有，下面我们来了解每个区域的作用：</p>
-<h3 id="1、程序计数器"><a href="#1、程序计数器" class="headerlink" title="1、程序计数器"></a>1、程序计数器</h3><p>所有的程序，都需要操作系统通过控制总线向CPU发送机器指令，程序计数器在jvm中的作用就是用来存放当前线程接下来要执行的字节码指令、分支、循环、跳转、异常处理等信息。由于一个处理器在某一时刻只执行一个线程中的机器指令，为了在CPU时间片轮转切换上下文后顺利回到正确执行位置，每个线程都需要具有一个独立的程序计数器，因此程序计数器被设计为了每个线程私有。</p>
-<h3 id="2、Java虚拟机栈"><a href="#2、Java虚拟机栈" class="headerlink" title="2、Java虚拟机栈"></a>2、Java虚拟机栈</h3><p>java虚拟机栈与线程密切相关，它是线程私有的，在程序运行时被创建。在线程中，每一个方法的执行都会创建一个名为栈帧（stack frame）的数据结构，主要存放局部变量表、操作栈、动态链接、方法返回地址等，如下图所示:<br><img src="/img/thread/jvm_vm_stack.png" alt=""><br>每一个线程在创建时，JVM都会为其创建一个虚拟机栈，虚拟机栈的大小可以由-xss来配置，方法的调用其实就是栈帧压入和弹出的过程。同等大小的虚拟机栈，如果局部变量表的大小越小，可压入的栈帧就越多，意味着可递归调用方法就越多，反之亦然。一般将栈帧的内存大小叫做宽度，虚拟机栈的大小称为深度。</p>
-<h3 id="3、本地方法栈"><a href="#3、本地方法栈" class="headerlink" title="3、本地方法栈"></a>3、本地方法栈</h3><p>Java提供了调用本地方法的接口（Java Native Interface）,也就是调用C/C++程序的接口，比如网络通信、文件操作的底层等都是JNI方法，JVM提供的本地方法栈就是用来存放本地方法的内存区域。本地方法栈同样时线程私有的内存区域。</p>
-<h3 id="4、堆内存"><a href="#4、堆内存" class="headerlink" title="4、堆内存"></a>4、堆内存</h3><p>堆内存是JVM中最大的一块内存区域，被所有线程共享，几乎java运行时创建的所有对象实例都存放在该区域。由于内存最大，也是java垃圾回收的主要区域，因此也被称为“GC堆”。<br><img src="/img/thread/jvm_heap.png" alt=""><br>如上图所示，堆内存被细分为新生代、老年代(Tenured)。更细致的被分为:Eden区、From Survivor区(s0)、To Survivor区(s1)。每个区域的作用可以在java的垃圾回收机制即GC机制中详细的了解，这里不进行展开。</p>
-<h3 id="5、方法区"><a href="#5、方法区" class="headerlink" title="5、方法区"></a>5、方法区</h3><p>方法区也是线程所共享的区域，该区域主要用于存放被JVM加载的类信息、常量、静态变量、即时编译器编译的代码等数据。由于方法区与堆内存有很多共性:线程共享、内存不连续、可扩展、可垃圾回收，同样当无法再扩展时会抛出OutOfMemoryError异常。该区域被java虚拟机规范划分为堆内存的一个逻辑分区，但它实际是与堆内存分开的，经常被称为“非堆”。<br><img src="/img/thread/jvm_method_area.png" alt=""></p>
-<h4 id="思考？"><a href="#思考？" class="headerlink" title="思考？"></a>思考？</h4><p>当一个没有使用静态变量的工具类，在调用它的静态方法时需要考虑线程安全问题吗？</p>
-<h2 id="二、确定可创建线程的数量"><a href="#二、确定可创建线程的数量" class="headerlink" title="二、确定可创建线程的数量"></a>二、确定可创建线程的数量</h2><p>我们简单了解了JVM的内存结构，其中程序计数器是比较小的一块内存，该部分不会出现任何溢出异常。与线程创建关系比较大的是虚拟机栈内存，而且栈内存的划分直接决定在一个jvm进程中能创建的线程数量。</p>
-<p>指定栈内存大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xss128k</span><br></pre></td></tr></table></figure>
-
-<p>指定初始堆大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xms64m</span><br></pre></td></tr></table></figure>
-
-<p>指定最大堆大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-Xmx216m</span><br></pre></td></tr></table></figure>
-
-<p>查看JVM默认栈内存大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; linux 使用如下命令</span><br><span class="line">java -XX:+PrintFlagsFinal -version | grep ThreadStackSize</span><br><span class="line">&#x2F;&#x2F; windows 使用如下命令</span><br><span class="line">java -XX:+PrintFlagsFinal -version | findstr &quot;ThreadStackSize&quot;</span><br></pre></td></tr></table></figure>
-
-<p>线程的数量精确计算公式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">线程数量&#x3D;(最大寻址空间(MaxProcessMemory) - JVM堆内存 - ReservedOsMemory)&#x2F;ThreadStackSize(Xss)</span><br></pre></td></tr></table></figure>
-<p>其中:</p>
+        <p>在上一节中，我们认识了<a href="https://xiongdiblog.com/2020/01/13/java多线程进阶（一）-认识数据同步问题" target="_blank" rel="noopener">数据同步问题</a>,出现数据同步问题是因为多个线程同时操作共享资源引起的，在JDK1.5之前，要解决这个问题需要用到synchronized关键字，synchronized提供了一种排他机制，该机制只允许同一时间有一个线程操作该共享资源。</p>
+<h3 id="一、什么是synchronized关键字"><a href="#一、什么是synchronized关键字" class="headerlink" title="一、什么是synchronized关键字"></a>一、什么是synchronized关键字</h3><p>synchronized关键字可以实现一个简单的策略来防止线程干扰和内存一致性错误，如果一个对象对多个线程可见，那么对该对象的所有读写或者写都将通过同步的方式来进行，具体如下:</p>
 <ul>
-<li>最大寻址空间:由操作系统决定，win32的系统约为2G多一点</li>
-<li>ReservedOsMemory：为系统保留内存，大多为136M</li>
+<li>synchronized关键字提供了一种锁的机制，能够确保共享变量的互斥访问，从而防止数据不一致问题。</li>
+<li>synchronized关键字包括monitor enter和monitor exit两个JVM指令，它能够保证在任何时候任何线程执行到monitor enter成功之前都必须从主内存中获取数据，而不是缓存，在monitor exit运行成功之后，共享变量被更新后的值必须刷入主内存(这一点将在后续详细介绍)</li>
+<li>synchronized的指令遵循java happens-before规则，一个monitor exit指令之前必须要有一个monitor enter</li>
 </ul>
+<h3 id="二、synchronized关键字的用法"><a href="#二、synchronized关键字的用法" class="headerlink" title="二、synchronized关键字的用法"></a>二、synchronized关键字的用法</h3><p>synchronized能够修饰代码块和方法，而不能修饰class和变量。</p>
+<h4 id="2-1-synchronized修饰方法"><a href="#2-1-synchronized修饰方法" class="headerlink" title="2.1 synchronized修饰方法"></a>2.1 synchronized修饰方法</h4><p>synchronized修饰方法的语法非常简单:</p>
+<blockquote>
+<p>[default|public|protected|private] synchronized [static] type method()</p>
+</blockquote>
+<p>示例代码如下:</p>
+<pre><code>public synchronized void sync() {
+// do something
+}
 
+public synchronized static void sync() {
+// do something
+}</code></pre><h4 id="2-1-synchronized修饰代码块"><a href="#2-1-synchronized修饰代码块" class="headerlink" title="2.1 synchronized修饰代码块"></a>2.1 synchronized修饰代码块</h4><pre><code>private final Object MUTEX = new Object();
+public void sync() {
+    synchronized (MUTEX) {
+        // do something
+    }
+}</code></pre><p><strong>注意:</strong> 很多资料，书籍将synchronized (MUTEX)称为锁，这种说法是不严谨的，准确的说应该是某个线程获取了MUTEX对象的monitor锁</p>
+<h3 id="三、monitor-enter和monitor-exit指令"><a href="#三、monitor-enter和monitor-exit指令" class="headerlink" title="三、monitor enter和monitor exit指令"></a>三、monitor enter和monitor exit指令</h3><h4 id="3-1-monitor-enter"><a href="#3-1-monitor-enter" class="headerlink" title="3.1 monitor enter"></a>3.1 monitor enter</h4><p>每个对象都与一个monitor相关联，一个monitor的lock锁在同一时间只能被一个线程获取，一个线程获取与对象关联的monitor的所有权时，发生如下几件事情:</p>
+<ul>
+<li>如果monitor的计数器值为0，则该monitor的lock锁还没有所有者，可以获取，获取后立即将monitor计数器的值置为1。</li>
+<li>如果一个拥有该monitor所有权的线程重入，则会导致monitor计数器再次累加。</li>
+<li>如果monitor已经被其他线程拥有，则获取该monitor所有权的线程会被阻塞，直到monitor计数器的值变为0，才能再次获取monitor的所有权。</li>
+</ul>
+<h4 id="3-2-monitor-exit"><a href="#3-2-monitor-exit" class="headerlink" title="3.2 monitor exit"></a>3.2 monitor exit</h4><p>释放monitor的所有权，要释放一个对象关联的monitor的所有权，首先应拥有所有权。释放monitor的过程比较简单，就是将monitor计数器的值置为0。这个过程通俗的将就是解锁。</p>
+<h3 id="四、使用synchronized关键字应注意的问题"><a href="#四、使用synchronized关键字应注意的问题" class="headerlink" title="四、使用synchronized关键字应注意的问题"></a>四、使用synchronized关键字应注意的问题</h3><h4 id="4-1-与monitor关联的对象不能为空"><a href="#4-1-与monitor关联的对象不能为空" class="headerlink" title="4.1 与monitor关联的对象不能为空"></a>4.1 与monitor关联的对象不能为空</h4><pre><code>// 错误示例
+private final Object MUTEX = null;
+private void sync() {
+    synchronized (MUTEX) {
+        // do something
+    }
+}</code></pre><p>每个对象都与一个monitor关联，对象都为null了，更不用谈monitor了</p>
+<h4 id="4-2-synchronized作用域太大"><a href="#4-2-synchronized作用域太大" class="headerlink" title="4.2 synchronized作用域太大"></a>4.2 synchronized作用域太大</h4><p>由于synchronized具有排他性，同一时间只允许一个线程处理同步块的内容，synchronized的作用域越大，处理效率将越低，甚至将丧失多线程的的优势。</p>
+<pre><code>// 错误示例
+public static class Task implements Runnable {
+    @Override
+    public synchronized void run() {
+        // do something
+    }
+}</code></pre><p>上诉代码将完全丧失多线程的优势。</p>
+<h4 id="4-3-不同的monitor企图锁相同的方法"><a href="#4-3-不同的monitor企图锁相同的方法" class="headerlink" title="4.3 不同的monitor企图锁相同的方法"></a>4.3 不同的monitor企图锁相同的方法</h4><pre><code>// 错误示例
+public static class Task implements Runnable {
+    private final Object MUTEX = new Object();
+    @Override
+    public void run() {
+        // do something
+        synchronized(MUTEX) {
+            // do something
+        }
+        // do something
+    }
+}
+
+public static void main(String args[]) {
+    for(int i = 0; i &lt; 5; i++) {
+        new Thread(Task::new).start();
+    }
+}</code></pre><p>上诉代码构造了五个线程，同时也构造了五个Runnable实例，你会发现，synchronized根本互斥不了与之对应的作用域。<strong>线程之间monitor lock的争抢只发生在与monito关联的引用上</strong>。上面代码每个线程争抢的monitor都关联了不同的引用，即不同的MUTEX实例，因此不可能起到互斥作用。</p>
+<h4 id="4-4-多个锁的交叉导致死锁"><a href="#4-4-多个锁的交叉导致死锁" class="headerlink" title="4.4 多个锁的交叉导致死锁"></a>4.4 多个锁的交叉导致死锁</h4><p>多个锁的交叉使用很容易引起死锁，程序没有任何输出，但就是不工作。</p>
+<pre><code>// 错误示例
+private final Object MUTEX_READ = new Object();
+private final Object MUTEX_WRITE = new Object();
+public void read() {
+    synchronized (MUTEX_READ) {
+        synchronized (MUTEX_WRITE) {
+            // do something
+        }
+    }
+}
+
+public void write() {
+    synchronized (MUTEX_WRITE) {
+        synchronized (MUTEX_READ) {
+            // do something
+        }
+    }
+}</code></pre>
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
     </div>
@@ -601,12 +650,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>java多线程基础（四）-jvm内存结构</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">1.3k</span></p>
+    <p><span class="copy-title">文章标题:</span>java多线程进阶（二）-synchronized关键字</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">1.1k</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-01-05, 15:40:19</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-08, 21:51:21</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/" title="java多线程基础（四）-jvm内存结构">https://xiongdi-blog.github.io/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%88%E5%9B%9B%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/</a>
+    <p><span class="copy-title">发布时间:</span>2020-01-15, 09:39:41</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-15, 11:26:43</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%88%E4%BA%8C%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97/" title="java多线程进阶（二）-synchronized关键字">https://xiongdi-blog.github.io/2020/01/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%88%E4%BA%8C%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
