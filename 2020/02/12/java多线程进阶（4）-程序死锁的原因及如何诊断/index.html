@@ -6,27 +6,17 @@
   <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 数据同步 , 同步，线程安全 , 死锁 , 诊断 ">
   <meta name="description" content="java多线程进阶（4）-程序死锁的原因及如何诊断 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="1、程序死锁的原因1.1 交叉锁可能导致程序死锁线程A持有R1的锁等待R2的锁，线程B持有R2的锁等待R1的锁，这种情况最容易导致死锁。示例如下： public class DeadLock{     private final Object MUTEX_READ &#x3D; new Object();     private final Object MUTEX_WRITE &#x3D; new Object()">
-<meta property="og:type" content="article">
-<meta property="og:title" content="java多线程进阶（4）-程序死锁的原因及如何诊断">
-<meta property="og:url" content="https:&#x2F;&#x2F;xiongdi-blog.github.io&#x2F;2020&#x2F;02&#x2F;12&#x2F;java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD&#x2F;index.html">
+<meta name="description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="https:&#x2F;&#x2F;xiongdi-blog.github.io&#x2F;about&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1、程序死锁的原因1.1 交叉锁可能导致程序死锁线程A持有R1的锁等待R2的锁，线程B持有R2的锁等待R1的锁，这种情况最容易导致死锁。示例如下： public class DeadLock{     private final Object MUTEX_READ &#x3D; new Object();     private final Object MUTEX_WRITE &#x3D; new Object()">
+<meta property="og:description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
 <meta property="og:locale" content="zh">
-<meta property="og:image" content="https:&#x2F;&#x2F;xiongdi-blog.github.io&#x2F;img&#x2F;thread&#x2F;thread_deadlock.png">
-<meta property="article:published_time" content="2020-02-12T02:29:52.000Z">
-<meta property="article:modified_time" content="2020-02-12T03:21:22.399Z">
+<meta property="article:published_time" content="2019-12-20T13:33:17.000Z">
+<meta property="article:modified_time" content="2020-01-15T03:43:13.671Z">
 <meta property="article:author" content="小童&amp;axin">
-<meta property="article:tag" content="Java">
-<meta property="article:tag" content="多线程">
-<meta property="article:tag" content="并发">
-<meta property="article:tag" content="Thread">
-<meta property="article:tag" content="数据同步">
-<meta property="article:tag" content="同步，线程安全">
-<meta property="article:tag" content="死锁">
-<meta property="article:tag" content="诊断">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;xiongdi-blog.github.io&#x2F;img&#x2F;thread&#x2F;thread_deadlock.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -267,6 +257,26 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color5">interrupt</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">interrupted</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">关闭线程</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">volatile</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">中断</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color4">java内存结构</a>
     </li>
     
@@ -295,26 +305,6 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">interrupt</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color2">interrupted</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">关闭线程</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">volatile</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">中断</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color5">数据同步</a>
     </li>
     
@@ -323,7 +313,15 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">synchronized</a>
+        <a class="color3">this monitor</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">class monitor</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">monitor</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -343,27 +341,19 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">this monitor</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">class monitor</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">monitor</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">markdown</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color3">死锁</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color3">诊断</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">synchronized</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">markdown</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -392,20 +382,20 @@
             <span class="post-date" title="2020-01-07 10:17:15">2020/01/07</span>
         </a>
         
-        <a  class="Java MultiThread "
-           href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发"
-           data-author="" >
-            <span class="post-title" title="java多线程基础（一）--认识线程">java多线程基础（一）--认识线程</span>
-            <span class="post-date" title="2019-12-23 22:40:51">2019/12/23</span>
-        </a>
-        
         <a  class=""
            href="/2019/12/18/hello-world/"
            data-tag=""
            data-author="" >
             <span class="post-title" title="Hello World">Hello World</span>
             <span class="post-date" title="2019-12-18 21:39:40">2019/12/18</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（一）--认识线程">java多线程基础（一）--认识线程</span>
+            <span class="post-date" title="2019-12-23 22:40:51">2019/12/23</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -425,6 +415,14 @@
         </a>
         
         <a  class="Java MultiThread "
+           href="/2020/01/08/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%887%EF%BC%89-%E7%BA%BF%E7%A8%8Binterrupt%E5%8F%8A%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发,Thread,interrupt,interrupted,关闭线程,volatile,中断"
+           data-author="" >
+            <span class="post-title" title="java多线程基础（七）-线程interrupt及如何正确关闭线程">java多线程基础（七）-线程interrupt及如何正确关闭线程</span>
+            <span class="post-date" title="2020-01-08 21:58:58">2020/01/08</span>
+        </a>
+        
+        <a  class="Java MultiThread "
            href="/2020/01/05/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%884%EF%BC%89-jvm%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/"
            data-tag="Java,多线程,并发,Thread,java内存结构,程序计数器,虚拟机栈,本地方法栈,堆,方法区"
            data-author="" >
@@ -441,19 +439,19 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/08/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%887%EF%BC%89-%E7%BA%BF%E7%A8%8Binterrupt%E5%8F%8A%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发,Thread,interrupt,interrupted,关闭线程,volatile,中断"
+           href="/2020/01/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/"
+           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全"
            data-author="" >
-            <span class="post-title" title="java多线程基础（七）-线程interrupt及如何正确关闭线程">java多线程基础（七）-线程interrupt及如何正确关闭线程</span>
-            <span class="post-date" title="2020-01-08 21:58:58">2020/01/08</span>
+            <span class="post-title" title="java多线程进阶（1）-认识数据同步问题">java多线程进阶（1）-认识数据同步问题</span>
+            <span class="post-date" title="2020-01-13 11:16:50">2020/01/13</span>
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%882%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97/"
-           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,synchronized"
+           href="/2020/02/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%883%EF%BC%89-ThisMonitor%E5%92%8CClassMonitor/"
+           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,this monitor,class monitor,monitor"
            data-author="" >
-            <span class="post-title" title="java多线程进阶（二）-synchronized关键字">java多线程进阶（二）-synchronized关键字</span>
-            <span class="post-date" title="2020-01-15 09:39:41">2020/01/15</span>
+            <span class="post-title" title="java多线程进阶（3）-This Monitor和Class Monitor">java多线程进阶（3）-This Monitor和Class Monitor</span>
+            <span class="post-date" title="2020-02-04 11:43:34">2020/02/04</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -465,11 +463,19 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/02/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%883%EF%BC%89-ThisMonitor%E5%92%8CClassMonitor/"
-           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,this monitor,class monitor,monitor"
+           href="/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/"
+           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,死锁,诊断"
            data-author="" >
-            <span class="post-title" title="java多线程进阶（3）-This Monitor和Class Monitor">java多线程进阶（3）-This Monitor和Class Monitor</span>
-            <span class="post-date" title="2020-02-04 11:43:34">2020/02/04</span>
+            <span class="post-title" title="java多线程进阶（4）-程序死锁的原因及如何诊断">java多线程进阶（4）-程序死锁的原因及如何诊断</span>
+            <span class="post-date" title="2020-02-12 10:29:52">2020/02/12</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/01/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%882%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97/"
+           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,synchronized"
+           data-author="" >
+            <span class="post-title" title="java多线程进阶（2）-synchronized关键字">java多线程进阶（2）-synchronized关键字</span>
+            <span class="post-date" title="2020-01-15 09:39:41">2020/01/15</span>
         </a>
         
         <a  class="工具 markdown "
@@ -478,22 +484,6 @@
            data-author="" >
             <span class="post-title" title="markdown使用指南">markdown使用指南</span>
             <span class="post-date" title="2019-12-20 00:36:24">2019/12/20</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/"
-           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全"
-           data-author="" >
-            <span class="post-title" title="java多线程进阶（一）-认识数据同步问题">java多线程进阶（一）-认识数据同步问题</span>
-            <span class="post-date" title="2020-01-13 11:16:50">2020/01/13</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/"
-           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,死锁,诊断"
-           data-author="" >
-            <span class="post-title" title="java多线程进阶（4）-程序死锁的原因及如何诊断">java多线程进阶（4）-程序死锁的原因及如何诊断</span>
-            <span class="post-date" title="2020-02-12 10:29:52">2020/02/12</span>
         </a>
         
         <a  class="Java SpringCloud "
@@ -564,7 +554,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-02-12 11:21:22'>2020-02-12 10:29</time>
+        创建时间:<time class="date" title='更新时间: 2020-02-12 11:29:35'>2020-02-12 10:29</time>
         
     </div>
     <div class="article-meta">
@@ -626,7 +616,23 @@
             }
         }
     }
-}</code></pre><h3 id="1-2-死循环引起的死锁"><a href="#1-2-死循环引起的死锁" class="headerlink" title="1.2 死循环引起的死锁"></a>1.2 死循环引起的死锁</h3><p>上诉代码很容易看出程序有死锁的风险，如果使用开源库，API调用层次比较深，那么看代码就不容易发现风险，如下代码使用了JDK中的HashMap，该程序很容出现死循环引起的死锁。<br>    public class HashMapDeadLock{<br>        private final HashMap&lt;String, String&gt; map = new HashMap();<br>        public void add(String key, String value) {<br>            this.map.put(key, value);<br>        }<br>        public static void main(String args[]) {<br>            final HashMapDeadLock hmdl = new HashMapDeadLock();<br>            for(int i = 0; i &lt; 2; i++) {<br>                new Thread(() -&gt; {<br>                    for(int j = 0; j &lt; Integer.MAX_VALUE; j++) {<br>                        hmdl.add(String.valueOf(j), String.valueOf(j))<br>                    }<br>                }).start();<br>            }<br>        }<br>    }<br>HashMap不具备线程安全能力，如果在多线程同时写操作的情况下，不对其进行同步化封装，很容出现死循环引起的死锁，如果想要使用线程安全的map结构，请使用ConcurrentHashMap或者使用Collections.synchronizedMap来代替。</p>
+}</code></pre><h3 id="1-2-死循环引起的死锁"><a href="#1-2-死循环引起的死锁" class="headerlink" title="1.2 死循环引起的死锁"></a>1.2 死循环引起的死锁</h3><p>上诉代码很容易看出程序有死锁的风险，如果使用开源库，API调用层次比较深，那么看代码就不容易发现风险，如下代码使用了JDK中的HashMap，该程序很容出现死循环引起的死锁。</p>
+<pre><code>public class HashMapDeadLock{
+    private final HashMap&lt;String, String&gt; map = new HashMap();
+    public void add(String key, String value) {
+        this.map.put(key, value);
+    }
+    public static void main(String args[]) {
+        final HashMapDeadLock hmdl = new HashMapDeadLock();
+        for(int i = 0; i &lt; 2; i++) {
+            new Thread(() -&gt; {
+                for(int j = 0; j &lt; Integer.MAX_VALUE; j++) {
+                    hmdl.add(String.valueOf(j), String.valueOf(j))
+                }
+            }).start();
+        }
+    }
+}</code></pre><p>HashMap不具备线程安全能力，如果在多线程同时写操作的情况下，不对其进行同步化封装，很容出现死循环引起的死锁，如果想要使用线程安全的map结构，请使用ConcurrentHashMap或者使用Collections.synchronizedMap来代替。</p>
 <h3 id="1-3-内存不足"><a href="#1-3-内存不足" class="headerlink" title="1.3 内存不足"></a>1.3 内存不足</h3><p>当并发请求系统的可用内存时，内存不足，可能会导致死锁。</p>
 <h3 id="1-4-一问一答式的数据交换"><a href="#1-4-一问一答式的数据交换" class="headerlink" title="1.4 一问一答式的数据交换"></a>1.4 一问一答式的数据交换</h3><p>服务端开启某个端口，等待客户端访问，客户端发送请求立即等待接收，由于某种原因，服务的错过了客户端的请求，此时客户端和服务端都等待数据交换，引起死锁。</p>
 <h3 id="1-5-数据库锁"><a href="#1-5-数据库锁" class="headerlink" title="1.5 数据库锁"></a>1.5 数据库锁</h3><p>无论是数据库表级别锁，还是行级别锁，比如某个线程执行for update语句退出了事务，其他线程访问该数据库时都将陷入死锁。</p>
@@ -651,7 +657,7 @@
     <p><span class="copy-title">文章字数:</span><span class="post-count">708</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
     <p><span class="copy-title">发布时间:</span>2020-02-12, 10:29:52</p>
-    <p><span class="copy-title">最后更新:</span>2020-02-12, 11:21:22</p>
+    <p><span class="copy-title">最后更新:</span>2020-02-12, 11:29:35</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/" title="java多线程进阶（4）-程序死锁的原因及如何诊断">https://xiongdi-blog.github.io/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -714,7 +720,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#Java','#多线程','#并发','#Thread','#sleep','#yield','#线程','#线程命名','#父子关系','#分组','#java内存结构','#程序计数器','#虚拟机栈','#本地方法栈','#堆','#方法区','#守护线程','#interrupt','#interrupted','#关闭线程','#volatile','#中断','#数据同步','#同步，线程安全','#synchronized','#join','#子任务','#串行任务','#并行化','#this monitor','#class monitor','#monitor','#markdown','#死锁','#诊断','#Runnable','#Jconsole',],
+            'data': ['#Java','#多线程','#并发','#Thread','#sleep','#yield','#线程','#线程命名','#父子关系','#分组','#interrupt','#interrupted','#关闭线程','#volatile','#中断','#java内存结构','#程序计数器','#虚拟机栈','#本地方法栈','#堆','#方法区','#守护线程','#数据同步','#同步，线程安全','#this monitor','#class monitor','#monitor','#join','#子任务','#串行任务','#并行化','#死锁','#诊断','#synchronized','#markdown','#Runnable','#Jconsole',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
