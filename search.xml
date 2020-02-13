@@ -4,6 +4,45 @@
   
     
     <entry>
+      <title>java多线程进阶（5）-单线程间通信</title>
+      <link href="/2020/02/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%885%EF%BC%89-%E5%8D%95%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/"/>
+      <url>/2020/02/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%885%EF%BC%89-%E5%8D%95%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 数据同步 </tag>
+            
+            <tag> 同步，线程 </tag>
+            
+            <tag> 线程间通信 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程进阶（4）-程序死锁的原因及如何诊断</title>
       <link href="/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/"/>
       <url>/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/</url>

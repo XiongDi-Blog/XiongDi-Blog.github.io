@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>java多线程基础（七）-线程interrupt及如何正确关闭线程 | Hexo</title>
-  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , interrupt , interrupted , 关闭线程 , volatile , 中断 ">
-  <meta name="description" content="java多线程基础（七）-线程interrupt及如何正确关闭线程 | Hexo">
+  <title>java多线程进阶（5）-单线程间通信 | Hexo</title>
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 数据同步 , 同步，线程 , 线程间通信 ">
+  <meta name="description" content="java多线程进阶（5）-单线程间通信 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
 <meta property="og:type" content="website">
@@ -530,9 +530,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-java多线程基础（7）-线程interrupt及如何正确关闭线程" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java多线程进阶（5）-单线程间通信" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">java多线程基础（七）-线程interrupt及如何正确关闭线程</h1>
+        <h1 class="article-title">java多线程进阶（5）-单线程间通信</h1>
     
     <div class="article-meta">
         
@@ -557,27 +557,23 @@
             
             <a class="color2">Thread</a>
             
-            <a class="color5">interrupt</a>
+            <a class="color5">数据同步</a>
             
-            <a class="color2">interrupted</a>
+            <a class="color1">同步，线程</a>
             
-            <a class="color5">关闭线程</a>
-            
-            <a class="color4">volatile</a>
-            
-            <a class="color3">中断</a>
+            <a class="color1">线程间通信</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-15 11:43:13'>2020-01-08 21:58</time>
+        创建时间:<time class="date" title='更新时间: 2020-02-13 10:09:12'>2020-02-13 10:07</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1.4k</span>
+        <span>字数:0</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -596,7 +592,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、线程中断"><span class="toc-text">一、线程中断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-interrupt"><span class="toc-text">1.1 interrupt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-isInterrupted"><span class="toc-text">1.2 isInterrupted</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#interrupted"><span class="toc-text">interrupted</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、如何正确关闭一个线程"><span class="toc-text">二、如何正确关闭一个线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-正常关闭"><span class="toc-text">2.1 正常关闭</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-线程结束生命周期正常结束"><span class="toc-text">2.1.1 线程结束生命周期正常结束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-捕获中断信号关闭线程"><span class="toc-text">2.1.2 捕获中断信号关闭线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-3-使用volatile开关控制"><span class="toc-text">2.1.3 使用volatile开关控制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-异常退出"><span class="toc-text">2.2 异常退出</span></a></li></ol></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -612,125 +608,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、线程中断"><a href="#一、线程中断" class="headerlink" title="一、线程中断"></a>一、线程中断</h2><p>java的Thread类中提供了线程中断的方法，interrupt方法可以中断阻塞中的线程，让其继续运行，并抛出InterruptedException异常用于提示线程被中断。对Running状态的线程调用中断方法仅仅为其设置中断标识。</p>
-<p>对于线程的中断，java提供了如下三种相关的方法:</p>
-<ul>
-<li>public void interrupt()</li>
-<li>public static boolean interrupted()</li>
-<li>public boolean isInterrupted()</li>
-</ul>
-<h3 id="1-1-interrupt"><a href="#1-1-interrupt" class="headerlink" title="1.1 interrupt"></a>1.1 interrupt</h3><p>如下方法会让线程进入BLOCKED(阻塞)状态，调用interrupt方法会打断阻塞。</p>
-<ul>
-<li>Object的wait方法</li>
-<li>Object的wait(long)方法</li>
-<li>Object的wait(long, int)方法</li>
-<li>Thread的sleep(long)方法</li>
-<li>Thread的sleep(long, int)方法</li>
-<li>Thread的join方法</li>
-<li>Thread的join(long)方法</li>
-<li>Thread的join(long, int)方法</li>
-<li>InterruptibleChannel的io操作</li>
-<li>Selector的wackup方法</li>
-</ul>
-<p>上诉方法会让线程进入BLOCKED状态，其他线程调用该线程的interrupt方法，会打断这种阻塞。因此上诉方法被称为可<strong>中断方法</strong>。<br><strong><em>注意:打断一个线程并不意味着线程生命周期结束，仅仅是打断线程的阻塞状态。</em></strong></p>
-<p>如果你在如下线程sleep期间打断该线程，你会捕获到InterruptedException异常，并输出相关内容:</p>
-<pre><code>Thread thread = new Thread(() -&gt; {
-    try{
-        TimeUnit.MINUTES.sleep(1);
-    } catch (InterruptedException e) {
-        System.out.println(&quot;Oh, i am be interrupted.&quot;);
-    }
-});</code></pre><p>输出内容:</p>
-<pre><code>Oh, i am be interrupted.</code></pre><p>在一个线程内部，存在着一个interrupt flag标识，如果一个线程被interrupt，那么它的interrupt标识将被设置。但如果线程处于中断方法中，中断导致的InterruptedException异常被捕获，会导致flag被清除。注意:一个已经死亡的线程，对其的interrupt会被直接忽略。</p>
-<h3 id="1-2-isInterrupted"><a href="#1-2-isInterrupted" class="headerlink" title="1.2 isInterrupted"></a>1.2 isInterrupted</h3><p>isInterrupted方法主要用于判断线程是否被中断，该方法仅对interrupt标识进行判断，不会导致标识发生任何改变，而即将介绍的interrupted则不然。</p>
-<p>下面我们来做个对比，对没有进入阻塞状态的线程和进入阻塞状态的线程分别调用interrupt方法，对于后者捕获InterruptedException异常，然后查看他们的中断状态。</p>
-<p>不进入阻塞状态的线程如下:</p>
-<pre><code>Thread thread = new Thread(() -&gt; {
-    while(true){
-        // do nothing,just empty loop.
-    }
-});
-
-thread.start();
-Sytem.out.printf(&quot;线程被中断了吗? %s \n&quot;, thread.isInterrupted());
-thread.interrupt();
-Sytem.out.printf(&quot;线程被中断了吗? %s \n&quot;, thread.isInterrupted());</code></pre><p>上诉代码输出结果如下:</p>
-<pre><code>线程被中断了吗? false
-线程被中断了吗? true</code></pre><p>进入阻塞状态，并捕获InterruptedException异常的线程如下:</p>
-<pre><code>Thread thread = new Thread(() -&gt; {
-    while(true){
-        try{
-            TimeUnit.MINUTES.sleep(1);
-        } catch (InterruptedException e) {
-            System.out.printf(&quot;我被中断了吗? %s \n&quot;, isInterrupted());
-        }
-    }
-});
-
-thread.start();
-Sytem.out.printf(&quot;线程被中断了吗? %s \n&quot;, thread.isInterrupted());
-thread.interrupt();
-Sytem.out.printf(&quot;线程被中断了吗? %s \n&quot;, thread.isInterrupted());</code></pre><p>上诉代码输出结果如下:</p>
-<pre><code>线程被中断了吗? false
-我被中断了吗? false
-线程被中断了吗? false</code></pre><h3 id="interrupted"><a href="#interrupted" class="headerlink" title="interrupted"></a>interrupted</h3><p>interrupted是一个静态方法，虽然它也用于判断当前线程是否被中断。但它在判断线程中断状态后会擦除线程的interrupt标识。也就是说，如果线程被打断了，那么第一次调用interrupt方法会返回true，此后均返回false。</p>
-<p>其调用方式如下:</p>
-<pre><code>Thread thread = new Thread(() -&gt; {
-    while(true){
-        Thread.interrupted();
-    }
-});
-
-thread.start()
-thread.interrupt();</code></pre><h2 id="二、如何正确关闭一个线程"><a href="#二、如何正确关闭一个线程" class="headerlink" title="二、如何正确关闭一个线程"></a>二、如何正确关闭一个线程</h2><p>JDK有一个Deprecated方法stop，但该方法存在一个问题，JDK官方早已不推荐使用，其在后续版本有可能被移除。该方法在关闭线程时，有可能不会释放monitor锁，所以强烈建议不要使用stop方法结束线程，本节主要介绍几种关闭线程的方法。</p>
-<h3 id="2-1-正常关闭"><a href="#2-1-正常关闭" class="headerlink" title="2.1 正常关闭"></a>2.1 正常关闭</h3><h4 id="2-1-1-线程结束生命周期正常结束"><a href="#2-1-1-线程结束生命周期正常结束" class="headerlink" title="2.1.1 线程结束生命周期正常结束"></a>2.1.1 线程结束生命周期正常结束</h4><p>线程运行结束，完成了自己的使命，会正常退出，如果线程的任务耗时较短，或者时间可控。就可以放任它正常结束。</p>
-<h4 id="2-1-2-捕获中断信号关闭线程"><a href="#2-1-2-捕获中断信号关闭线程" class="headerlink" title="2.1.2 捕获中断信号关闭线程"></a>2.1.2 捕获中断信号关闭线程</h4><p>我们通过new Thread的方式创建线程，看似简单，其实它派生的成本是比较高的，为了节省开销，一个线程往往循环的执行某个任务，如心跳检查，不断地接收网络报文等，决定退出时，可以借助中断线程的方式退出:</p>
-<pre><code>Thread thread = new Thread(() -&gt; {
-    while(isInterrupted()){
-        // do something
-    }
-    System.out.println(&quot;I will be exiting.&quot;)
-});
-
-thread.start()
-thread.interrupt();</code></pre><p>上诉代码是通过判断interrupt标识来退出，如果线程正处于中断状态，可以通过捕获中断信号来退出:</p>
-<pre><code>Thread thread = new Thread(() -&gt; {
-    while(isInterrupted()){
-        // do something
-        try{
-            TimeUnit.MINUTES.sleep(1);
-        } catch (InterruptedException e) {
-            break;
-        }
-    }
-    System.out.println(&quot;I will be exiting.&quot;)
-});
-
-thread.start()
-thread.interrupt();</code></pre><h4 id="2-1-3-使用volatile开关控制"><a href="#2-1-3-使用volatile开关控制" class="headerlink" title="2.1.3 使用volatile开关控制"></a>2.1.3 使用volatile开关控制</h4><p>如果担心interrupt标识被擦除，且逻辑单元中不会执行任何可中断方法，则可以使用volatile修饰的开关flag关闭线程：</p>
-<pre><code>static class MyTask extends Thread {
-    private volatile boolean closed = false;
-
-    @Override
-    public void run() {
-        while(!closed &amp;&amp; !isInterrupted()){
-            // do something
-        }
-        System.out.println(&quot;I will be exiting.&quot;)
-    }
-
-    public void close() {
-        this.closed = true;
-        this.interrupt();
-    }
-}
-
-public static void main(String args[]) {
-    MyTask task = new MyTask();
-    task.start();
-    task.close();
-}</code></pre><h3 id="2-2-异常退出"><a href="#2-2-异常退出" class="headerlink" title="2.2 异常退出"></a>2.2 异常退出</h3><p>在线程的执行单元中，是不允许抛出checked异常的，如果线程在运行过程中需要捕获checked异常，并因此决定是否还要继续运行。那么此时可以将checked异常封装成unchecked异常(RuntimeException)抛出进而结束线程的生命周期。</p>
-
+        
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
     </div>
@@ -743,12 +621,12 @@ public static void main(String args[]) {
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>java多线程基础（七）-线程interrupt及如何正确关闭线程</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">1.4k</span></p>
+    <p><span class="copy-title">文章标题:</span>java多线程进阶（5）-单线程间通信</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">0</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-01-08, 21:58:58</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-15, 11:43:13</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/08/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%887%EF%BC%89-%E7%BA%BF%E7%A8%8Binterrupt%E5%8F%8A%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B/" title="java多线程基础（七）-线程interrupt及如何正确关闭线程">https://xiongdi-blog.github.io/2020/01/08/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%887%EF%BC%89-%E7%BA%BF%E7%A8%8Binterrupt%E5%8F%8A%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B/</a>
+    <p><span class="copy-title">发布时间:</span>2020-02-13, 10:07:49</p>
+    <p><span class="copy-title">最后更新:</span>2020-02-13, 10:09:12</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%885%EF%BC%89-%E5%8D%95%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="java多线程进阶（5）-单线程间通信">https://xiongdi-blog.github.io/2020/02/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%885%EF%BC%89-%E5%8D%95%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
