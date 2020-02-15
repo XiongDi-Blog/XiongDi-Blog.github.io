@@ -4,6 +4,49 @@
   
     
     <entry>
+      <title>java多线程进阶（7）-多线程间通信</title>
+      <link href="/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%887%EF%BC%89-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/"/>
+      <url>/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%887%EF%BC%89-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</url>
+      
+        <content type="html"><![CDATA[<p>在<a href="http://www.jianshu.com" target="_blank" rel="noopener">单线程通信</a>章节中，我们了解了两个线程间的通信，只有一个线程对DataQueue进行add操作，也只有一个线程对DataQueue进行pop操作。如果多个线程同时进行add和pop操作呢？</p><h2 id="1、notifyAll"><a href="#1、notifyAll" class="headerlink" title="1、notifyAll"></a>1、notifyAll</h2><p>多线程间通信需要用到Object的notifyAll方法，该方法与notify类似，都可以唤醒由于执行了wait方法而进入阻塞状态的线程，但notify只能唤醒其中一个，而notifyAll可以唤醒该对象关联wait set中所有的阻塞线程。</p><h2 id="2、DataQueue在多线程中存在的问题"><a href="#2、DataQueue在多线程中存在的问题" class="headerlink" title="2、DataQueue在多线程中存在的问题"></a>2、DataQueue在多线程中存在的问题</h2><p><a href="http://www.jianshu.com" target="_blank" rel="noopener">单线程通信</a>章节中我们定义了一个DataQueue队列，该队列在多线程并发情况下会出现数据不一致问题，大致可以分为两类:<strong>其一是其中LinkedList中元素超过10个的时候仍然执行了addList方法</strong>;<strong>其二是当LinkedList中没有元素时，仍然调用了removeFirst方法</strong>。读者可以自行添加多个Producer线程，或者添加多个Consumer线程，并输出LinkedList的大小。我使用两个Producer和两个Consumer线程输出结果如下:</p><pre><code>Producer1:the queue is full.dataQueue size is 34Producer:the new data is submittedProducer:the queue is full.dataQueue size is 35Producer1:the new data is submittedProducer1:the queue is full.dataQueue size is 36Producer:the new data is submittedProducer:the queue is full.dataQueue size is 37Producer1:the new data is submittedProducer1:the queue is full.dataQueue size is 38Producer:the new data is submittedProducer:the queue is full.dataQueue size is 39Producer1:the new data is submittedProducer1:the queue is full.dataQueue size is 40Consumer1:this data DataQueue$Data@2d570f59is handledConsumer:this data DataQueue$Data@52c9dcfcis handled</code></pre><p>出现数据不一致问题原因分析如下:</p><blockquote><p>** LinkedList元素为10时执行addList方法**<br>假设在某个时刻，dataQueue中有10个元素，有两个Producer都因执行wait方法而进入了阻塞，另外一个Consumer线程消费了一个data元素并调用notify唤醒了其中一个Producer，该Producer执行了addList方法向dataQueue中添加了一个元素，此时dataQueue中又有了10个元素，该Poducer继续执行notify，唤醒了第二个Producer，向dataQueue中继续添加了一个元素，此时dataQueue中有11个元素。</p></blockquote><blockquote><p>** LinkedList元素为0时执行removeFirst方法**<br>假设在某个时刻，dataQueue中有0个元素，有两个Consumer都因执行wait方法而进入了阻塞，另外一个Producer线程添加了一个data元素并调用notify唤醒了其中一个Consumer，该Consumer消费了一个data元素，此时dataQueue中有0个元素，该Consumer继续执行notify，唤醒了第二个Consumer，第二个Consumer便在LinkedList元素为0时执行removeFirst方法。</p></blockquote><h2 id="3、改进"><a href="#3、改进" class="headerlink" title="3、改进"></a>3、改进</h2><p>上诉数据不一致问题，均是由于多个阻塞线程被挨个唤醒导致的，那么我们使用notifyAll方法，在同一时间将所有阻塞线程唤醒。虽然此时将所有阻塞线程均唤醒了，但这些线程均执行过if语句中的临界值判断，被唤醒的线程任然不会受临界值约束，在获取了LinkedList对象的monitor锁后，直接向LinkedList对象中添加元素或者消费元素，仍然存在上诉两种数据不一致问题。此时我们将if判断语句改为while，使唤醒的线程重新进行临界值判断。修改后的程序如下:</p><pre><code>import java.util.LinkedList;import static java.lang.Thread.currentThread;public class DataQueue {    private final int max;    static class Data{    }    private final LinkedList&lt;Data&gt; dataQueue = new LinkedList&lt;&gt;();    private final static int DEFAULT_MAX_DATA = 10;    public DataQueue() {        this(DEFAULT_MAX_DATA);    }    public DataQueue(int max) {        this.max = max;    }    public void add(Data data) {        synchronized (dataQueue) {            while (dataQueue.size() &gt;= max) {                console(&quot;the queue is full.&quot;);                try {                    dataQueue.wait();                } catch (InterruptedException e) {                    e.printStackTrace();                }            }            console(&quot;the new data is submitted&quot;);            dataQueue.addLast(data);            dataQueue.notifyAll();        }    }    public Data pop() {        synchronized (dataQueue) {            while (dataQueue.isEmpty()) {                console(&quot;the queue is empty.&quot;);                try {                    dataQueue.wait();                } catch (InterruptedException e) {                    e.printStackTrace();                }            }            Data data = dataQueue.removeFirst();            this.dataQueue.notifyAll();            console(&quot;this data &quot; + data + &quot;is handled&quot;);            return data;        }    }    public void console(String message) {        System.out.printf(&quot;%s:%s\n&quot;, currentThread().getName(), message);    }}</code></pre><p>仅仅是将临界值判断语句if修改为while，将notify修改为notifyAll。</p><h2 id="4、线程休息室wait-set"><a href="#4、线程休息室wait-set" class="headerlink" title="4、线程休息室wait set"></a>4、线程休息室wait set</h2><p>在虚拟机规范中存在一个wait set的概念，至于该wait set是怎样的数据结构，JDK官方并没有给出一个明确的定义。不同的JDK厂家有不同的实现方式，甚至相同的厂家在不同的JDK版本也有不同的实现方式。</p><p>若干个线程调用了wait方法之后被加入与monitor关联的wait set中，待另一个线程调用了该monitor的notify方法后，其中一个线程会从wait set中弹出，至于是随机弹出还是以先进先出等方式弹出，虚拟机规范仍然没有给出强制的规范要求。</p><p>而执行notifyAll不需要考虑哪个线程先被弹出，因为wait set中所有线程都将被弹出。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 数据同步 </tag>
+            
+            <tag> 同步，线程 </tag>
+            
+            <tag> 线程间通信 </tag>
+            
+            <tag> wait </tag>
+            
+            <tag> notifyAll </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程进阶（6）-wait和notify方法详解</title>
       <link href="/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%886%EF%BC%89-wait%E5%92%8Cnotify%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/"/>
       <url>/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%886%EF%BC%89-wait%E5%92%8Cnotify%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/</url>
