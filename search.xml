@@ -4,6 +4,49 @@
   
     
     <entry>
+      <title>java多线程进阶（6）-wait和notify方法详解</title>
+      <link href="/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%886%EF%BC%89-wait%E5%92%8Cnotify%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/"/>
+      <url>/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%886%EF%BC%89-wait%E5%92%8Cnotify%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<p>java中，wait和notify方法可以阻塞和唤醒线程，但wait和notify并不是Thread的特有方法，而是Object中的方法。</p><h2 id="1、wait方法"><a href="#1、wait方法" class="headerlink" title="1、wait方法"></a>1、wait方法</h2><p>Object的wait方法会导致当前线程进入阻塞，直到有其他线程调用了该Object的notify或notifyAll方法才能将其唤醒，下面是wait方法的三个重载方法:</p><ul><li>public final void wait() throws InterruptedException</li><li>public final void wait(long timeout) throws InterruptedException</li><li>public final void wait(long timeout, int nanos) throws InterruptedException</li></ul><p>三个wait方法都将调用wait(long timeout)方法，wait()方法实际掉哟个的是wait(0),0代表永不超时。<br>当前线程执行了该对象的wait方法，将会放弃对该monitor的所有权，而进入与该对象关联的wait set中，直到其他线程调用该对象的notify或notifyAll方法，或者阻塞时间达到了timeout被自动唤醒。</p><h2 id="2、notify方法"><a href="#2、notify方法" class="headerlink" title="2、notify方法"></a>2、notify方法</h2><p>下面是notify方法的定义</p><ul><li>public final native void notify();</li></ul><p>notify方法的作用如下:</p><ul><li>唤醒单个正在执行该对象wait方法的线程。</li><li>如果有某个线程因执行该对象的wait方法而进入阻塞则会被唤醒，否则将被忽略。</li><li>被唤醒的线程需要重新获取该对象的monitor才能继续执行。</li></ul><h2 id="3、关于wait和notify的注意事项"><a href="#3、关于wait和notify的注意事项" class="headerlink" title="3、关于wait和notify的注意事项"></a>3、关于wait和notify的注意事项</h2><ul><li>wait方法是可中断方法，当前线程因调用wait方法而进入阻塞状态，其他线程是可以调用interrupt将其打断的，被打断后会收到InterruptedException异常。</li><li>线程执行了某对象的wait方法后，会加入与该对象对应的wait set中，每个对象的monitor都有一个与之对应的wait set。</li><li>当线程进入wait set后，notify方法可将其唤醒，也就是从wait set中弹出，同时，中断wait也可以将其唤醒。</li><li>必须在同步方法中执行wait和notify，因为执行wait和notify的前提是必须拥有同步方法的monitor。</li><li>同步方法的monitor必须和执行wait、notify方法的对象一致，也就是说用哪个对象的monitor进行同步，就只能用哪个对象进行wait和notify操作。</li></ul><h2 id="4、wait和sleep"><a href="#4、wait和sleep" class="headerlink" title="4、wait和sleep"></a>4、wait和sleep</h2><p>wait和sleep都可以使线程进入阻塞状态，但两者之间存在本质区别,下面是两者的异同:</p><ul><li><p>wait和sleep都可以使线程进入阻塞状态。</p></li><li><p>wait和sleep都是可中断方法，被中断后都会收到中断异常。</p></li><li><p>wait方法是Object的方法，sleep是Thread特有方法。</p></li><li><p>wait方法的执行必须在同步代码块中，而sleep则不需要。</p></li><li><p>线程在同步方法中执行sleep并不会释放monitor的锁，而wait方法则会释放monitor的锁</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 数据同步 </tag>
+            
+            <tag> 同步，线程 </tag>
+            
+            <tag> 线程间通信 </tag>
+            
+            <tag> wait </tag>
+            
+            <tag> notify </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程进阶（5）-单线程间通信</title>
       <link href="/2020/02/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%885%EF%BC%89-%E5%8D%95%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/"/>
       <url>/2020/02/13/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%885%EF%BC%89-%E5%8D%95%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</url>

@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>java多线程基础（一）--认识线程 | Hexo</title>
-  <meta name="keywords" content=" Java , 多线程 , 并发 ">
-  <meta name="description" content="java多线程基础（一）--认识线程 | Hexo">
+  <title>java多线程进阶（6）-wait和notify方法详解 | Hexo</title>
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 数据同步 , 同步，线程 , 线程间通信 , wait , notify ">
+  <meta name="description" content="java多线程进阶（6）-wait和notify方法详解 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="在开始之前，我们先来思考一个问题，有多个线程需要从一个队列中拿数据，那么线程如何知道此时队列中有数据呢？比较笨的方法就是不断的轮询，以获取数据。还有一种比较好的方式，就是通知机制，如果队列中有数据，则通知工作线程开始工作，否则，通知工作线程等待。 1、 初始wait和notify在本届，我们将初步了解java中线程间是如何进行通信的。首先我们先来实现一个队列DataQueue,该队列有如下三种状态">
 <meta property="og:type" content="article">
@@ -553,9 +553,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-java多线程基础（1）-认识线程" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java多线程进阶（6）-wait和notify方法详解" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">java多线程基础（一）--认识线程</h1>
+        <h1 class="article-title">java多线程进阶（6）-wait和notify方法详解</h1>
     
     <div class="article-meta">
         
@@ -578,17 +578,29 @@
             
             <a class="color3">并发</a>
             
+            <a class="color2">Thread</a>
+            
+            <a class="color5">数据同步</a>
+            
+            <a class="color1">同步，线程</a>
+            
+            <a class="color1">线程间通信</a>
+            
+            <a class="color5">wait</a>
+            
+            <a class="color2">notify</a>
+            
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-15 11:43:13'>2019-12-23 22:40</time>
+        创建时间:<time class="date" title='更新时间: 2020-02-15 16:38:40'>2020-02-15 15:59</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:693</span>
+        <span>字数:660</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -607,7 +619,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是线程"><span class="toc-text">一、什么是线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、线程的生命周期"><span class="toc-text">二、线程的生命周期</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、wait方法"><span class="toc-text">1、wait方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、notify方法"><span class="toc-text">2、notify方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、关于wait和notify的注意事项"><span class="toc-text">3、关于wait和notify的注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、wait和sleep"><span class="toc-text">4、wait和sleep</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -623,23 +635,43 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&ensp;&ensp;&ensp;&ensp;想必大家都有过这样的体验，在聊天的时候听听音乐，在创作的时候查查资料，这就是我们常说的并行。在计算机的世界里，并行实际上是指，一系列任务在计算机中同时运行。在单核CPU中并没有真正的并行，它只不过是CPU时间钟带给你的错觉。但在多核CPU计算机中，真正的并行还是存在的。</p>
-<h1 id="一、什么是线程"><a href="#一、什么是线程" class="headerlink" title="一、什么是线程"></a>一、什么是线程</h1><p>&ensp;&ensp;&ensp;&ensp;如今的操作系统大多都支持多任务的执行，对于计算机而言，一个任务就是一个进程(Process),在每一个进程内部至少要有一个线程(Thread)是在运行中，有时线程也称为轻量级进程。<br>&ensp;&ensp;&ensp;&ensp;线程是程序执行的最小单元，每个线程都有自己的局部变量表，程序计数器（指向正在执行的指令指针）以及各自的生命周期。<br>&ensp;&ensp;&ensp;&ensp;那么在java中如何创建线程呢，如果你还不太清楚可以看我另外一篇文章<a href="https://xiongdiblog.com2020/01/01/%E5%9C%A8java%E8%BF%9B%E7%A8%8B%E4%B8%AD%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E5%B9%B6%E4%BD%BF%E7%94%A8jconsole%E8%A7%82%E5%AF%9F%E7%BA%BF%E7%A8%8B/" target="_blank" rel="noopener">在java进程中创建线程并使用jconsole观察线程</a></p>
-<h1 id="二、线程的生命周期"><a href="#二、线程的生命周期" class="headerlink" title="二、线程的生命周期"></a>二、线程的生命周期</h1><p>&ensp;&ensp;&ensp;&ensp;前面提到过，每个线程都有自己的局部变量表，程序计数器和生命周期。线程的生命周期描述了线程从创建到死亡的过程。<br>&ensp;&ensp;&ensp;&ensp;请大家思考，执行了线程的start方法就代表该线程开始执行了吗？<br><img src="/img/thread/thread_life.png" alt=""><br>&ensp;&ensp;&ensp;&ensp;由上图可知：线程的生命周期大体分为五个阶段</p>
+        <p>java中，wait和notify方法可以阻塞和唤醒线程，但wait和notify并不是Thread的特有方法，而是Object中的方法。</p>
+<h2 id="1、wait方法"><a href="#1、wait方法" class="headerlink" title="1、wait方法"></a>1、wait方法</h2><p>Object的wait方法会导致当前线程进入阻塞，直到有其他线程调用了该Object的notify或notifyAll方法才能将其唤醒，下面是wait方法的三个重载方法:</p>
 <ul>
-<li>NEW：创建</li>
-<li>RUNNABLE: 可执行状态</li>
-<li>RUNNING：执行状态</li>
-<li>BLOCKED：阻塞状态</li>
-<li>TERMINALTED：结束状态</li>
+<li>public final void wait() throws InterruptedException</li>
+<li>public final void wait(long timeout) throws InterruptedException</li>
+<li>public final void wait(long timeout, int nanos) throws InterruptedException</li>
 </ul>
-<p>&ensp;&ensp;&ensp;&ensp;线程从NEW切换为RUNNABLE只需要程序执行start方法，线程一经启动就可以立即得到执行吗？答案是否定的，线程的运行与否和进程一样都要听命于CPU的调度。</p>
+<p>三个wait方法都将调用wait(long timeout)方法，wait()方法实际掉哟个的是wait(0),0代表永不超时。<br>当前线程执行了该对象的wait方法，将会放弃对该monitor的所有权，而进入与该对象关联的wait set中，直到其他线程调用该对象的notify或notifyAll方法，或者阻塞时间达到了timeout被自动唤醒。</p>
+<h2 id="2、notify方法"><a href="#2、notify方法" class="headerlink" title="2、notify方法"></a>2、notify方法</h2><p>下面是notify方法的定义</p>
 <ul>
-<li>当RUNNABLE状态的线程被cpu选中，从而进入了RUNNING状态</li>
-<li>当RUNNING状态的线程由于CPU的调度轮询放弃执行、或者线程主动调用yield方法放弃CPU执行权。线程进入RUNNABLE状态</li>
-<li>当RUNNING状态的线程调用wait、sleep或获取锁资源时，线程进入BLOCKED状态</li>
-<li>当BLOCKED状态的线程被其他线程调用notify/notifyall唤醒、获取到了某个锁资源、、完成了指定时间的休眠或在阻塞过程中被其他线程调用interrupt方法打断，线程进入RUNNABLE状态</li>
-<li>当线程调用了JDK已经不推荐使用的stop方法，意外死亡（JVM Crash），或者正常结束，线程直接进入TERMINALTED状态</li>
+<li>public final native void notify();</li>
+</ul>
+<p>notify方法的作用如下:</p>
+<ul>
+<li>唤醒单个正在执行该对象wait方法的线程。</li>
+<li>如果有某个线程因执行该对象的wait方法而进入阻塞则会被唤醒，否则将被忽略。</li>
+<li>被唤醒的线程需要重新获取该对象的monitor才能继续执行。</li>
+</ul>
+<h2 id="3、关于wait和notify的注意事项"><a href="#3、关于wait和notify的注意事项" class="headerlink" title="3、关于wait和notify的注意事项"></a>3、关于wait和notify的注意事项</h2><ul>
+<li>wait方法是可中断方法，当前线程因调用wait方法而进入阻塞状态，其他线程是可以调用interrupt将其打断的，被打断后会收到InterruptedException异常。</li>
+<li>线程执行了某对象的wait方法后，会加入与该对象对应的wait set中，每个对象的monitor都有一个与之对应的wait set。</li>
+<li>当线程进入wait set后，notify方法可将其唤醒，也就是从wait set中弹出，同时，中断wait也可以将其唤醒。</li>
+<li>必须在同步方法中执行wait和notify，因为执行wait和notify的前提是必须拥有同步方法的monitor。</li>
+<li>同步方法的monitor必须和执行wait、notify方法的对象一致，也就是说用哪个对象的monitor进行同步，就只能用哪个对象进行wait和notify操作。</li>
+</ul>
+<h2 id="4、wait和sleep"><a href="#4、wait和sleep" class="headerlink" title="4、wait和sleep"></a>4、wait和sleep</h2><p>wait和sleep都可以使线程进入阻塞状态，但两者之间存在本质区别,下面是两者的异同:</p>
+<ul>
+<li><p>wait和sleep都可以使线程进入阻塞状态。</p>
+</li>
+<li><p>wait和sleep都是可中断方法，被中断后都会收到中断异常。</p>
+</li>
+<li><p>wait方法是Object的方法，sleep是Thread特有方法。</p>
+</li>
+<li><p>wait方法的执行必须在同步代码块中，而sleep则不需要。</p>
+</li>
+<li><p>线程在同步方法中执行sleep并不会释放monitor的锁，而wait方法则会释放monitor的锁</p>
+</li>
 </ul>
 
       
@@ -654,12 +686,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>java多线程基础（一）--认识线程</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">693</span></p>
+    <p><span class="copy-title">文章标题:</span>java多线程进阶（6）-wait和notify方法详解</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">660</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-23, 22:40:51</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-15, 11:43:13</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/" title="java多线程基础（一）--认识线程">https://xiongdi-blog.github.io/2019/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%881%EF%BC%89-%E8%AE%A4%E8%AF%86%E7%BA%BF%E7%A8%8B/</a>
+    <p><span class="copy-title">发布时间:</span>2020-02-15, 15:59:13</p>
+    <p><span class="copy-title">最后更新:</span>2020-02-15, 16:38:40</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%886%EF%BC%89-wait%E5%92%8Cnotify%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/" title="java多线程进阶（6）-wait和notify方法详解">https://xiongdi-blog.github.io/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%886%EF%BC%89-wait%E5%92%8Cnotify%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
