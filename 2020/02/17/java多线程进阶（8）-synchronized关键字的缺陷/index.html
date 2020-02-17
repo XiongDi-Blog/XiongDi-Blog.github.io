@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>markdown使用指南 | Hexo</title>
-  <meta name="keywords" content=" markdown ">
-  <meta name="description" content="markdown使用指南 | Hexo">
+  <title>java多线程进阶（8）-synchronized关键字的缺陷 | Hexo</title>
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 线程 , 数据同步 , synchronized , 同步 , 缺陷 ">
+  <meta name="description" content="java多线程进阶（8）-synchronized关键字的缺陷 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
 <meta property="og:type" content="website">
@@ -574,9 +574,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-markdown使用指南" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java多线程进阶（8）-synchronized关键字的缺陷" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">markdown使用指南</h1>
+        <h1 class="article-title">java多线程进阶（8）-synchronized关键字的缺陷</h1>
     
     <div class="article-meta">
         
@@ -584,28 +584,44 @@
         
         <span class="book">
             
-                <a  data-rel="工具">工具</a>/
+                <a  data-rel="Java">Java</a>/
             
-                <a  data-rel="markdown">markdown</a>
+                <a  data-rel="MultiThread">MultiThread</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a class="color4">markdown</a>
+            <a class="color5">Java</a>
+            
+            <a class="color4">多线程</a>
+            
+            <a class="color3">并发</a>
+            
+            <a class="color2">Thread</a>
+            
+            <a class="color3">线程</a>
+            
+            <a class="color5">数据同步</a>
+            
+            <a class="color3">synchronized</a>
+            
+            <a class="color3">同步</a>
+            
+            <a class="color3">缺陷</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-20 22:14:57'>2019-12-20 00:36</time>
+        创建时间:<time class="date" title='更新时间: 2020-02-17 23:47:31'>2020-02-17 23:05</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:348</span>
+        <span>字数:485</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -624,7 +640,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#markdown的六级标题"><span class="toc-text">markdown的六级标题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一级标题"><span class="toc-text">一级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#二级标题"><span class="toc-text">二级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#三级标题"><span class="toc-text">三级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#四级标题"><span class="toc-text">四级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#五级标题"><span class="toc-text">五级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#六级标题"><span class="toc-text">六级标题</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#无序列表"><span class="toc-text">无序列表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#有序列表"><span class="toc-text">有序列表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分割线"><span class="toc-text">分割线</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#超链接"><span class="toc-text">超链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-text">引用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#斜体、粗体及斜体加粗"><span class="toc-text">斜体、粗体及斜体加粗</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除线"><span class="toc-text">删除线</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码块"><span class="toc-text">代码块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#句内代码块"><span class="toc-text">句内代码块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#图片"><span class="toc-text">图片</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#表格"><span class="toc-text">表格</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、无法控制阻塞时长"><span class="toc-text">1、无法控制阻塞时长</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、阻塞不可被中断"><span class="toc-text">2、阻塞不可被中断</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -640,82 +656,48 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="markdown的六级标题"><a href="#markdown的六级标题" class="headerlink" title="markdown的六级标题"></a>markdown的六级标题</h1><pre><code># 一级标题
-## 二级标题
-### 三级标题
-#### 四级标题
-##### 五级标题
-###### 六级标题</code></pre><p>效果：</p>
-<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h1 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h1><pre><code>- 文本1
-+ 文本2
-* 文本3</code></pre><p>效果：</p>
+        <p>synchronized关键字提供了一种排他式的数据同步机制，线程在获取monitor lock时可能会被阻塞，这种阻塞有一下两种明显的缺陷:</p>
 <ul>
-<li>文本1</li>
+<li>无法控制阻塞时长</li>
+<li>阻塞不可被中断</li>
 </ul>
-<ul>
-<li>文本2</li>
-</ul>
-<ul>
-<li>文本3</li>
-</ul>
-<h1 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h1><pre><code>1. 列表内容
-2. 列表内容
-3. 列表内容</code></pre><p>效果：</p>
-<ol>
-<li>列表内容</li>
-<li>列表内容</li>
-<li>列表内容</li>
-</ol>
-<h1 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h1><pre><code>---
-***</code></pre><p>效果：</p>
-<hr>
-<hr>
-<h1 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h1><pre><code>[简书](http://www.jianshu.com)</code></pre><p>效果：</p>
-<p><a href="http://www.jianshu.com" target="_blank" rel="noopener">简书</a></p>
-<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><pre><code>&gt; 一盏灯， 一片昏黄； 一简书， 一杯淡茶。</code></pre><p>效果：</p>
-<blockquote>
-<p>一盏灯， 一片昏黄； 一简书， 一杯淡茶。</p>
-</blockquote>
-<h1 id="斜体、粗体及斜体加粗"><a href="#斜体、粗体及斜体加粗" class="headerlink" title="斜体、粗体及斜体加粗"></a>斜体、粗体及斜体加粗</h1><pre><code>*一盏灯*， 一片昏黄；**一简书**， ***一杯淡茶***。</code></pre><p>效果：</p>
-<p><em>一盏灯</em>， 一片昏黄；<strong>一简书</strong>， <strong><em>一杯淡茶</em></strong>。</p>
-<h1 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h1><pre><code>~~一盏灯， 一片昏黄； 一简书， 一杯淡茶。~~</code></pre><p>效果：</p>
-<p><del>一盏灯， 一片昏黄； 一简书， 一杯淡茶。</del></p>
-<h1 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h1><p>```<br>第一段代码<br>第二段代码<br>第三段代码<br>```<br>效果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一段代码</span><br><span class="line">第二段代码</span><br><span class="line">第三段代码</span><br></pre></td></tr></table></figure>
+<h2 id="1、无法控制阻塞时长"><a href="#1、无法控制阻塞时长" class="headerlink" title="1、无法控制阻塞时长"></a>1、无法控制阻塞时长</h2><p>假设某个线程计划在1分钟内获取不到锁就放弃，但该锁已经被另一个线程获取了，并且要执行大于1分钟的时间。这时synchronized关键字的缺陷就体现出来了。我们使用以下示例代码说明:</p>
+<pre><code>public class SynchronizedDefect {
+    public synchronized void syncMethod() {
+        try {
+            TimeUnit.HOURS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-<h1 id="句内代码块"><a href="#句内代码块" class="headerlink" title="句内代码块"></a>句内代码块</h1><pre><code>`create database hero;`</code></pre><p>效果：</p>
-<p><code>create database hero;</code></p>
-<h1 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h1><pre><code>![](http://upload-images.jianshu.io/upload_images/259-0ad0d0bfc1c608b6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</code></pre><p>效果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/259-0ad0d0bfc1c608b6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h1 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h1><pre><code>| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |</code></pre><p>效果：</p>
-<table>
-<thead>
-<tr>
-<th>Tables</th>
-<th align="center">Are</th>
-<th align="right">Cool</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>col 3 is</td>
-<td align="center">right-aligned</td>
-<td align="right">$1600</td>
-</tr>
-<tr>
-<td>col 2 is</td>
-<td align="center">centered</td>
-<td align="right">$12</td>
-</tr>
-<tr>
-<td>zebra stripes</td>
-<td align="center">are neat</td>
-<td align="right">$1</td>
-</tr>
-</tbody></table>
+    public static void main(String args[]) throws InterruptedException {
+        SynchronizedDefect sd = new SynchronizedDefect();
+        Thread t1 = new Thread(sd::syncMethod, &quot;T1&quot;);
+        t1.start();
+
+        TimeUnit.MILLISECONDS.sleep(2);
+        Thread t2 = new Thread(sd::syncMethod, &quot;T2&quot;);
+        t2.start();
+    }
+}</code></pre><p>上诉程序中，t2将会进入阻塞，t2什么时候能执行syncMethod完全取决于t1何时对其释放。</p>
+<h2 id="2、阻塞不可被中断"><a href="#2、阻塞不可被中断" class="headerlink" title="2、阻塞不可被中断"></a>2、阻塞不可被中断</h2><p>T2若应争抢某个monitor而进入阻塞，那么它是无法中断的，虽然可以设置T2的interrupt标识，但synchronized阻塞不像sleep或wait方法一样，可以捕获中断异常。我们对上诉代码的main方法稍作修改，试图打断t2线程:</p>
+<pre><code>public static void main(String args[]) throws InterruptedException {
+    SynchronizedDefect sd = new SynchronizedDefect();
+    Thread t1 = new Thread(sd::syncMethod, &quot;T1&quot;);
+    t1.start()
+
+    TimeUnit.MILLISECONDS.sleep(2);
+    Thread t2 = new Thread(sd::syncMethod, &quot;T2&quot;);
+    t2.start();
+    TimeUnit.MILLISECONDS.sleep(2);
+    t2.interrupt();
+    System.out.println(&quot;t2 is interrupted:&quot; + t2.interrupted());
+    System.out.println(&quot;t2 is BLOCKED:&quot; + t2.getState());
+}</code></pre><p>可以看到输出如下:</p>
+<pre><code>t2 is interrupted:false
+t2 is BLOCKED:BLOCKED</code></pre><p>除此之外，synchronized是非公平锁，它无法保证等待的线程获取锁的顺序，以致于可能导致某个或某些线程永远获取不到锁。</p>
+<p>并且，在资源竞争不是很激烈的情况下，synchronized的性能很好，但是在资源竞争很激烈的情况下，synchronized的性能会下降几十倍。</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
@@ -729,12 +711,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>markdown使用指南</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">348</span></p>
+    <p><span class="copy-title">文章标题:</span>java多线程进阶（8）-synchronized关键字的缺陷</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">485</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-20, 00:36:24</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-20, 22:14:57</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/20/markdown%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="markdown使用指南">https://xiongdi-blog.github.io/2019/12/20/markdown%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</a>
+    <p><span class="copy-title">发布时间:</span>2020-02-17, 23:05:17</p>
+    <p><span class="copy-title">最后更新:</span>2020-02-17, 23:47:31</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/17/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%888%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E7%BC%BA%E9%99%B7/" title="java多线程进阶（8）-synchronized关键字的缺陷">https://xiongdi-blog.github.io/2020/02/17/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%888%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E7%BC%BA%E9%99%B7/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

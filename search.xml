@@ -4,6 +4,49 @@
   
     
     <entry>
+      <title>java多线程进阶（8）-synchronized关键字的缺陷</title>
+      <link href="/2020/02/17/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%888%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E7%BC%BA%E9%99%B7/"/>
+      <url>/2020/02/17/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%888%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E7%BC%BA%E9%99%B7/</url>
+      
+        <content type="html"><![CDATA[<p>synchronized关键字提供了一种排他式的数据同步机制，线程在获取monitor lock时可能会被阻塞，这种阻塞有一下两种明显的缺陷:</p><ul><li>无法控制阻塞时长</li><li>阻塞不可被中断</li></ul><h2 id="1、无法控制阻塞时长"><a href="#1、无法控制阻塞时长" class="headerlink" title="1、无法控制阻塞时长"></a>1、无法控制阻塞时长</h2><p>假设某个线程计划在1分钟内获取不到锁就放弃，但该锁已经被另一个线程获取了，并且要执行大于1分钟的时间。这时synchronized关键字的缺陷就体现出来了。我们使用以下示例代码说明:</p><pre><code>public class SynchronizedDefect {    public synchronized void syncMethod() {        try {            TimeUnit.HOURS.sleep(1);        } catch (InterruptedException e) {            e.printStackTrace();        }    }    public static void main(String args[]) throws InterruptedException {        SynchronizedDefect sd = new SynchronizedDefect();        Thread t1 = new Thread(sd::syncMethod, &quot;T1&quot;);        t1.start();        TimeUnit.MILLISECONDS.sleep(2);        Thread t2 = new Thread(sd::syncMethod, &quot;T2&quot;);        t2.start();    }}</code></pre><p>上诉程序中，t2将会进入阻塞，t2什么时候能执行syncMethod完全取决于t1何时对其释放。</p><h2 id="2、阻塞不可被中断"><a href="#2、阻塞不可被中断" class="headerlink" title="2、阻塞不可被中断"></a>2、阻塞不可被中断</h2><p>T2若应争抢某个monitor而进入阻塞，那么它是无法中断的，虽然可以设置T2的interrupt标识，但synchronized阻塞不像sleep或wait方法一样，可以捕获中断异常。我们对上诉代码的main方法稍作修改，试图打断t2线程:</p><pre><code>public static void main(String args[]) throws InterruptedException {    SynchronizedDefect sd = new SynchronizedDefect();    Thread t1 = new Thread(sd::syncMethod, &quot;T1&quot;);    t1.start()    TimeUnit.MILLISECONDS.sleep(2);    Thread t2 = new Thread(sd::syncMethod, &quot;T2&quot;);    t2.start();    TimeUnit.MILLISECONDS.sleep(2);    t2.interrupt();    System.out.println(&quot;t2 is interrupted:&quot; + t2.interrupted());    System.out.println(&quot;t2 is BLOCKED:&quot; + t2.getState());}</code></pre><p>可以看到输出如下:</p><pre><code>t2 is interrupted:falset2 is BLOCKED:BLOCKED</code></pre><p>除此之外，synchronized是非公平锁，它无法保证等待的线程获取锁的顺序，以致于可能导致某个或某些线程永远获取不到锁。</p><p>并且，在资源竞争不是很激烈的情况下，synchronized的性能很好，但是在资源竞争很激烈的情况下，synchronized的性能会下降几十倍。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 线程 </tag>
+            
+            <tag> 数据同步 </tag>
+            
+            <tag> synchronized </tag>
+            
+            <tag> 同步 </tag>
+            
+            <tag> 缺陷 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程进阶（7）-多线程间通信</title>
       <link href="/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%887%EF%BC%89-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/"/>
       <url>/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%887%EF%BC%89-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</url>
