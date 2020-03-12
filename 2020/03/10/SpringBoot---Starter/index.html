@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>java多线程进阶（2）-synchronized关键字 | Hexo</title>
-  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 数据同步 , 同步，线程安全 , synchronized ">
-  <meta name="description" content="java多线程进阶（2）-synchronized关键字 | Hexo">
+  <title>SpringBoot--Starter | Hexo</title>
+  <meta name="keywords" content=" Java ">
+  <meta name="description" content="SpringBoot--Starter | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
 <meta property="og:type" content="website">
@@ -590,9 +590,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-java多线程进阶（2）-synchronized关键字" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-SpringBoot---Starter" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">java多线程进阶（2）-synchronized关键字</h1>
+        <h1 class="article-title">SpringBoot--Starter</h1>
     
     <div class="article-meta">
         
@@ -602,7 +602,7 @@
             
                 <a  data-rel="Java">Java</a>/
             
-                <a  data-rel="MultiThread">MultiThread</a>
+                <a  data-rel="SpringCloud">SpringCloud</a>
             
         </span>
         
@@ -611,29 +611,17 @@
             
             <a class="color5">Java</a>
             
-            <a class="color4">多线程</a>
-            
-            <a class="color3">并发</a>
-            
-            <a class="color2">Thread</a>
-            
-            <a class="color5">数据同步</a>
-            
-            <a class="color3">同步，线程安全</a>
-            
-            <a class="color3">synchronized</a>
-            
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-02-12 11:29:08'>2020-01-15 09:39</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-12 09:07:37'>2020-03-10 14:20</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1.1k</span>
+        <span>字数:701</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -652,7 +640,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、什么是synchronized关键字"><span class="toc-text">一、什么是synchronized关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、synchronized关键字的用法"><span class="toc-text">二、synchronized关键字的用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-synchronized修饰方法"><span class="toc-text">2.1 synchronized修饰方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-synchronized修饰代码块"><span class="toc-text">2.1 synchronized修饰代码块</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、monitor-enter和monitor-exit指令"><span class="toc-text">三、monitor enter和monitor exit指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-monitor-enter"><span class="toc-text">3.1 monitor enter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-monitor-exit"><span class="toc-text">3.2 monitor exit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、使用synchronized关键字应注意的问题"><span class="toc-text">四、使用synchronized关键字应注意的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-与monitor关联的对象不能为空"><span class="toc-text">4.1 与monitor关联的对象不能为空</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-synchronized作用域太大"><span class="toc-text">4.2 synchronized作用域太大</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-不同的monitor企图锁相同的方法"><span class="toc-text">4.3 不同的monitor企图锁相同的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-多个锁的交叉导致死锁"><span class="toc-text">4.4 多个锁的交叉导致死锁</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Starter"><span class="toc-text">Starter</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义Starter"><span class="toc-text">自定义Starter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-创建项目引入依赖"><span class="toc-text">1.创建项目引入依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-定义过滤器"><span class="toc-text">2.定义过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-讲过滤器封装成SpringBean"><span class="toc-text">3.讲过滤器封装成SpringBean</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-定义配置类"><span class="toc-text">4.定义配置类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-自定义注解"><span class="toc-text">5.自定义注解</span></a></li></ol></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -668,90 +656,20 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在上一节中，我们认识了<a href="https://xiongdiblog.com/2020/01/13/java多线程进阶（一）-认识数据同步问题" target="_blank" rel="noopener">数据同步问题</a>,出现数据同步问题是因为多个线程同时操作共享资源引起的，在JDK1.5之前，要解决这个问题需要用到synchronized关键字，synchronized提供了一种排他机制，该机制只允许同一时间有一个线程操作该共享资源。</p>
-<h3 id="一、什么是synchronized关键字"><a href="#一、什么是synchronized关键字" class="headerlink" title="一、什么是synchronized关键字"></a>一、什么是synchronized关键字</h3><p>synchronized关键字可以实现一个简单的策略来防止线程干扰和内存一致性错误，如果一个对象对多个线程可见，那么对该对象的所有读写或者写都将通过同步的方式来进行，具体如下:</p>
-<ul>
-<li>synchronized关键字提供了一种锁的机制，能够确保共享变量的互斥访问，从而防止数据不一致问题。</li>
-<li>synchronized关键字包括monitor enter和monitor exit两个JVM指令，它能够保证在任何时候任何线程执行到monitor enter成功之前都必须从主内存中获取数据，而不是缓存，在monitor exit运行成功之后，共享变量被更新后的值必须刷入主内存(这一点将在后续详细介绍)</li>
-<li>synchronized的指令遵循java happens-before规则，一个monitor exit指令之前必须要有一个monitor enter</li>
-</ul>
-<h3 id="二、synchronized关键字的用法"><a href="#二、synchronized关键字的用法" class="headerlink" title="二、synchronized关键字的用法"></a>二、synchronized关键字的用法</h3><p>synchronized能够修饰代码块和方法，而不能修饰class和变量。</p>
-<h4 id="2-1-synchronized修饰方法"><a href="#2-1-synchronized修饰方法" class="headerlink" title="2.1 synchronized修饰方法"></a>2.1 synchronized修饰方法</h4><p>synchronized修饰方法的语法非常简单:</p>
-<blockquote>
-<p>[default|public|protected|private] synchronized [static] type method()</p>
-</blockquote>
-<p>示例代码如下:</p>
-<pre><code>public synchronized void sync() {
-// do something
-}
+        <h1 id="Starter"><a href="#Starter" class="headerlink" title="Starter"></a>Starter</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>SpringBoot项目的快速发展很大程度上依赖于Starter,Starter方便了Spring各项依赖的集成，举个简单的例子，spring-boot-starter-web可以在Spring中获取web支持，里面集成了内嵌的Tomcat，我们在编码的首仅需要引入该依赖即可。先这样的例子还有很多。<br>例如：<br>  spring-boot-starter SpringBoot的核心Starter.<br>​ spring-boot-starter-data-jpa SpringDateJPA支持<br>​ spring-boot-starter-jdbc提供了JDBC连接支持<br>​ spring-boot-starter-aop 提供了面向切面编程的支持<br>  ……………………………………<br>还有很多其他的Starter，在此就不一一列举了，不过我们可以发现Starter极大的方便了我们使用 SpringBoot。简化了很多的不必要的繁琐的额外配置。</p>
+<hr>
+<h2 id="自定义Starter"><a href="#自定义Starter" class="headerlink" title="自定义Starter"></a>自定义Starter</h2><p>我们在代码开发过程中想创建自己的Starter应该怎样做呢。</p>
+<h3 id="1-创建项目引入依赖"><a href="#1-创建项目引入依赖" class="headerlink" title="1.创建项目引入依赖"></a>1.创建项目引入依赖</h3><p>导入，因为Filter过滤器属于Serlvet包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="2-定义过滤器"><a href="#2-定义过滤器" class="headerlink" title="2.定义过滤器"></a>2.定义过滤器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class FilterDemo implements Filter &#123;</span><br><span class="line">    private Logger logger &#x3D; LoggerFactory.getLogger(FilterDemo.class);</span><br><span class="line">    @Override</span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">        logger.info(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&gt;拦截器初始化&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;</span><br><span class="line">        logger.info(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;》拦截器开始执行&quot;);</span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">        logger.info(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&gt;拦截器销毁&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-讲过滤器封装成SpringBean"><a href="#3-讲过滤器封装成SpringBean" class="headerlink" title="3.讲过滤器封装成SpringBean"></a>3.讲过滤器封装成SpringBean</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class FilterDemoBean extends FilterRegistrationBean&lt;FilterDemo&gt; &#123;</span><br><span class="line">    FilterDemoBean()&#123;</span><br><span class="line">        super();</span><br><span class="line">        this.addUrlPatterns(&quot;&#x2F;*&quot;);</span><br><span class="line">        this.setFilter(new FilterDemo());</span><br><span class="line">        this.setOrder(1);</span><br><span class="line">        this.setName(&quot;测试用的拦截器&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-定义配置类"><a href="#4-定义配置类" class="headerlink" title="4.定义配置类"></a>4.定义配置类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@ConditionalOnClass(&#123;FilterDemoBean.class, FilterDemo.class&#125;)</span><br><span class="line">public class FilterConfiguration &#123;</span><br><span class="line">    @Bean</span><br><span class="line">    @ConditionalOnMissingBean(FilterDemoBean.class)</span><br><span class="line">    public FilterDemoBean filterDemoBean()&#123;</span><br><span class="line">        return new FilterDemoBean();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中<br>@ConditionalOnClass({FilterDemoBean.class, FilterDemo.class})：表示在类路径中有该类才会构建FilterDemoBean与FilterDemo的Bean<br>@ConditionalOnMissingBean(FilterDemoBean.class)：表示仅仅在当前上下文中不存在某个对象时，才会实例化（FilterDemoBean）这个Bean。<br>@Configuration：指定该类为配置类</p>
+<h3 id="5-自定义注解"><a href="#5-自定义注解" class="headerlink" title="5.自定义注解"></a>5.自定义注解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Import(FilterConfiguration.class)</span><br><span class="line">public @interface FilterDemoAnnotations &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>6.使用自定义的Starter<br>引入你自定义的Starter依赖包，然后再启动类上添加你自定义的注解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@RestController</span><br><span class="line">@FilterDemoAnnotations</span><br><span class="line">public class MainDemoApplication &#123;</span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">      SpringApplication.run(MainDemoApplication.class, args);</span><br><span class="line">   &#125;</span><br><span class="line">   @GetMapping(&quot;&#x2F;test&quot;)</span><br><span class="line">   public String test()&#123;</span><br><span class="line">      return &quot;测试方法&quot;;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行启动类时可以看到过滤器进行了初始化，访问<a href="http://127.0.0.1:8080/test" target="_blank" rel="noopener">http://127.0.0.1:8080/test</a>  可以在控制台看到过滤器会执行，关闭程序的时候可以看到过滤器被销毁。</p>
 
-public synchronized static void sync() {
-// do something
-}</code></pre><h4 id="2-1-synchronized修饰代码块"><a href="#2-1-synchronized修饰代码块" class="headerlink" title="2.1 synchronized修饰代码块"></a>2.1 synchronized修饰代码块</h4><pre><code>private final Object MUTEX = new Object();
-public void sync() {
-    synchronized (MUTEX) {
-        // do something
-    }
-}</code></pre><p><strong>注意:</strong> 很多资料，书籍将synchronized (MUTEX)称为锁，这种说法是不严谨的，准确的说应该是某个线程获取了MUTEX对象的monitor锁</p>
-<h3 id="三、monitor-enter和monitor-exit指令"><a href="#三、monitor-enter和monitor-exit指令" class="headerlink" title="三、monitor enter和monitor exit指令"></a>三、monitor enter和monitor exit指令</h3><h4 id="3-1-monitor-enter"><a href="#3-1-monitor-enter" class="headerlink" title="3.1 monitor enter"></a>3.1 monitor enter</h4><p>每个对象都与一个monitor相关联，一个monitor的lock锁在同一时间只能被一个线程获取，一个线程获取与对象关联的monitor的所有权时，发生如下几件事情:</p>
-<ul>
-<li>如果monitor的计数器值为0，则该monitor的lock锁还没有所有者，可以获取，获取后立即将monitor计数器的值置为1。</li>
-<li>如果一个拥有该monitor所有权的线程重入，则会导致monitor计数器再次累加。</li>
-<li>如果monitor已经被其他线程拥有，则获取该monitor所有权的线程会被阻塞，直到monitor计数器的值变为0，才能再次获取monitor的所有权。</li>
-</ul>
-<h4 id="3-2-monitor-exit"><a href="#3-2-monitor-exit" class="headerlink" title="3.2 monitor exit"></a>3.2 monitor exit</h4><p>释放monitor的所有权，要释放一个对象关联的monitor的所有权，首先应拥有所有权。释放monitor的过程比较简单，就是将monitor计数器的值置为0。这个过程通俗的将就是解锁。</p>
-<h3 id="四、使用synchronized关键字应注意的问题"><a href="#四、使用synchronized关键字应注意的问题" class="headerlink" title="四、使用synchronized关键字应注意的问题"></a>四、使用synchronized关键字应注意的问题</h3><h4 id="4-1-与monitor关联的对象不能为空"><a href="#4-1-与monitor关联的对象不能为空" class="headerlink" title="4.1 与monitor关联的对象不能为空"></a>4.1 与monitor关联的对象不能为空</h4><pre><code>// 错误示例
-private final Object MUTEX = null;
-private void sync() {
-    synchronized (MUTEX) {
-        // do something
-    }
-}</code></pre><p>每个对象都与一个monitor关联，对象都为null了，更不用谈monitor了</p>
-<h4 id="4-2-synchronized作用域太大"><a href="#4-2-synchronized作用域太大" class="headerlink" title="4.2 synchronized作用域太大"></a>4.2 synchronized作用域太大</h4><p>由于synchronized具有排他性，同一时间只允许一个线程处理同步块的内容，synchronized的作用域越大，处理效率将越低，甚至将丧失多线程的的优势。</p>
-<pre><code>// 错误示例
-public static class Task implements Runnable {
-    @Override
-    public synchronized void run() {
-        // do something
-    }
-}</code></pre><p>上诉代码将完全丧失多线程的优势。</p>
-<h4 id="4-3-不同的monitor企图锁相同的方法"><a href="#4-3-不同的monitor企图锁相同的方法" class="headerlink" title="4.3 不同的monitor企图锁相同的方法"></a>4.3 不同的monitor企图锁相同的方法</h4><pre><code>// 错误示例
-public static class Task implements Runnable {
-    private final Object MUTEX = new Object();
-    @Override
-    public void run() {
-        // do something
-        synchronized(MUTEX) {
-            // do something
-        }
-        // do something
-    }
-}
-
-public static void main(String args[]) {
-    for(int i = 0; i &lt; 5; i++) {
-        new Thread(Task::new).start();
-    }
-}</code></pre><p>上诉代码构造了五个线程，同时也构造了五个Runnable实例，你会发现，synchronized根本互斥不了与之对应的作用域。<strong>线程之间monitor lock的争抢只发生在与monito关联的引用上</strong>。上面代码每个线程争抢的monitor都关联了不同的引用，即不同的MUTEX实例，因此不可能起到互斥作用。</p>
-<h4 id="4-4-多个锁的交叉导致死锁"><a href="#4-4-多个锁的交叉导致死锁" class="headerlink" title="4.4 多个锁的交叉导致死锁"></a>4.4 多个锁的交叉导致死锁</h4><p>多个锁的交叉使用很容易引起死锁，程序没有任何输出，但就是不工作。</p>
-<pre><code>// 错误示例
-private final Object MUTEX_READ = new Object();
-private final Object MUTEX_WRITE = new Object();
-public void read() {
-    synchronized (MUTEX_READ) {
-        synchronized (MUTEX_WRITE) {
-            // do something
-        }
-    }
-}
-
-public void write() {
-    synchronized (MUTEX_WRITE) {
-        synchronized (MUTEX_READ) {
-            // do something
-        }
-    }
-}</code></pre>
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
     </div>
@@ -764,12 +682,12 @@ public void write() {
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>java多线程进阶（2）-synchronized关键字</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">1.1k</span></p>
+    <p><span class="copy-title">文章标题:</span>SpringBoot--Starter</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">701</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-01-15, 09:39:41</p>
-    <p><span class="copy-title">最后更新:</span>2020-02-12, 11:29:08</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%882%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97/" title="java多线程进阶（2）-synchronized关键字">https://xiongdi-blog.github.io/2020/01/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%882%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97/</a>
+    <p><span class="copy-title">发布时间:</span>2020-03-10, 14:20:27</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-12, 09:07:37</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/10/SpringBoot---Starter/" title="SpringBoot--Starter">https://xiongdi-blog.github.io/2020/03/10/SpringBoot---Starter/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
