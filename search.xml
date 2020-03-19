@@ -4,6 +4,90 @@
   
     
     <entry>
+      <title>java多线程进阶（12）-Hook线程</title>
+      <link href="/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8812%EF%BC%89-Hook%E7%BA%BF%E7%A8%8B/"/>
+      <url>/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8812%EF%BC%89-Hook%E7%BA%BF%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<p>JVM程序中，可以注入Hook线程，也叫钩子线程。在JVM进程退出时，Hook线程会启动并执行。通过Runtime可以为JVM注入多个Hook线程</p><h3 id="1、添加Hook线程示例："><a href="#1、添加Hook线程示例：" class="headerlink" title="1、添加Hook线程示例："></a>1、添加Hook线程示例：</h3><pre><code>public static void main(String[] args) {    Runtime.getRuntime().addShutdownHook(new Thread(() -&gt; {        System.out.println(&quot;the hook thread 1 is running.&quot;);        System.out.println(&quot;the hook thread 1 will exit.&quot;);    }));    Runtime.getRuntime().addShutdownHook(new Thread(() -&gt; {        System.out.println(&quot;the hook thread 2 is running.&quot;);        System.out.println(&quot;the hook thread 2 will exit.&quot;);    }));}</code></pre><p>输出结果如下：</p><pre><code>the hook thread 2 is running.the hook thread 2 will exit.the hook thread 1 is running.the hook thread 1 will exit.</code></pre><h3 id="2、Hook线程应用场景及注意事项"><a href="#2、Hook线程应用场景及注意事项" class="headerlink" title="2、Hook线程应用场景及注意事项"></a>2、Hook线程应用场景及注意事项</h3><ul><li>Hook线程只有在接收到退出信号时才会被执行，如果使用kill -9命令来杀死进程，那么Hook线程不会得到执行，进程将会立即退出。</li><li>Hook线程中也可以执行一些释放资源的工作，如关闭文件句柄、socket连接、数据库连接等</li><li>尽量不要在Hook线程中执行一些耗时非常长的操作，这会导致程序迟迟不退出。</li></ul><h3 id="3、Hook线程使用案例："><a href="#3、Hook线程使用案例：" class="headerlink" title="3、Hook线程使用案例："></a>3、Hook线程使用案例：</h3><p>Hook线程经常用来防止程序被重复启动，在进程启动时会创建一个lock文件，进程收到中断信号时会删除这个lock文件，如mysql服务、zookeeper、kafka等系统中都能看到lock文件的存在。</p><p>如下是模拟一个防止重复启动的程序代码:</p><pre><code>public class Tread {    private final static String LOCK_PATH = &quot;D:/&quot;;    private final static String LOCK_FILE = &quot;.lock&quot;;    private final static String PERMISSIONS = &quot;rw-------&quot;;    public static void main(String[] args) throws IOException {        Runtime.getRuntime().addShutdownHook(new Thread(() -&gt; {            System.out.println(&quot;The program received kill signal&quot;);            getLockFile().toFile().delete();        }));        checkRunning();        for (; ;) {            try {                TimeUnit.SECONDS.sleep(2);                System.out.println(&quot;program is running&quot;);            } catch (InterruptedException e) {                e.printStackTrace();            }        }    }    private static void checkRunning() throws IOException {        Path path = getLockFile();        if (path.toFile().exists()) {            throw new RuntimeException(&quot;The program already running&quot;);        }        Set&lt;PosixFilePermission&gt; perms = PosixFilePermissions.fromString(PERMISSIONS);        Files.createFile(path, PosixFilePermissions.asFileAttribute(perms));//        Set&lt;PosixFilePermission&gt; perms = new HashSet&lt;PosixFilePermission&gt;() {{//            add(PosixFilePermission.OWNER_READ);//            add(PosixFilePermission.OWNER_WRITE);//        }};//        Files.setPosixFilePermissions(path, perms);//        Files.createFile(path);    }    private static Path getLockFile() {        return Paths.get(LOCK_PATH, LOCK_FILE);    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 钩子 </tag>
+            
+            <tag> Hook </tag>
+            
+            <tag> 线程，重复启动 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>java多线程进阶（11）-捕获线程执行异常</title>
+      <link href="/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8811%EF%BC%89-%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E6%89%A7%E8%A1%8C%E5%BC%82%E5%B8%B8/"/>
+      <url>/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8811%EF%BC%89-%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E6%89%A7%E8%A1%8C%E5%BC%82%E5%B8%B8/</url>
+      
+        <content type="html"><![CDATA[<p>线程运行在自己的上下文中，派生它的线程无法直接获得它运行中出现的异常信息。为此，java提供了一个UncaughtExceptionHandler接口，当线程在运行时出现异常，会回调UncaughtExceptionHandler接口，从而得知是哪个线程报错，以及出现了什么错误。</p><h3 id="1、获取线程运行时异常的API"><a href="#1、获取线程运行时异常的API" class="headerlink" title="1、获取线程运行时异常的API"></a>1、获取线程运行时异常的API</h3><ul><li>public void setUncaughtExceptionHandler(UncaughtExceptionHandler eh) 为某个线程指定UncaughtExceptionHandler</li><li>public static void setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler eh) 设置全局的UncaughtExceptionHandler</li><li>public UncaughtExceptionHandler getUncaughtExceptionHandler() 获取某个线程的UncaughtExceptionHandler</li><li>public static UncaughtExceptionHandler getDefaultUncaughtExceptionHandler() 获取全局的UncaughtExceptionHandler</li></ul><h3 id="2、UncaughtExceptionHandler简介"><a href="#2、UncaughtExceptionHandler简介" class="headerlink" title="2、UncaughtExceptionHandler简介"></a>2、UncaughtExceptionHandler简介</h3><p>UncaughtExceptionHandler是一个FunctionInterface，只有一个抽象方法，接口定义如下:</p><pre><code>@FunctionalInterfacepublic interface UncaughtExceptionHandler {    /**     * Method invoked when the given thread terminates due to the     * given uncaught exception.     * &lt;p&gt;Any exception thrown by this method will be ignored by the     * Java Virtual Machine.     * @param t the thread     * @param e the exception     */    void uncaughtException(Thread t, Throwable e);}</code></pre><p>该接口会被Thread的dispatchUncaughtException方法调用，源码如下:</p><pre><code>/** * Dispatch an uncaught exception to the handler. This method is * intended to be called only by the JVM. */private void dispatchUncaughtException(Throwable e) {    getUncaughtExceptionHandler().uncaughtException(this, e);}</code></pre><p>当线程出现运行时异常时，JVM会调用dispatchUncaughtException该方法会将对应的线程实例和异常信息传递给回调接口</p><p>在调用UncaughtExceptionHandler时，会先使用为该线程指定的UncaughtExceptionHandler，如果为null，则会使用全局的UncaughtExceptionHandler</p><h3 id="使用UncaughtExceptionHandler"><a href="#使用UncaughtExceptionHandler" class="headerlink" title="使用UncaughtExceptionHandler"></a>使用UncaughtExceptionHandler</h3><p>以下是使用UncaughtExceptionHandler示例:</p><pre><code>public static void main(String[] args) {    Thread.setDefaultUncaughtExceptionHandler((t, e) -&gt; {        System.out.println(t.getName() + &quot;occur by default handler&quot;);        e.printStackTrace();    });    Thread thread1 = new Thread(() -&gt; {        System.out.println(1 / 0);    });    Thread thread2 = new Thread(() -&gt; {        int[] array = new int[1];        System.out.println(array[3]);    });    thread2.setUncaughtExceptionHandler((t, e) -&gt; {        System.out.println(t.getName() + &quot;occur by thread handler&quot;);        e.printStackTrace();    });    thread1.start();    thread2.start();}</code></pre><p>输出结果如下：</p><pre><code>Thread-0occur by default handlerThread-1occur by thread handlerjava.lang.ArithmeticException: / by zero    at cn.localhost01.Tread.lambda$main$1(Tread.java:15)    at java.lang.Thread.run(Thread.java:748)java.lang.ArrayIndexOutOfBoundsException: 3    at cn.localhost01.Tread.lambda$main$2(Tread.java:20)    at java.lang.Thread.run(Thread.java:748)</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 线程 </tag>
+            
+            <tag> 异常 </tag>
+            
+            <tag> 捕获 </tag>
+            
+            <tag> 异常处理 </tag>
+            
+            <tag> 处理 </tag>
+            
+            <tag> UncaughtExceptionHandler </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程进阶（10）-线程组织ThreadGroup</title>
       <link href="/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8810%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%BB%84%E7%BB%87ThreadGroup/"/>
       <url>/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8810%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%BB%84%E7%BB%87ThreadGroup/</url>
