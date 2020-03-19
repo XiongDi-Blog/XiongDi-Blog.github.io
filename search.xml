@@ -4,6 +4,88 @@
   
     
     <entry>
+      <title>java多线程进阶（10）-线程组织ThreadGroup</title>
+      <link href="/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8810%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%BB%84%E7%BB%87ThreadGroup/"/>
+      <url>/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8810%EF%BC%89-%E7%BA%BF%E7%A8%8B%E7%BB%84%E7%BB%87ThreadGroup/</url>
+      
+        <content type="html"><![CDATA[<p>在java中，使用ThreadGroup来组织线程，每个线程都将加入一个ThreadGroup，默认情况下新的线程都会加入到main线程所在的Group中。</p><p>ThreadGroup就像一个线程组织，利用ThreadGroup可以对该Group下的线程做一些操作和约束，但并不能用于管理线程。</p><h3 id="1、ThreadGroup的父子关系"><a href="#1、ThreadGroup的父子关系" class="headerlink" title="1、ThreadGroup的父子关系"></a>1、ThreadGroup的父子关系</h3><p>线程有父子关系，ThreadGroup同样有父子关系，下图就很好的说明了ThreadGroup的父子关系：</p><h3 id="2、创建ThreadGroup"><a href="#2、创建ThreadGroup" class="headerlink" title="2、创建ThreadGroup"></a>2、创建ThreadGroup</h3><p>创建线程组非常简单，可以通过下面两个构造方法来创建：</p><pre><code>public ThreadGroup(String name);public ThreadGroup(ThreadGroup parent, String name);</code></pre><p>第一个构造函数赋予了线程组名字。第二个构造函数赋予了线程名字，同时指定了父线程组，使用示例如下：</p><pre><code>public class ThreadGroupCreater {    public static void main(String[] args) {        ThreadGroup currentGroup = currentThread().getThreadGroup();        ThreadGroup group1 = new ThreadGroup(&quot;group1&quot;);        ThreadGroup group2 = new ThreadGroup( group1, &quot;group2&quot;);        System.out.println(&quot;group1&apos;s parent is currentGroup: &quot; + (group1.getParent() == currentGroup));        System.out.println(&quot;group2&apos;s parent is group1: &quot; + (group2.getParent() == group1));    }}</code></pre><h3 id="3、复制Thread数组和ThreadGroup数组"><a href="#3、复制Thread数组和ThreadGroup数组" class="headerlink" title="3、复制Thread数组和ThreadGroup数组"></a>3、复制Thread数组和ThreadGroup数组</h3><h4 id="3-1-复制Thread数组"><a href="#3-1-复制Thread数组" class="headerlink" title="3.1 复制Thread数组"></a>3.1 复制Thread数组</h4><p>如下两个方法可以将ThreadGroup中的active线程复制到Thread数组中：</p><pre><code>public int enumerate(Thread[] list);public int enumerate(Thread[] list, boolean recurse);</code></pre><p>如果recurse为true，会将所有子group中的active线程都递归到Thread数组中。</p><h4 id="3-2-复制ThreadGroup数组"><a href="#3-2-复制ThreadGroup数组" class="headerlink" title="3.2 复制ThreadGroup数组"></a>3.2 复制ThreadGroup数组</h4><p>和复制Thread数组类似，如下两个方法可以复制当前ThreadGroup下的子group到数组中，recurse参数控制是否递归。</p><pre><code>public int enumerate(ThreadGroup[] list);public int enumerate(ThreadGroup[] list, boolean recurse);</code></pre><h4 id="3-3-使用示例："><a href="#3-3-使用示例：" class="headerlink" title="3.3 使用示例："></a>3.3 使用示例：</h4><pre><code>import java.util.concurrent.TimeUnit;import static java.lang.Thread.currentThread;public class ThreadGroupEnumerate {    public static void main(String[] args) {        // 创建两个线程组        ThreadGroup group1 = new ThreadGroup(&quot;group1&quot;);        ThreadGroup group2 = new ThreadGroup(group1, &quot;group2&quot;);        // 创建一个线程加入group1        new Thread(group1, () -&gt; {            while (true) {                try {                    TimeUnit.SECONDS.sleep(2);                } catch (InterruptedException e) {                    e.printStackTrace();                }            }        }, &quot;myThread&quot;).start();        ThreadGroup mainGroup = currentThread().getThreadGroup();        // 创建Thread数组        Thread[] list = new Thread[mainGroup.activeCount()];        // 复制mainGroup下所有Thread（包含子线程组中的Thread）到list        int recurseSize = mainGroup.enumerate(list);        System.out.println(&quot;recurse is true,recurseSize = &quot; + recurseSize);        // 只复制mainGroup下的Thread（不包含子线程组中的Thread，即group1中的线程不会被复制）        recurseSize = mainGroup.enumerate(list, false);        System.out.println(&quot;recurse is false,recurseSize = &quot; + recurseSize);        // 创建ThreadGroup数组        ThreadGroup[] groupList = new ThreadGroup[mainGroup.activeGroupCount()];        // 复制mainGroup下所有ThreadGroup（包含子线程组中的ThreadGroup）groupList        recurseSize = mainGroup.enumerate(groupList);        System.out.println(&quot;recurse is true,recurseGroupSize = &quot; + recurseSize);        recurseSize = mainGroup.enumerate(groupList, false);        System.out.println(&quot;recurse is true,recurseGroupSize = &quot; + recurseSize);   }}</code></pre><h3 id="4、ThreadGroup的操作"><a href="#4、ThreadGroup的操作" class="headerlink" title="4、ThreadGroup的操作"></a>4、ThreadGroup的操作</h3><h4 id="4-1-ThreadGroup的基本操作"><a href="#4-1-ThreadGroup的基本操作" class="headerlink" title="4.1 ThreadGroup的基本操作"></a>4.1 ThreadGroup的基本操作</h4><ul><li>activeCount() 用于获取Group中活跃的线程数，不能百分之百的保证数字一定正确，只是估值</li><li>activeGroupCount() 用于获取Group中活跃的子Group数，这也是一个近似值</li><li>getMaxPriority() 用于获取Group的优先级，默认为10，所有的子线程优先级不能大于group的优先级</li><li>getName() 获取group名称</li><li>getParent() 获取父group，若不存在，返回null</li><li>list() 该方法没有返回值，所有子线程信息会输出到控制台，即System.out</li><li>parentOf(ThreadGroup g) 判断当前group是不是给定group的父group。给定自身也会返回true</li><li>setMaxPriority() 指定group的最大优先级，最大优先级不能超过父group的最大优先级，该方法不仅会改变当前group的优先级，还会改变所有子group的优先级</li></ul><h4 id="4-2-ThreadGroup的interrupt"><a href="#4-2-ThreadGroup的interrupt" class="headerlink" title="4.2 ThreadGroup的interrupt"></a>4.2 ThreadGroup的interrupt</h4><ul><li>interrupt() 执行一个group的interrupt方法会导致该线程组下的所有Thread都被interrupt</li></ul><h4 id="4-3-ThreadGroup的destroy"><a href="#4-3-ThreadGroup的destroy" class="headerlink" title="4.3 ThreadGroup的destroy"></a>4.3 ThreadGroup的destroy</h4><ul><li>destroy() 用于销毁一个ThreadGroup，该方法只针对没有active的线程组进行一次destroy标记，该方法会将自己在父group中移除</li></ul><h4 id="4-4-守护ThreadGroup"><a href="#4-4-守护ThreadGroup" class="headerlink" title="4.4 守护ThreadGroup"></a>4.4 守护ThreadGroup</h4><ul><li>setDaemon(boolean daemon) 设置ThreadGroup为守护ThreadGroup，不会影响成员线程的daemon属性，如果一个ThreadGroup的daemon为true，则当该组没有active线程时，自动destroy</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 线程 </tag>
+            
+            <tag> 组织 </tag>
+            
+            <tag> ThreadGroup </tag>
+            
+            <tag> group </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>java多线程进阶（9）-自定义BooleanLock</title>
+      <link href="/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%889%EF%BC%89-%E8%87%AA%E5%AE%9A%E4%B9%89BooleanLock/"/>
+      <url>/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%889%EF%BC%89-%E8%87%AA%E5%AE%9A%E4%B9%89BooleanLock/</url>
+      
+        <content type="html"><![CDATA[<p>在<a href="https://xiongdiblog.com/2020/02/17/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%888%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E7%BC%BA%E9%99%B7/" target="_blank" rel="noopener">synchronized关键字的缺陷</a>一文中我们知道使用synchronized关键字有无法控制阻塞时长、阻塞无法中断的缺陷</p><p>在本文中我们利用前面所学的知识，显示实现一个BooleanLock锁，使其即具备synchronized关键字的所有功能，又可被中断和设置lock超时时间。</p><p><em>注意：工程中已有相关锁实现可以用，将在后续文章中介绍。</em></p><h3 id="1、定义Lock接口"><a href="#1、定义Lock接口" class="headerlink" title="1、定义Lock接口"></a>1、定义Lock接口</h3><pre><code>import java.util.List;import java.util.concurrent.TimeoutException;public interface Lock {    /**     * 和synchronized关键字一样，永远阻塞线程，但该方法可以被中断     * @throws InterruptedException     */    void lock() throws InterruptedException;    /**     * 可设置阻塞超时时间，也可被中断     * @param mills 阻塞超时时间，单位ms     * @throws InterruptedException     * @throws TimeoutException     */    void lock(long mills) throws InterruptedException, TimeoutException;    /**     * 释放锁     */    void unlock();    /**     * 获取被阻塞的线程     * @return     */    List&lt;Thread&gt; getBlockedThreads();}</code></pre><h3 id="2、实现booleanLock"><a href="#2、实现booleanLock" class="headerlink" title="2、实现booleanLock"></a>2、实现booleanLock</h3><pre><code>import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Optional;import java.util.concurrent.TimeoutException;import static java.lang.System.currentTimeMillis;import static java.lang.Thread.currentThread;public class BooleanLock implements Lock {    /** 当前拥有锁的线程 **/    private Thread currentThread;    /** 锁开关，false表示该锁没有线程获得，true表示已有线程获得 **/    private boolean locked = false;    /** 用于存储获取本锁时进入阻塞状态的线程 **/    private final List&lt;Thread&gt; blockedList = new ArrayList&lt;Thread&gt;();    @Override    public void lock() throws InterruptedException {        // lock方法在同步代码块中进行        synchronized (this) {            while (locked) {                // 当锁已经被其他线程获取，则当前线程加入阻塞队列，并且使用wait方法释放this monitor的所有权                Optional.of(currentThread().getName() + &quot; locked.&quot; + blockedList.size())                        .ifPresent(System.out::println);                if (!blockedList.contains(currentThread())) {                    blockedList.add(currentThread());                }                this.wait();            }            // 当锁未被获取，当前线程试图从阻塞队列中删除自己，并设置locked开关未true            blockedList.remove(currentThread());            this.locked = true;            this.currentThread = currentThread();        }    }    @Override    public void lock(long mills) throws InterruptedException, TimeoutException {        // lock方法在同步代码块中进行        synchronized (this) {            if (mills &lt;= 0) {                // 当超时时间小于等于0，则永久锁                this.lock();            } else {                long remainingMills = mills;                long endMills = currentTimeMillis() + remainingMills;                while (locked) {                    // 如果锁已被其他线程获取                    if (remainingMills &lt;= 0) {                        // 并且超时时间已经到期，则抛出超时异常                        throw new TimeoutException(&quot; can not get the lock during &quot; + remainingMills + &quot;ms.&quot;);                    }                    if (!blockedList.contains(currentThread())) {                        blockedList.add(currentThread());                    }                    this.wait(remainingMills);                    // 计算当前剩余超时时间                    remainingMills = endMills - currentTimeMillis();                }                blockedList.remove(currentThread());                this.locked = true;                this.currentThread = currentThread();            }        }    }    @Override    public void unlock() {        synchronized (this) {            // 由哪个线程上的锁只能由哪个线程来解锁            if (currentThread == currentThread()) {                this.locked = false;                Optional.of(currentThread().getName() + &quot; release the lock.&quot;)                        .ifPresent(System.out::println);                // 唤醒所有阻塞线程                this.notifyAll();            }        }    }    @Override    public List&lt;Thread&gt; getBlockedThreads() {        return Collections.unmodifiableList(blockedList);    }}</code></pre><h3 id="3、使用BooleanLock"><a href="#3、使用BooleanLock" class="headerlink" title="3、使用BooleanLock"></a>3、使用BooleanLock</h3><p>注意使用try catch来保证每次获取锁后可以正常的释放：</p><pre><code>import java.util.concurrent.TimeUnit;import java.util.stream.IntStream;import static java.lang.Thread.currentThread;import static java.util.concurrent.ThreadLocalRandom.current;public class BooleanLockTest {    private final Lock lock = new BooleanLock();    public void syncMethod() {        try {            lock.lock();            int randomInt = current().nextInt(10);            System.out.println(currentThread().getName() + &quot; get the lock&quot;);            TimeUnit.SECONDS.sleep(2);        } catch (InterruptedException e) {            e.printStackTrace();        } finally {            lock.unlock();        }    }    public static void main(String[] args) {        BooleanLockTest test = new BooleanLockTest();        IntStream.range(0, 10)                .mapToObj(i -&gt; new Thread(test::syncMethod))                .forEach(Thread::start);    }}</code></pre><p>执行结果如下：</p><pre><code>Thread-1 get the lockThread-0 locked.Thread-3 locked.Thread-3 locked.Thread-4 locked.Thread-2 locked.Thread-5 locked.Thread-7 locked.Thread-9 locked.Thread-8 locked.Thread-6 locked.Thread-1 release the lock.Thread-6 get the lockThread-8 locked.</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 并发 </tag>
+            
+            <tag> Thread </tag>
+            
+            <tag> 锁 </tag>
+            
+            <tag> Lock </tag>
+            
+            <tag> 自定义锁 </tag>
+            
+            <tag> BooleanLock </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SpringBoot--Starter</title>
       <link href="/2020/03/10/SpringBoot---Starter/"/>
       <url>/2020/03/10/SpringBoot---Starter/</url>
