@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>java多线程进阶（4）-程序死锁的原因及如何诊断 | Hexo</title>
-  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , 数据同步 , 同步，线程安全 , 死锁 , 诊断 ">
-  <meta name="description" content="java多线程进阶（4）-程序死锁的原因及如何诊断 | Hexo">
+  <title>java多线程进阶（13）-实现一个线程池来了解线程池原理 | Hexo</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="java多线程进阶（13）-实现一个线程池来了解线程池原理 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
 <meta property="og:type" content="website">
@@ -690,52 +690,24 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-java多线程进阶（4）-程序死锁的原因及如何诊断" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-java多线程进阶（13）-实现一个线程池来了解线程池原理" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">java多线程进阶（4）-程序死锁的原因及如何诊断</h1>
+        <h1 class="article-title">java多线程进阶（13）-实现一个线程池来了解线程池原理</h1>
     
     <div class="article-meta">
         
         
         
-        <span class="book">
-            
-                <a  data-rel="Java">Java</a>/
-            
-                <a  data-rel="MultiThread">MultiThread</a>
-            
-        </span>
-        
-        
-        <span class="tag">
-            
-            <a class="color5">Java</a>
-            
-            <a class="color4">多线程</a>
-            
-            <a class="color3">并发</a>
-            
-            <a class="color2">Thread</a>
-            
-            <a class="color5">数据同步</a>
-            
-            <a class="color3">同步，线程安全</a>
-            
-            <a class="color3">死锁</a>
-            
-            <a class="color3">诊断</a>
-            
-        </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-02-12 11:29:35'>2020-02-12 10:29</time>
+        创建时间:<time class="date" title='更新时间: 2020-03-25 14:18:31'>2020-03-25 14:18</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:708</span>
+        <span>字数:0</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -754,7 +726,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、程序死锁的原因"><span class="toc-text">1、程序死锁的原因</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-交叉锁可能导致程序死锁"><span class="toc-text">1.1 交叉锁可能导致程序死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-死循环引起的死锁"><span class="toc-text">1.2 死循环引起的死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-内存不足"><span class="toc-text">1.3 内存不足</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-一问一答式的数据交换"><span class="toc-text">1.4 一问一答式的数据交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-数据库锁"><span class="toc-text">1.5 数据库锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-文件锁"><span class="toc-text">1.6 文件锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、死锁诊断"><span class="toc-text">2、死锁诊断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-交叉锁引起的死锁"><span class="toc-text">2.1 交叉锁引起的死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-死循环引起的死锁-假死"><span class="toc-text">2.2 死循环引起的死锁(假死)</span></a></li></ol></li></ol>
+        
     
 <style>
     .left-col .switch-btn,
@@ -770,53 +742,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1、程序死锁的原因"><a href="#1、程序死锁的原因" class="headerlink" title="1、程序死锁的原因"></a>1、程序死锁的原因</h2><h3 id="1-1-交叉锁可能导致程序死锁"><a href="#1-1-交叉锁可能导致程序死锁" class="headerlink" title="1.1 交叉锁可能导致程序死锁"></a>1.1 交叉锁可能导致程序死锁</h3><p>线程A持有R1的锁等待R2的锁，线程B持有R2的锁等待R1的锁，这种情况最容易导致死锁。示例如下：</p>
-<pre><code>public class DeadLock{
-    private final Object MUTEX_READ = new Object();
-    private final Object MUTEX_WRITE = new Object();
-
-    public void read() {
-        synchronized(MUTEX_READ) {
-            System.out.println(&quot;do something&quot;);
-            synchronized(MUTEX_WRITE) {
-                System.out.println(&quot;do something&quot;);
-            }
-        }
-    }
-
-    public void write() {
-        synchronized(MUTEX_WRITE) {
-            System.out.println(&quot;do something&quot;);
-            synchronized(MUTEX_READ) {
-                System.out.println(&quot;do something&quot;);
-            }
-        }
-    }
-}</code></pre><h3 id="1-2-死循环引起的死锁"><a href="#1-2-死循环引起的死锁" class="headerlink" title="1.2 死循环引起的死锁"></a>1.2 死循环引起的死锁</h3><p>上诉代码很容易看出程序有死锁的风险，如果使用开源库，API调用层次比较深，那么看代码就不容易发现风险，如下代码使用了JDK中的HashMap，该程序很容出现死循环引起的死锁。</p>
-<pre><code>public class HashMapDeadLock{
-    private final HashMap&lt;String, String&gt; map = new HashMap();
-    public void add(String key, String value) {
-        this.map.put(key, value);
-    }
-    public static void main(String args[]) {
-        final HashMapDeadLock hmdl = new HashMapDeadLock();
-        for(int i = 0; i &lt; 2; i++) {
-            new Thread(() -&gt; {
-                for(int j = 0; j &lt; Integer.MAX_VALUE; j++) {
-                    hmdl.add(String.valueOf(j), String.valueOf(j))
-                }
-            }).start();
-        }
-    }
-}</code></pre><p>HashMap不具备线程安全能力，如果在多线程同时写操作的情况下，不对其进行同步化封装，很容出现死循环引起的死锁，如果想要使用线程安全的map结构，请使用ConcurrentHashMap或者使用Collections.synchronizedMap来代替。</p>
-<h3 id="1-3-内存不足"><a href="#1-3-内存不足" class="headerlink" title="1.3 内存不足"></a>1.3 内存不足</h3><p>当并发请求系统的可用内存时，内存不足，可能会导致死锁。</p>
-<h3 id="1-4-一问一答式的数据交换"><a href="#1-4-一问一答式的数据交换" class="headerlink" title="1.4 一问一答式的数据交换"></a>1.4 一问一答式的数据交换</h3><p>服务端开启某个端口，等待客户端访问，客户端发送请求立即等待接收，由于某种原因，服务的错过了客户端的请求，此时客户端和服务端都等待数据交换，引起死锁。</p>
-<h3 id="1-5-数据库锁"><a href="#1-5-数据库锁" class="headerlink" title="1.5 数据库锁"></a>1.5 数据库锁</h3><p>无论是数据库表级别锁，还是行级别锁，比如某个线程执行for update语句退出了事务，其他线程访问该数据库时都将陷入死锁。</p>
-<h3 id="1-6-文件锁"><a href="#1-6-文件锁" class="headerlink" title="1.6 文件锁"></a>1.6 文件锁</h3><p>同样，某线程获取文件锁后意外退出，其他读取该文件的线程也将会陷入死锁，直到系统释放该文件句柄。</p>
-<h2 id="2、死锁诊断"><a href="#2、死锁诊断" class="headerlink" title="2、死锁诊断"></a>2、死锁诊断</h2><p>在java中我们可以借助诊断工具对其进行诊断。</p>
-<h3 id="2-1-交叉锁引起的死锁"><a href="#2-1-交叉锁引起的死锁" class="headerlink" title="2.1 交叉锁引起的死锁"></a>2.1 交叉锁引起的死锁</h3><p>运行DeadLock代码，程序将进入死锁，打开jstack或者jconsole工具，Jstack-l PID将会直接发现死锁，示例如下：<br><img src="/img/thread/thread_deadlock.png" alt=""><br>一般交叉锁引起的死锁线程都会进入BLOCKED状态，CPU占用率不高。</p>
-<h3 id="2-2-死循环引起的死锁-假死"><a href="#2-2-死循环引起的死锁-假死" class="headerlink" title="2.2 死循环引起的死锁(假死)"></a>2.2 死循环引起的死锁(假死)</h3><p>运行HashMapDeadLock程序，也可以使用jstack，jconsole，jvisualvm工具或者jProfiler(收费)来诊断，但不会给出很明显的提示，因为工作线程并没有BLOCKED，而是RUNNABLE状态，且CPU使用率高居不下。</p>
-
+        
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
     </div>
@@ -829,12 +755,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>java多线程进阶（4）-程序死锁的原因及如何诊断</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">708</span></p>
+    <p><span class="copy-title">文章标题:</span>java多线程进阶（13）-实现一个线程池来了解线程池原理</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">0</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-02-12, 10:29:52</p>
-    <p><span class="copy-title">最后更新:</span>2020-02-12, 11:29:35</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/" title="java多线程进阶（4）-程序死锁的原因及如何诊断">https://xiongdi-blog.github.io/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/</a>
+    <p><span class="copy-title">发布时间:</span>2020-03-25, 14:18:31</p>
+    <p><span class="copy-title">最后更新:</span>2020-03-25, 14:18:31</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8813%EF%BC%89-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E4%BA%86%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86/" title="java多线程进阶（13）-实现一个线程池来了解线程池原理">https://xiongdi-blog.github.io/2020/03/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8813%EF%BC%89-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E4%BA%86%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
