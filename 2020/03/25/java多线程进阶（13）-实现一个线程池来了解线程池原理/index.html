@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>java多线程进阶（13）-实现一个线程池来了解线程池原理 | Hexo</title>
-  <meta name="keywords" content="">
+  <meta name="keywords" content=" Java , 多线程 , 并发 , Thread , ThreadPool , 线程池 , 自定义 , 原理，实现 ">
   <meta name="description" content="java多线程进阶（13）-实现一个线程池来了解线程池原理 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="#快捷键说明 搜索框    Key Descption    ESC 1.如果输入框有内容，清除内容2.如果输入框无内容，失去焦点   i&#x2F;I 获取焦点   下 向下选择文章   上 向上选择文章   回车 打开当前选中的文章，若没有，则默认打开第一个   全局    Key Descption    s&#x2F;S 全屏&#x2F;取消全屏   w&#x2F;W 打开&#x2F;关闭文章目录   j&#x2F;J 向下滑动   k&#x2F;K 向上滑">
@@ -125,15 +125,15 @@
     
         
             
-            <li><div data-rel="Java"><i class="fold iconfont icon-right"></i>Java<small>(24)</small></div>
+            <li><div data-rel="Java"><i class="fold iconfont icon-right"></i>Java<small>(25)</small></div>
                 
                     <ul class="sub hide">
                         
-                        <li><div data-rel="MultiThread">MultiThread<small>(21)</small></div>
+                        <li><div data-rel="SpringCloud">SpringCloud<small>(3)</small></div>
                             
                         </li>
                             
-                        <li><div data-rel="SpringCloud">SpringCloud<small>(3)</small></div>
+                        <li><div data-rel="MultiThread">MultiThread<small>(22)</small></div>
                             
                         </li>
                             
@@ -181,7 +181,7 @@
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
 <input type="hidden" id="yelog_site_posts_number" value="27">
-<input type="hidden" id="yelog_site_word_count" value="19.3k">
+<input type="hidden" id="yelog_site_word_count" value="21.6k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -301,19 +301,7 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">join</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">子任务</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">串行任务</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">并行化</a>
+        <a class="color5">守护线程</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -326,22 +314,6 @@
     
     <li class="article-tag-list-item">
         <a class="color1">group</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">守护线程</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">钩子</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">Hook</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">线程，重复启动</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -365,11 +337,59 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color5">join</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">子任务</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">串行任务</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">并行化</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color5">数据同步</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color3">同步，线程安全</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">ThreadPool</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">线程池</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">自定义</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">原理，实现</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">synchronized</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">钩子</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">Hook</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">线程，重复启动</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -385,18 +405,6 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">synchronized</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">死锁</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">诊断</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color1">同步，线程</a>
     </li>
     
@@ -409,7 +417,15 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">notifyAll</a>
+        <a class="color2">notify</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">死锁</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">诊断</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -429,15 +445,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">notify</a>
+        <a class="color5">notifyAll</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color4">Runnable</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">Jconsole</a>
+        <a class="color4">markdown</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -449,7 +461,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color4">markdown</a>
+        <a class="color4">Runnable</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">Jconsole</a>
     </li>
     
     <div class="clearfix"></div>
@@ -461,14 +477,6 @@
     </div>
     
     <nav id="title-list-nav">
-        
-        <a  class="Java MultiThread "
-           href="/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%886%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/"
-           data-tag="Java,多线程,并发,Thread,sleep,yield,线程"
-           data-author="" >
-            <span class="post-title" title="Java多线程基础（六）-线程sleep和yield">Java多线程基础（六）-线程sleep和yield</span>
-            <span class="post-date" title="2020-01-07 10:17:15">2020/01/07</span>
-        </a>
         
         <a  class="Java SpringCloud "
            href="/2020/03/10/SpringBoot---Starter/"
@@ -484,6 +492,14 @@
            data-author="" >
             <span class="post-title" title="SpringBoot常用依赖">SpringBoot常用依赖</span>
             <span class="post-date" title="2020-03-09 14:20:27">2020/03/09</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/01/07/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%886%EF%BC%89-%E7%BA%BF%E7%A8%8Bsleep%E5%92%8Cyield/"
+           data-tag="Java,多线程,并发,Thread,sleep,yield,线程"
+           data-author="" >
+            <span class="post-title" title="Java多线程基础（六）-线程sleep和yield">Java多线程基础（六）-线程sleep和yield</span>
+            <span class="post-date" title="2020-01-07 10:17:15">2020/01/07</span>
         </a>
         
         <a  class=""
@@ -535,11 +551,11 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%888%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/"
-           data-tag="Java,多线程,并发,Thread,join,子任务,串行任务,并行化"
+           href="/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%885%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发,Thread,守护线程"
            data-author="" >
-            <span class="post-title" title="java多线程基础（八）-线程join">java多线程基础（八）-线程join</span>
-            <span class="post-date" title="2020-01-10 09:32:30">2020/01/10</span>
+            <span class="post-title" title="java多线程基础（五）-守护线程">java多线程基础（五）-守护线程</span>
+            <span class="post-date" title="2020-01-06 16:46:28">2020/01/06</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -551,22 +567,6 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/06/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%885%EF%BC%89-%E5%AE%88%E6%8A%A4%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发,Thread,守护线程"
-           data-author="" >
-            <span class="post-title" title="java多线程基础（五）-守护线程">java多线程基础（五）-守护线程</span>
-            <span class="post-date" title="2020-01-06 16:46:28">2020/01/06</span>
-        </a>
-        
-        <a  class="Java MultiThread "
-           href="/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8812%EF%BC%89-Hook%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发,Thread,钩子,Hook,线程，重复启动"
-           data-author="" >
-            <span class="post-title" title="java多线程进阶（12）-Hook线程">java多线程进阶（12）-Hook线程</span>
-            <span class="post-date" title="2020-03-19 14:17:04">2020/03/19</span>
-        </a>
-        
-        <a  class="Java MultiThread "
            href="/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8811%EF%BC%89-%E6%8D%95%E8%8E%B7%E7%BA%BF%E7%A8%8B%E6%89%A7%E8%A1%8C%E5%BC%82%E5%B8%B8/"
            data-tag="Java,多线程,并发,Thread,线程,异常,捕获,异常处理,处理,UncaughtExceptionHandler"
            data-author="" >
@@ -574,12 +574,12 @@
             <span class="post-date" title="2020-03-19 11:50:18">2020/03/19</span>
         </a>
         
-        <a  class=""
-           href="/2020/03/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8813%EF%BC%89-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E4%BA%86%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86/"
-           data-tag=""
+        <a  class="Java MultiThread "
+           href="/2020/01/10/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%EF%BC%888%EF%BC%89-%E7%BA%BF%E7%A8%8Bjoin/"
+           data-tag="Java,多线程,并发,Thread,join,子任务,串行任务,并行化"
            data-author="" >
-            <span class="post-title" title="java多线程进阶（13）-实现一个线程池来了解线程池原理">java多线程进阶（13）-实现一个线程池来了解线程池原理</span>
-            <span class="post-date" title="2020-03-25 14:18:31">2020/03/25</span>
+            <span class="post-title" title="java多线程基础（八）-线程join">java多线程基础（八）-线程join</span>
+            <span class="post-date" title="2020-01-10 09:32:30">2020/01/10</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -591,11 +591,11 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/02/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%883%EF%BC%89-ThisMonitor%E5%92%8CClassMonitor/"
-           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,this monitor,class monitor,monitor"
+           href="/2020/03/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8813%EF%BC%89-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E4%BA%86%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86/"
+           data-tag="Java,多线程,并发,Thread,ThreadPool,线程池,自定义,原理，实现"
            data-author="" >
-            <span class="post-title" title="java多线程进阶（3）-This Monitor和Class Monitor">java多线程进阶（3）-This Monitor和Class Monitor</span>
-            <span class="post-date" title="2020-02-04 11:43:34">2020/02/04</span>
+            <span class="post-title" title="java多线程进阶（13）-实现一个线程池来了解线程池原理">java多线程进阶（13）-实现一个线程池来了解线程池原理</span>
+            <span class="post-date" title="2020-03-25 14:18:31">2020/03/25</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -607,11 +607,19 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/"
-           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,死锁,诊断"
+           href="/2020/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8812%EF%BC%89-Hook%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发,Thread,钩子,Hook,线程，重复启动"
            data-author="" >
-            <span class="post-title" title="java多线程进阶（4）-程序死锁的原因及如何诊断">java多线程进阶（4）-程序死锁的原因及如何诊断</span>
-            <span class="post-date" title="2020-02-12 10:29:52">2020/02/12</span>
+            <span class="post-title" title="java多线程进阶（12）-Hook线程">java多线程进阶（12）-Hook线程</span>
+            <span class="post-date" title="2020-03-19 14:17:04">2020/03/19</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/02/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%883%EF%BC%89-ThisMonitor%E5%92%8CClassMonitor/"
+           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,this monitor,class monitor,monitor"
+           data-author="" >
+            <span class="post-title" title="java多线程进阶（3）-This Monitor和Class Monitor">java多线程进阶（3）-This Monitor和Class Monitor</span>
+            <span class="post-date" title="2020-02-04 11:43:34">2020/02/04</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -623,11 +631,19 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%887%EF%BC%89-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/"
-           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程,线程间通信,wait,notifyAll"
+           href="/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%886%EF%BC%89-wait%E5%92%8Cnotify%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/"
+           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程,线程间通信,wait,notify"
            data-author="" >
-            <span class="post-title" title="java多线程进阶（7）-多线程间通信">java多线程进阶（7）-多线程间通信</span>
-            <span class="post-date" title="2020-02-15 16:43:53">2020/02/15</span>
+            <span class="post-title" title="java多线程进阶（6）-wait和notify方法详解">java多线程进阶（6）-wait和notify方法详解</span>
+            <span class="post-date" title="2020-02-15 15:59:13">2020/02/15</span>
+        </a>
+        
+        <a  class="Java MultiThread "
+           href="/2020/02/12/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%884%EF%BC%89-%E7%A8%8B%E5%BA%8F%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%8F%8A%E5%A6%82%E4%BD%95%E8%AF%8A%E6%96%AD/"
+           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程安全,死锁,诊断"
+           data-author="" >
+            <span class="post-title" title="java多线程进阶（4）-程序死锁的原因及如何诊断">java多线程进阶（4）-程序死锁的原因及如何诊断</span>
+            <span class="post-date" title="2020-02-12 10:29:52">2020/02/12</span>
         </a>
         
         <a  class="Java MultiThread "
@@ -639,19 +655,27 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%886%EF%BC%89-wait%E5%92%8Cnotify%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/"
-           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程,线程间通信,wait,notify"
+           href="/2020/02/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%887%EF%BC%89-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/"
+           data-tag="Java,多线程,并发,Thread,数据同步,同步，线程,线程间通信,wait,notifyAll"
            data-author="" >
-            <span class="post-title" title="java多线程进阶（6）-wait和notify方法详解">java多线程进阶（6）-wait和notify方法详解</span>
-            <span class="post-date" title="2020-02-15 15:59:13">2020/02/15</span>
+            <span class="post-title" title="java多线程进阶（7）-多线程间通信">java多线程进阶（7）-多线程间通信</span>
+            <span class="post-date" title="2020-02-15 16:43:53">2020/02/15</span>
+        </a>
+        
+        <a  class="工具 markdown "
+           href="/2019/12/20/markdown%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"
+           data-tag="markdown"
+           data-author="" >
+            <span class="post-title" title="markdown使用指南">markdown使用指南</span>
+            <span class="post-date" title="2019-12-20 00:36:24">2019/12/20</span>
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/01/01/%E5%9C%A8java%E8%BF%9B%E7%A8%8B%E4%B8%AD%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E5%B9%B6%E4%BD%BF%E7%94%A8jconsole%E8%A7%82%E5%AF%9F%E7%BA%BF%E7%A8%8B/"
-           data-tag="Java,多线程,并发,Thread,Runnable,Jconsole"
+           href="/2020/02/17/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%888%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E7%BC%BA%E9%99%B7/"
+           data-tag="Java,多线程,并发,Thread,线程,数据同步,synchronized,同步,缺陷"
            data-author="" >
-            <span class="post-title" title="在java进程中创建、启动线程并使用jconsole观察线程">在java进程中创建、启动线程并使用jconsole观察线程</span>
-            <span class="post-date" title="2020-01-01 20:45:16">2020/01/01</span>
+            <span class="post-title" title="java多线程进阶（8）-synchronized关键字的缺陷">java多线程进阶（8）-synchronized关键字的缺陷</span>
+            <span class="post-date" title="2020-02-17 23:05:17">2020/02/17</span>
         </a>
         
         <a  class="Java SpringCloud "
@@ -663,19 +687,11 @@
         </a>
         
         <a  class="Java MultiThread "
-           href="/2020/02/17/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%888%EF%BC%89-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E7%BC%BA%E9%99%B7/"
-           data-tag="Java,多线程,并发,Thread,线程,数据同步,synchronized,同步,缺陷"
+           href="/2020/01/01/%E5%9C%A8java%E8%BF%9B%E7%A8%8B%E4%B8%AD%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E5%B9%B6%E4%BD%BF%E7%94%A8jconsole%E8%A7%82%E5%AF%9F%E7%BA%BF%E7%A8%8B/"
+           data-tag="Java,多线程,并发,Thread,Runnable,Jconsole"
            data-author="" >
-            <span class="post-title" title="java多线程进阶（8）-synchronized关键字的缺陷">java多线程进阶（8）-synchronized关键字的缺陷</span>
-            <span class="post-date" title="2020-02-17 23:05:17">2020/02/17</span>
-        </a>
-        
-        <a  class="工具 markdown "
-           href="/2019/12/20/markdown%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"
-           data-tag="markdown"
-           data-author="" >
-            <span class="post-title" title="markdown使用指南">markdown使用指南</span>
-            <span class="post-date" title="2019-12-20 00:36:24">2019/12/20</span>
+            <span class="post-title" title="在java进程中创建、启动线程并使用jconsole观察线程">在java进程中创建、启动线程并使用jconsole观察线程</span>
+            <span class="post-date" title="2020-01-01 20:45:16">2020/01/01</span>
         </a>
         
     </nav>
@@ -698,16 +714,44 @@
         
         
         
+        <span class="book">
+            
+                <a  data-rel="Java">Java</a>/
+            
+                <a  data-rel="MultiThread">MultiThread</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color5">Java</a>
+            
+            <a class="color4">多线程</a>
+            
+            <a class="color3">并发</a>
+            
+            <a class="color2">Thread</a>
+            
+            <a class="color1">ThreadPool</a>
+            
+            <a class="color4">线程池</a>
+            
+            <a class="color4">自定义</a>
+            
+            <a class="color1">原理，实现</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-03-25 14:18:31'>2020-03-25 14:18</time>
+        创建时间:<time class="date" title='更新时间: 2020-04-27 17:24:32'>2020-03-25 14:18</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:0</span>
+        <span>字数:2.3k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -726,7 +770,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、线程池原理"><span class="toc-text">1、线程池原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、线程池实现"><span class="toc-text">2、线程池实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2、1-相关接口定义"><span class="toc-text">2、1 相关接口定义</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ThreadPool"><span class="toc-text">ThreadPool</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RunnableQueue"><span class="toc-text">RunnableQueue</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TreadFactory"><span class="toc-text">TreadFactory</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DenyPolicy"><span class="toc-text">DenyPolicy</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RunnableDenyException"><span class="toc-text">RunnableDenyException</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-具体实现"><span class="toc-text">2.2 具体实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-1-LinkedRunnableQueue"><span class="toc-text">2.2.1 LinkedRunnableQueue</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-2-InternalTask"><span class="toc-text">2.2.2 InternalTask</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-3-BasicThreadPool"><span class="toc-text">2.2.3 BasicThreadPool</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-线程池的应用"><span class="toc-text">2.3 线程池的应用</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -742,7 +786,505 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>Java中，创建、启动及销毁线程都是比较耗费系统资源的。从而导致多线程程序的性能不一定比单线程高，线程数量实际上和系统性能成抛物线关系，即线程数量达到某个数值时，性能反而会降低。</p>
+<p><strong>为了重复利用线程，提高系统效率</strong>，JDK1.5起，utils包提供了ExecutorService线程池的实现，用于管理线程。</p>
+<p>那么线程池需要具备哪些功能?才能更好的利用线程呢。在本节，我们不会探讨JUC（JDK的Java utilities concurrent），而是通过实现一个线程池，来了解线程池的原理，以及弄清楚线程池应具备哪些功能。在这里也能巩固一下前面学到的知识，在后面将出一篇学习JUC的相关文章。</p>
+<h3 id="1、线程池原理"><a href="#1、线程池原理" class="headerlink" title="1、线程池原理"></a>1、线程池原理</h3><p>为了避免频繁的创建、启动和销毁线程，我们可以将创建好的线程放在一个池子中，当有任务提交给线程池需要执行时，池子中的某个线程会主动执行它。如果线程池中的线程不足以应付数量众多的任务，就需要自动扩充线程。当任务数量减少，可以自动回收池子中多余的线程，释放资源。</p>
+<p><img src="/img/thread/Thread_Pool_Theory.png" alt=""></p>
+<p>从上述描述可知，线程池应具备如下要素:</p>
+<ul>
+<li>任务队列：用于存放提交的任务</li>
+<li>工作线程队列：用于存放工作线程</li>
+<li>线程数量管理功能：可以通过三个参数来控制线程的数量，分别是创建线程池时初始化线程的数量init;线程池自动扩充的最大线程数量max;线程池空闲释放多余线程时也需要维持一定数量的活跃线程，称之为核心数量core;三者关系是init&lt;=core&lt;=max。</li>
+<li>任务拒绝策略：当线程数量达到最大且任务队列已经装满，需要有相应的策略来通知提交者</li>
+<li>线程工厂：用于个性化线程，如指定线程名称，将线程设置为守护线程等</li>
+<li>TaskQueueSize:任务队列用于存放提交的Runnable，为了防止内存溢出，需要指定其大小。</li>
+<li>KeepedAliveTime:该参数决定多余的空闲线程保持存活的时间</li>
+</ul>
+<h3 id="2、线程池实现"><a href="#2、线程池实现" class="headerlink" title="2、线程池实现"></a>2、线程池实现</h3><p>这里实现一个简单的ThreadPool，但麻雀虽小，五脏俱全，应该有的功能都有</p>
+<h4 id="2、1-相关接口定义"><a href="#2、1-相关接口定义" class="headerlink" title="2、1 相关接口定义"></a>2、1 相关接口定义</h4><p>我们定义的接口如下：</p>
+<ul>
+<li>ThreadPool 线程池接口，定义线程池的相关方法</li>
+<li>RunnableQueue 任务队列接口，定义任务队列的相关方法</li>
+<li>TreadFactory 线程工厂接口，定义线程工厂的相关方法</li>
+<li>DenyPolicy 拒绝策略接口，定义拒绝策略的相关方法</li>
+</ul>
+<p>具体定义如下:</p>
+<h5 id="ThreadPool"><a href="#ThreadPool" class="headerlink" title="ThreadPool"></a>ThreadPool</h5><pre><code>/**
+ * @Content: 线程池接口，定义线程池的相关方法
+ * @author: shalt gao
+ * @Date: 2020/3/25 17:00
+ */
+public interface ThreadPool {
+    /**
+     * 提交任务到线程池
+     * @param runnable
+     */
+    void execute(Runnable runnable);
+
+    /**
+     * 关闭线程池
+     */
+    void shutdown();
+
+    /**
+     * 获取线程池的初始化线程数
+     * @return
+     */
+    int getInitSize();
+
+    /**
+     * 获取线程池最大线程数
+     * @return
+     */
+    int getMaxSize();
+
+    /**
+     * 获取线程池核心线程数
+     * @return
+     */
+    int getCoreSize();
+
+    /**
+     * 获取线程池核心线程数
+     * @return
+     */
+    int getTaskQueueSize();
+
+    /**
+     * 获取线程池活跃线程数
+     * @return
+     */
+    int getActiveCount();
+
+    /**
+     * 判断线程池是否被shutdown
+     * @return
+     */
+    boolean isShutDown();
+}</code></pre><h5 id="RunnableQueue"><a href="#RunnableQueue" class="headerlink" title="RunnableQueue"></a>RunnableQueue</h5><pre><code>/**
+ * @Content: 任务队列，用于存放提交的任务
+ * @author: shalt gao
+ * @Date: 2020/3/25 17:11
+ */
+public interface RunnableQueue {
+    /**
+     * 当有新的任务进来会offer到队列中
+     * @param runnable
+     */
+    void offer(Runnable runnable);
+
+    /**
+     * 工作线程通过take方法获取Runnable
+     * @return
+     */
+    Runnable take() throws InterruptedException;
+
+    /**
+     * 获取任务队列中任务数量
+     * @return
+     */
+    int size();
+}</code></pre><h5 id="TreadFactory"><a href="#TreadFactory" class="headerlink" title="TreadFactory"></a>TreadFactory</h5><pre><code>/**
+ * @Content: 创建线程的工厂
+ * @author: shalt gao
+ * @Date: 2020/3/25 17:15
+ */
+@FunctionalInterface
+public interface TreadFactory {
+    Thread createThread(Runnable runnable);
+}</code></pre><h5 id="DenyPolicy"><a href="#DenyPolicy" class="headerlink" title="DenyPolicy"></a>DenyPolicy</h5><pre><code>/**
+ * @Content: 拒绝策略
+ * @author: shalt gao
+ * @Date: 2020/3/25 17:17
+ */
+@FunctionalInterface
+public interface DenyPolicy {
+    void reject(Runnable runnable, ThreadPool threadPool);
+
+    // 该拒绝策略会直接将任务丢弃
+    class DiscardDenyPolicy implements DenyPolicy {
+
+        @Override
+        public void reject(Runnable runnable, ThreadPool threadPool) {
+            // do nothing
+        }
+    }
+
+    // 该拒绝策略会向任务提交者抛出异常
+    class AbortDenyPolicy implements DenyPolicy {
+
+        @Override
+        public void reject(Runnable runnable, ThreadPool threadPool) {
+            throw new RunnableDenyException(&quot;The runnable &quot; + runnable + &quot;will be abort.&quot;);
+        }
+    }
+
+    // 该拒绝策略会在提交者所在线程中执行任务
+    class RunnerDenyPolicy implements DenyPolicy {
+
+        @Override
+        public void reject(Runnable runnable, ThreadPool threadPool) {
+            if (!threadPool.isShutDown()) {
+                runnable.run();
+            }
+        }
+    }
+}</code></pre><h5 id="RunnableDenyException"><a href="#RunnableDenyException" class="headerlink" title="RunnableDenyException"></a>RunnableDenyException</h5><pre><code>/**
+ * @Content: 主要用于提示任务提交者，任务队列已无法接收新的任务
+ * @author: shalt gao
+ * @Date: 2020/4/27 15:32
+ */
+public class RunnableDenyException extends RuntimeException {
+    public RunnableDenyException(String message) {
+        super(message);
+    }
+}</code></pre><h4 id="2-2-具体实现"><a href="#2-2-具体实现" class="headerlink" title="2.2 具体实现"></a>2.2 具体实现</h4><h5 id="2-2-1-LinkedRunnableQueue"><a href="#2-2-1-LinkedRunnableQueue" class="headerlink" title="2.2.1 LinkedRunnableQueue"></a>2.2.1 LinkedRunnableQueue</h5><pre><code>/**
+ * @Content: 任务队列的具体实现
+ * @author: shalt gao
+ * @Date: 2020/4/27 15:44
+ */
+public class LinkedRunnableQueue implements RunnableQueue {
+    // 任务队列的最大容量
+    private final int limit;
+
+    // 拒绝策略
+    private final DenyPolicy denyPolicy;
+
+    // 存放任务的队列
+    private final LinkedList&lt;Runnable&gt; runnableList = new LinkedList&lt;&gt;();
+
+    // 线程池
+    private final ThreadPool threadPool;
+
+    public LinkedRunnableQueue(int limit, DenyPolicy denyPolicy, ThreadPool threadPool) {
+        this.limit = limit;
+        this.denyPolicy = denyPolicy;
+        this.threadPool = threadPool;
+    }
+
+    @Override
+    public void offer(Runnable runnable) {
+        synchronized (runnableList) {
+            if (runnableList.size() &gt;= limit) {
+                denyPolicy.reject(runnable, threadPool);
+            } else {
+                runnableList.addLast(runnable);
+                runnableList.notifyAll();
+            }
+        }
+    }
+
+    @Override
+    public Runnable take() throws InterruptedException {
+        synchronized (runnableList) {
+            while (runnableList.isEmpty()){
+                // 当任务队列中没有可执行的任务，
+                // 则当前线程会进入阻塞状态，进入runnableList关联的monitor waitset中等待
+                try {
+                    runnableList.wait();
+                } catch (InterruptedException e) {
+                    throw e;
+                }
+            }
+            return runnableList.removeFirst();
+        }
+    }
+
+    @Override
+    public int size() {
+        synchronized (runnableList) {
+            return runnableList.size();
+        }
+    }
+}</code></pre><h5 id="2-2-2-InternalTask"><a href="#2-2-2-InternalTask" class="headerlink" title="2.2.2 InternalTask"></a>2.2.2 InternalTask</h5><pre><code>/**
+ * @Content: 工作线程执行的任务封装
+ * 不断从RunnableQueue中取出某个runnable，并运行run方法
+ * @author: shalt gao
+ * @Date: 2020/4/27 15:35
+ */
+public class InternalTask implements Runnable {
+    private final RunnableQueue runnableQueue;
+
+    private volatile boolean running = true;
+
+    public InternalTask(RunnableQueue runnableQueue) {
+        this.runnableQueue = runnableQueue;
+    }
+
+    @Override
+    public void run() {
+        while (running &amp;&amp; !Thread.currentThread().isInterrupted()) {
+            try {
+                Runnable task = runnableQueue.take();
+                task.run();
+            } catch (InterruptedException e) {
+                running = false;
+                break;
+            }
+        }
+    }
+
+    // 停止当前任务，在线程池的shutdown中使用
+    public void stop() {
+        this.running = false;
+    }
+}</code></pre><h5 id="2-2-3-BasicThreadPool"><a href="#2-2-3-BasicThreadPool" class="headerlink" title="2.2.3 BasicThreadPool"></a>2.2.3 BasicThreadPool</h5><pre><code>/**
+ * @Content: 线程池实现类，主要负责任务的提交和线程数量的自动维护
+ * @author: shalt gao
+ * @Date: 2020/4/27 15:54
+ */
+public class BasicThreadPool extends Thread implements ThreadPool {
+    // 初始化线程数量
+    private final int initSize;
+
+    // 最大线程数量
+    private final int maxSize;
+
+    // 核心线程数量
+    private final int coreSize;
+
+    // 当前活跃的线程数量
+    private int activeSize;
+
+    // 创建线程所需的工厂
+    private final ThreadFactory threadFactory;
+
+    // 任务队列
+    private final RunnableQueue runnableQueue;
+
+    // 线程池是否已被shutdown
+    private volatile boolean isShutDown = false;
+
+    // 工作线程队列
+    private final Queue&lt;ThreadTask&gt; threadQueue = new ArrayDeque&lt;&gt;();
+
+    private final static DenyPolicy DEFAUL_DENY_POLICY = new DenyPolicy.DiscardDenyPolicy();
+
+    private final static ThreadFactory DEFAULT_THREAD_FACTORY = new DefaultThreadFactory();
+
+    private final long keepAliveTime;
+
+    private final TimeUnit timeUnit;
+
+    public BasicThreadPool(int initSize, int maxSize, int coreSize,
+                           int queueSize) {
+        this(initSize, maxSize, coreSize, DEFAULT_THREAD_FACTORY,
+                queueSize, DEFAUL_DENY_POLICY, 10, TimeUnit.SECONDS);
+    }
+
+    public BasicThreadPool(int initSize, int maxSize, int coreSize,
+                           ThreadFactory threadFactory, int queueSize,
+                           DenyPolicy denyPolicy, long keepAliveTime,
+                           TimeUnit timeUnit) {
+        this.initSize = initSize;
+        this.maxSize = maxSize;
+        this.coreSize = coreSize;
+        this.threadFactory = threadFactory;
+        this.runnableQueue = new LinkedRunnableQueue(queueSize, denyPolicy, this);
+        this.keepAliveTime = keepAliveTime;
+        this.timeUnit = timeUnit;
+        this.init();
+    }
+
+    // 初始化initSize个线程
+    private void init() {
+        start();
+
+        for (int i = 0; i &lt; initSize; i++) {
+            newThread();
+        }
+    }
+
+    private void newThread() {
+        // 创建线程并启动
+        InternalTask internalTask = new InternalTask(runnableQueue);
+        Thread thread = this.threadFactory.newThread(internalTask);
+        ThreadTask threadTask = new ThreadTask(thread, internalTask);
+        threadQueue.offer(threadTask);
+        this.activeSize++;
+        thread.start();
+    }
+
+    private void removeThread() {
+        // 从线程池中移除某个线程
+        ThreadTask threadTask = threadQueue.remove();
+        threadTask.internalTask.stop();
+        this.activeSize--;
+    }
+
+    @Override
+    public void run() {
+        // 主要维护线程数量，如扩容、回收等工作
+        while (!isShutDown &amp;&amp; !isInterrupted()) {
+            try {
+                timeUnit.sleep(keepAliveTime);
+            } catch (InterruptedException e) {
+                isShutDown = true;
+                break;
+            }
+            synchronized (this) {
+                if (isShutDown) {
+                    break;
+                }
+                // 当前队列中有任务未处理，并且activeSize &lt; coreSize则扩容
+                if (runnableQueue.size() &gt; 0 &amp;&amp; activeSize &lt; coreSize) {
+                    for (int i = activeSize; i &lt; coreSize; i++) {
+                        newThread();
+                    }
+                    continue;
+                }
+                // 当前队列中有任务未处理，并且activeSize &lt; maxSize则扩容
+                if (runnableQueue.size() &gt; 0 &amp;&amp; activeSize &lt; maxSize) {
+                    for (int i = activeSize; i &lt; coreSize; i++) {
+                        newThread();
+                    }
+                }
+                // 如果队列中没有任务，则需要回收至coreSize
+                if (runnableQueue.size() == 0 &amp;&amp; activeSize &lt; coreSize) {
+                    for (int i = coreSize; i &lt; maxSize; i++) {
+                        removeThread();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void execute(Runnable runnable) {
+        if (isShutDown) {
+            throw new IllegalStateException(&quot;The thread pool is destroy.&quot;);
+        }
+        this.runnableQueue.offer(runnable);
+    }
+
+    @Override
+    public void shutdown() {
+        synchronized (this) {
+            if (isShutDown) { return; }
+            isShutDown = true;
+            threadQueue.forEach(threadTask -&gt; {
+                threadTask.internalTask.stop();
+                threadTask.thread.interrupt();
+            });
+        }
+    }
+
+    @Override
+    public int getInitSize() {
+        if (isShutDown) {
+            throw new IllegalStateException(&quot;The thread pool is destroy.&quot;);
+        }
+        return this.initSize;
+    }
+
+    @Override
+    public int getMaxSize() {
+        if (isShutDown) {
+            throw new IllegalStateException(&quot;The thread pool is destroy.&quot;);
+        }
+        return this.maxSize;
+    }
+
+    @Override
+    public int getCoreSize() {
+        if (isShutDown) {
+            throw new IllegalStateException(&quot;The thread pool is destroy.&quot;);
+        }
+        return this.coreSize;
+    }
+
+    @Override
+    public int getTaskQueueSize() {
+        if (isShutDown) {
+            throw new IllegalStateException(&quot;The thread pool is destroy.&quot;);
+        }
+        return this.runnableQueue.size();
+    }
+
+    @Override
+    public int getActiveCount() {
+        synchronized (this) {
+            return this.activeSize;
+        }
+    }
+
+    @Override
+    public boolean isShutDown() {
+        return this.isShutDown;
+    }
+
+    /**
+     * 工作线程
+     */
+    private static class ThreadTask {
+        // 线程
+        Thread thread;
+        // 执行任务
+        InternalTask internalTask;
+
+        public ThreadTask(Thread thread, InternalTask internalTask) {
+            this.thread = thread;
+            this.internalTask = internalTask;
+        }
+    }
+
+    /**
+     * 线程工厂实现
+     */
+    private static class DefaultThreadFactory implements ThreadFactory {
+        private static final AtomicInteger GROUP_COUNTER = new AtomicInteger(1);
+        private static final ThreadGroup group = new ThreadGroup(
+                &quot;myThreadGroup_&quot; + GROUP_COUNTER.getAndDecrement());
+        private static final AtomicInteger COUNTER = new AtomicInteger(0);
+        @Override
+        public Thread newThread(Runnable r) {
+            return new Thread(group, r, &quot;thread_pool_&quot; + COUNTER.getAndDecrement());
+        }
+    }
+}</code></pre><h4 id="2-3-线程池的应用"><a href="#2-3-线程池的应用" class="headerlink" title="2.3 线程池的应用"></a>2.3 线程池的应用</h4><pre><code>/**
+ * @Content: 线程池应用
+ * @author: shalt gao
+ * @Date: 2020/4/27 16:44
+ */
+public class ThreadPoolTest {
+    public static void main(String[] args) throws InterruptedException {
+        // 初始化线程池，初始化线程数2，最大线程数6，核心线程数4，任务队列运行最大任务数1000
+        final ThreadPool threadPool = new BasicThreadPool(2, 6, 4, 1000);
+        // 定义20个任务并提交给线程池
+        for (int i = 0; i &lt; 20; i++) {
+            threadPool.execute(() -&gt; {
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                    System.out.println(Thread.currentThread().getName() + &quot; is running and done.&quot;);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        for (; ;) {
+            // 不断输出线程池信息
+            System.out.println(&quot;getActiveCount: &quot; + threadPool.getActiveCount());
+            System.out.println(&quot;getTaskQueueSize: &quot; + threadPool.getTaskQueueSize());
+            System.out.println(&quot;getCoreSize: &quot; + threadPool.getCoreSize());
+            System.out.println(&quot;getMaxSize: &quot; + threadPool.getMaxSize());
+            System.out.println(&quot;====================================================&quot;);
+            TimeUnit.SECONDS.sleep(5);
+        }
+    }
+}</code></pre><p>输出如下：</p>
+<pre><code>getActiveCount: 2
+getTaskQueueSize: 18
+getCoreSize: 4
+getMaxSize: 6
+====================================================
+thread_pool_-1 is running and done.
+thread_pool_0 is running and done.
+getActiveCount: 4
+getTaskQueueSize: 14
+getCoreSize: 4
+getMaxSize: 6</code></pre>
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 xiongdiblog@sina.com </span>
     </div>
@@ -756,10 +1298,10 @@
 
 <div class="article_copyright">
     <p><span class="copy-title">文章标题:</span>java多线程进阶（13）-实现一个线程池来了解线程池原理</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">0</span></p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">2.3k</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="小童&amp;axin">小童&amp;axin</a></p>
     <p><span class="copy-title">发布时间:</span>2020-03-25, 14:18:31</p>
-    <p><span class="copy-title">最后更新:</span>2020-03-25, 14:18:31</p>
+    <p><span class="copy-title">最后更新:</span>2020-04-27, 17:24:32</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/03/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8813%EF%BC%89-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E4%BA%86%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86/" title="java多线程进阶（13）-实现一个线程池来了解线程池原理">https://xiongdi-blog.github.io/2020/03/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8813%EF%BC%89-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E4%BA%86%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -822,7 +1364,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#Java','#多线程','#并发','#Thread','#sleep','#yield','#线程','#线程命名','#父子关系','#分组','#java内存结构','#程序计数器','#虚拟机栈','#本地方法栈','#堆','#方法区','#interrupt','#interrupted','#关闭线程','#volatile','#中断','#join','#子任务','#串行任务','#并行化','#组织','#ThreadGroup','#group','#守护线程','#钩子','#Hook','#线程，重复启动','#异常','#捕获','#异常处理','#处理','#UncaughtExceptionHandler','#数据同步','#同步，线程安全','#this monitor','#class monitor','#monitor','#synchronized','#死锁','#诊断','#同步，线程','#线程间通信','#wait','#notifyAll','#锁','#Lock','#自定义锁','#BooleanLock','#notify','#Runnable','#Jconsole','#同步','#缺陷','#markdown',],
+            'data': ['#Java','#多线程','#并发','#Thread','#sleep','#yield','#线程','#线程命名','#父子关系','#分组','#java内存结构','#程序计数器','#虚拟机栈','#本地方法栈','#堆','#方法区','#interrupt','#interrupted','#关闭线程','#volatile','#中断','#守护线程','#组织','#ThreadGroup','#group','#异常','#捕获','#异常处理','#处理','#UncaughtExceptionHandler','#join','#子任务','#串行任务','#并行化','#数据同步','#同步，线程安全','#ThreadPool','#线程池','#自定义','#原理，实现','#synchronized','#钩子','#Hook','#线程，重复启动','#this monitor','#class monitor','#monitor','#同步，线程','#线程间通信','#wait','#notify','#死锁','#诊断','#锁','#Lock','#自定义锁','#BooleanLock','#notifyAll','#markdown','#同步','#缺陷','#Runnable','#Jconsole',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
