@@ -4,6 +4,47 @@
   
     
     <entry>
+      <title>java类加载过程简介</title>
+      <link href="/2020/04/28/java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/"/>
+      <url>/2020/04/28/java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B%E7%AE%80%E4%BB%8B/</url>
+      
+        <content type="html"><![CDATA[<p>在学习java线程上下文类加载器之前，我们需要掌握Java JVM的类加载器原理和类加载过程，这一节主要简介java类加载过程和理解该过程所需要掌握的基础知识</p><h1 id="1、java类加载过程简介"><a href="#1、java类加载过程简介" class="headerlink" title="1、java类加载过程简介"></a>1、java类加载过程简介</h1><p>在java中，一个.java文件要运行，需要经过编译器将其编译为.class文件，再将.class文件加载进内存，最后得以运行。将.class文件加载进内存的过程就是java的类加载过程。</p><p>从上面的描述中，我们知道，java的类加载过程，目的就是要把.class文件(二进制文件)加载进内存，在JVM中形成该类的各个数据结构，并放入对应的内存区域中。</p><p>这个过程一般要经历三个阶段，分别是加载阶段、连接阶段、初始化阶段。如下图所示:<br><img src="/img/thread/class_load_pass.png" alt=""></p><ul><li>加载阶段: 主要负责查找并加载类的二进制文件，就是class文件</li><li>连接阶段: 又细分为验证、准备、解析(连接)阶段<ul><li>验证：主要确保类文件的正确性，如class的版本等是否正确</li><li>准备：为类的静态变量分配内存，并且为其初始化默认值</li><li>解析：也就是连接，将类的<a href="">符号引用</a>转换为直接引用（由于class文件中,类尚未分配具体的内存空间，类之间的引用使用<a href="">符号引用</a>表示,分配内存后，需要将符号引用替换为具体内存地址）</li></ul></li><li>初始化阶段: 为类的静态变量赋予正确的初始值(代码中给定的值)。</li></ul><p>当一个JVM在通过java命令启动之后，其中可能包含的类非常多，为了提高效率，并不是每个类都会在启动时被初始化。JVM采用的是lazy的方式，当一个类被首次主动使用的时候才会被初始化，在同一个运行时包下，Class只会被初始化一次（运行时包和类的包是有区别的，后续介绍）</p><h1 id="2、类的主动使用和被动使用"><a href="#2、类的主动使用和被动使用" class="headerlink" title="2、类的主动使用和被动使用"></a>2、类的主动使用和被动使用</h1><p>JVM虚拟机规范中规定，每个类或接口被java程序<strong>首次主动使用</strong>时才会对其进行初始化，当然随着JIT技术越来越成熟，JVM运行期间的编译也越来越智能，不排除JVM在运行期间提前预判并初始化某个类。</p><h2 id="2-1-主动使用的6种场景"><a href="#2-1-主动使用的6种场景" class="headerlink" title="2.1 主动使用的6种场景"></a>2.1 主动使用的6种场景</h2><p>JVM同时规定了以下6种主动使用的场景，<strong>除了这6种主动使用场景外，其余的都称为被动使用，不会导致类的加载和初始化</strong>:</p><ul><li>1、通过new关键字会导致类的初始化，这是大家经常采用的一种类初始化方式;</li><li>2、访问类的静态变量，包括读取和更新会导致类的初始化;</li><li>3、访问类的静态方法，会导致类的初始化;</li><li>4、对某个类进行反射操作，会导致类的初始化;</li><li>5、初始化子类会导致父类的初始化，通过子类访问父类的静态变量，只会导致父类的初始化;</li><li>6、启动类，即执行main函数，会导致main函数所在的类初始化</li></ul><p>示例代码，若对上诉描述有不理解或疑问，可以参考以下代码示例，都清楚则可跳过:</p><pre><code>// 类定义public class Simple {    static {        System.out.println(&quot;I will be initialized&quot;);    }    public static int x = 10;    public static void test() {    }    public static void main(String[] args) {        // do nothing    }}public class Child extends Simple {    static {        System.out.println(&quot;I will be initialized&quot;);    }    public static int y = 100;}// 1、通过new关键字导致类的初始化Simple simple = new Simple();// 2、通过访问类的静态变量导致类的初始化Simple.x;// 3、访问类的静态方法导致类的初始化Simple.test();// 4、反射操作，导致类的初始化Class.forName(&quot;com.concurrent.classloader.Simple&quot;);// 5、初始化子类导致父类的初始化，但通过子类访问父类的静态变量，只会导致父类的初始化Child.x; // 只会导致父类的初始化Child child = new Child() //会导致Child和父类Simple初始化// 6、启动Simple类会导致Simple初始化</code></pre><h2 id="2-2-类主动使用和被动使用易混淆的列子"><a href="#2-2-类主动使用和被动使用易混淆的列子" class="headerlink" title="2.2 类主动使用和被动使用易混淆的列子"></a>2.2 类主动使用和被动使用易混淆的列子</h2><h3 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h3><pre><code>// 后面小节需要使用到的类public class Simple {    static {        System.out.println(&quot;I will be initialized&quot;);    }    public final static int MAX = 10;    public final static int RANDOM = new Random().nexInt();}</code></pre><h3 id="2-2-1-构造某类的数组，不会导致该类的初始化"><a href="#2-2-1-构造某类的数组，不会导致该类的初始化" class="headerlink" title="2.2.1 构造某类的数组，不会导致该类的初始化"></a>2.2.1 构造某类的数组，不会导致该类的初始化</h3><pre><code>public static void main(String[] args) {    Simple simples = new Simple[10];}</code></pre><h3 id="2-2-2-引用类的静态常量，不会导致类的初始化"><a href="#2-2-2-引用类的静态常量，不会导致类的初始化" class="headerlink" title="2.2.2 引用类的静态常量，不会导致类的初始化"></a>2.2.2 引用类的静态常量，不会导致类的初始化</h3><pre><code>public static void main(String[] args) {    // 这里访问Simple类的MAX不会导致Simple类的初始化，虽然MAX有static关键字修饰    Simple.MAX;    // 但注意，访问Simple类的RANDOM,则会导致Simple的初始化，因为Simple需要Random类的随机函数计算得来，在类的加载和连接阶段无法对其进行计算,需要初始化后才能对其赋予准确的值    Simple.RANDOM;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+          <category> MultiThread </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> 多线程 </tag>
+            
+            <tag> 类加载 </tag>
+            
+            <tag> 过程 </tag>
+            
+            <tag> 主动使用 </tag>
+            
+            <tag> 被动使用 </tag>
+            
+            <tag> 加载阶段 </tag>
+            
+            <tag> 连接阶段，初始化阶段 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java多线程进阶（13）-实现一个线程池来了解线程池原理</title>
       <link href="/2020/03/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8813%EF%BC%89-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E4%BA%86%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86/"/>
       <url>/2020/03/25/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%9B%E9%98%B6%EF%BC%8813%EF%BC%89-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E4%BA%86%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86/</url>
